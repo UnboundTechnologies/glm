@@ -1,14 +1,16 @@
 /// @ref gtx_compatibility
 /// @file glm/gtx/compatibility.inl
 
-#include <limits>
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 namespace glm
 {
 	// isfinite
 	template <typename genType>
 	GLM_FUNC_QUALIFIER bool isfinite(
-		genType const & x)
+		__thread__ genType const & x)
 	{
 #		if GLM_HAS_CXX11_STL
 			return std::isfinite(x) != 0;
@@ -26,7 +28,7 @@ namespace glm
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec1<bool, P> isfinite(
-		tvec1<T, P> const & x)
+		__thread__ tvec1<T, P> const & x)
 	{
 		return tvec1<bool, P>(
 			isfinite(x.x));
@@ -34,7 +36,7 @@ namespace glm
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec2<bool, P> isfinite(
-		tvec2<T, P> const & x)
+		__thread__ tvec2<T, P> const & x)
 	{
 		return tvec2<bool, P>(
 			isfinite(x.x),
@@ -43,7 +45,7 @@ namespace glm
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<bool, P> isfinite(
-		tvec3<T, P> const & x)
+		__thread__ tvec3<T, P> const & x)
 	{
 		return tvec3<bool, P>(
 			isfinite(x.x),
@@ -53,7 +55,7 @@ namespace glm
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec4<bool, P> isfinite(
-		tvec4<T, P> const & x)
+		__thread__ tvec4<T, P> const & x)
 	{
 		return tvec4<bool, P>(
 			isfinite(x.x),

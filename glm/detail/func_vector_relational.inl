@@ -1,12 +1,14 @@
 /// @ref core
 /// @file glm/detail/func_vector_relational.inl
 
-#include <limits>
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 namespace glm
 {
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<bool, P> lessThan(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<bool, P> lessThan(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		assert(x.length() == y.length());
 
@@ -18,7 +20,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<bool, P> lessThanEqual(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<bool, P> lessThanEqual(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		assert(x.length() == y.length());
 
@@ -29,7 +31,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<bool, P> greaterThan(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<bool, P> greaterThan(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		assert(x.length() == y.length());
 
@@ -40,7 +42,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<bool, P> greaterThanEqual(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<bool, P> greaterThanEqual(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		assert(x.length() == y.length());
 
@@ -51,7 +53,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<bool, P> equal(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<bool, P> equal(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		assert(x.length() == y.length());
 
@@ -62,7 +64,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<bool, P> notEqual(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<bool, P> notEqual(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		assert(x.length() == y.length());
 
@@ -73,7 +75,7 @@ namespace glm
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER bool any(vecType<bool, P> const & v)
+	GLM_FUNC_QUALIFIER bool any(__thread__ vecType<bool, P> const & v)
 	{
 		bool Result = false;
 		for(length_t i = 0; i < v.length(); ++i)
@@ -82,7 +84,7 @@ namespace glm
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER bool all(vecType<bool, P> const & v)
+	GLM_FUNC_QUALIFIER bool all(__thread__ vecType<bool, P> const & v)
 	{
 		bool Result = true;
 		for(length_t i = 0; i < v.length(); ++i)
@@ -91,7 +93,7 @@ namespace glm
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<bool, P> not_(vecType<bool, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<bool, P> not_(__thread__ vecType<bool, P> const & v)
 	{
 		vecType<bool, P> Result(uninitialize);
 		for(length_t i = 0; i < v.length(); ++i)

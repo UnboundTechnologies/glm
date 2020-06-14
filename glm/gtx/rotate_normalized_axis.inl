@@ -6,9 +6,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> rotateNormalizedAxis
 	(
-		tmat4x4<T, P> const & m,
-		T const & angle,
-		tvec3<T, P> const & v
+		__thread__ tmat4x4<T, P> const & m,
+		__thread__ T const & angle,
+		__thread__ tvec3<T, P> const & v
 	)
 	{
 		T const a = angle;
@@ -43,9 +43,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tquat<T, P> rotateNormalizedAxis
 	(
-		tquat<T, P> const & q, 
-		T const & angle,
-		tvec3<T, P> const & v
+	    __thread__ tquat<T, P> const & q, 
+		__thread__ T const & angle,
+		__thread__ tvec3<T, P> const & v
 	)
 	{
 		tvec3<T, P> const Tmp(v);

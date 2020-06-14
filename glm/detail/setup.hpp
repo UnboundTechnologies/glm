@@ -25,8 +25,255 @@
 #	define GLM_MESSAGES GLM_MESSAGES_DISABLE
 #endif
 
-#include <cassert>
-#include <cstddef>
+#if !__METAL_VERSION__
+#   include <cassert>
+#   include <cstddef>
+#   define __thread__
+#   define __glm_constant const
+#else
+#   define __thread__ thread
+#   define __glm_constant constant
+#endif // __METAL_VERSION__
+
+#if __METAL_VERSION__
+using namespace metal;
+#define memcpy(src, dst, size)
+
+namespace std {
+
+    using ::int8_t;
+    using ::uint8_t;
+    using ::int16_t;
+    using ::uint16_t;
+    using ::int32_t;
+    using ::uint32_t;
+
+    using ::size_t;
+    typedef ::size_t int64_t;
+    typedef ::size_t uint64_t;
+
+    using metal::ceil;
+    using metal::exp;
+    using metal::floor;
+    using metal::fmod;
+    using metal::frexp;
+    using metal::isinf;
+    using metal::isnan;
+    using metal::ldexp;
+    using metal::log;
+    using metal::log10;
+    using metal::modf;
+    using metal::pow;
+    using metal::sqrt;
+
+    using metal::abs;
+    using metal::atan;
+    using metal::sinh;
+    using metal::tanh;
+    using metal::cosh;
+    using metal::sin;
+    using metal::cos;
+    using metal::asin;
+    using metal::acos;
+    using metal::atan2;
+    using metal::tan;
+
+    using metal::enable_if;
+    using metal::is_same;
+    using metal::is_arithmetic;
+
+    constexpr int rand() { return 0; }
+
+    enum float_denorm_style {
+        denorm_indeterminate = -1,
+        denorm_absent        = 0,
+        denorm_present       = 1
+    };
+
+    template<class T> class numeric_limits
+    {
+        public:
+
+        static constexpr constant bool is_specialized = false;
+
+        static constexpr T min() noexcept { return T(); }
+        static constexpr T max() noexcept { return T(); }
+        static constexpr T lowest() noexcept { return T(); }
+
+        static constexpr constant int digits = 0;
+        static constexpr constant int digits10 = 0;
+        static constexpr constant int max_digits10 = 0;
+
+        static constexpr constant bool is_signed = false;
+        static constexpr constant bool is_integer = false;
+        static constexpr constant bool is_exact = false;
+        static constexpr constant int radix = 0;
+        static constexpr T epsilon() noexcept { return T(); }
+        static constexpr T round_error() noexcept { return T(); }
+
+        static constexpr constant int min_exponent = 0;
+        static constexpr constant int min_exponent10 = 0;
+        static constexpr constant int max_exponent = 0;
+        static constexpr constant int max_exponent10 = 0;
+
+        static constexpr constant bool has_infinity = false;
+        static constexpr constant bool has_quiet_NaN = false;
+        static constexpr constant bool has_signaling_NaN = false;
+        static constexpr constant float_denorm_style has_denorm = denorm_absent;
+        static constexpr constant bool has_denorm_loss = false;
+        static constexpr T infinity() noexcept { return T(); }
+        static constexpr T quiet_NaN() noexcept { return T(); }
+        static constexpr T signaling_NaN() noexcept { return T(); }
+        static constexpr T denorm_min() noexcept { return T(); }
+
+        static constexpr constant bool is_iec559 = false;
+        static constexpr constant bool is_bounded = false;
+        static constexpr constant bool is_modulo = false;
+
+        static constexpr constant bool traps = false;
+        static constexpr constant bool tinyness_before = false;
+        static constexpr constant float_round_style round_style = round_toward_zero;
+    };
+
+    template<> class numeric_limits<bool>
+    {
+        public:
+
+        static constexpr constant bool is_specialized = true;
+
+        static constexpr bool min() noexcept { return false; }
+        static constexpr bool max() noexcept { return true; }
+        static constexpr bool lowest() noexcept { return false; }
+
+        static constexpr constant int digits = 1;
+        static constexpr constant int digits10 = 0;
+        static constexpr constant int max_digits10 = 0;
+
+        static constexpr constant bool is_signed = false;
+        static constexpr constant bool is_integer = true;
+        static constexpr constant bool is_exact = true;
+        static constexpr constant int radix = 2;
+        static constexpr bool epsilon() noexcept { return 0; }
+        static constexpr bool round_error() noexcept { return 0; }
+
+        static constexpr constant int min_exponent = 0;
+        static constexpr constant int min_exponent10 = 0;
+        static constexpr constant int max_exponent = 0;
+        static constexpr constant int max_exponent10 = 0;
+
+        static constexpr constant bool has_infinity = false;
+        static constexpr constant bool has_quiet_NaN = false;
+        static constexpr constant bool has_signaling_NaN = false;
+        static constexpr constant float_denorm_style has_denorm = denorm_absent;
+        static constexpr constant bool has_denorm_loss = false;
+        static constexpr bool infinity() noexcept { return 0; }
+        static constexpr bool quiet_NaN() noexcept { return 0; }
+        static constexpr bool signaling_NaN() noexcept { return 0; }
+        static constexpr bool denorm_min() noexcept { return 0; }
+
+        static constexpr constant bool is_iec559 = false;
+        static constexpr constant bool is_bounded = true;
+        static constexpr constant bool is_modulo = false;
+
+        static constexpr constant bool traps = false;
+        static constexpr constant bool tinyness_before = false;
+        static constexpr constant float_round_style round_style = round_toward_zero;
+    };
+
+    template<> class numeric_limits<float>
+    {
+        public:
+
+        static constexpr constant bool is_specialized = true;
+
+        static constexpr float min() noexcept { return FLT_MIN; }
+        static constexpr float max() noexcept { return FLT_MAX; }
+        static constexpr float lowest() noexcept { return -FLT_MAX; }
+
+        static constexpr constant int digits = FLT_MANT_DIG;
+        static constexpr constant int digits10 = FLT_DIG;
+        static constexpr constant int max_digits10 = 99999;     // TODO: Set correct value!
+
+        static constexpr constant bool is_signed = true;
+        static constexpr constant bool is_integer = false;
+        static constexpr constant bool is_exact = false;
+        static constexpr constant int radix = FLT_RADIX;
+        static constexpr float epsilon() noexcept { return FLT_EPSILON; }
+        static constexpr float round_error() noexcept { return 0.5; }
+
+        static constexpr constant int min_exponent = FLT_MIN_EXP;
+        static constexpr constant int min_exponent10 = FLT_MIN_10_EXP;
+        static constexpr constant int max_exponent = FLT_MAX_EXP;
+        static constexpr constant int max_exponent10 = FLT_MAX_10_EXP;
+
+        static constexpr constant bool has_infinity = true;
+        static constexpr constant bool has_quiet_NaN = true;
+        static constexpr constant bool has_signaling_NaN = true;
+        static constexpr constant float_denorm_style has_denorm = denorm_present;
+        static constexpr constant bool has_denorm_loss = true;
+        static constexpr float infinity() noexcept { return HUGE_VALF; }
+        static constexpr float quiet_NaN() noexcept { return NAN; }
+        static constexpr float signaling_NaN() noexcept { return 0; }
+        static constexpr float denorm_min() noexcept { return 0; }
+
+        static constexpr constant bool is_iec559 = true;
+        static constexpr constant bool is_bounded = true;
+        static constexpr constant bool is_modulo = false;
+
+        static constexpr constant bool traps = false;
+        static constexpr constant bool tinyness_before = false;
+        static constexpr constant float_round_style round_style = round_toward_zero;
+    };
+
+    template<> class numeric_limits<double>
+    {
+        public:
+
+        static constexpr constant bool is_specialized = true;
+
+        static constexpr double min() noexcept { return DBL_MIN; }
+        static constexpr double max() noexcept { return DBL_MAX; }
+        static constexpr double lowest() noexcept { return -DBL_MAX; }
+
+        static constexpr constant int digits = DBL_MANT_DIG;
+        static constexpr constant int digits10 = DBL_DIG;
+        static constexpr constant int max_digits10 = 99999;     // TODO: Set correct value!
+
+        static constexpr constant bool is_signed = true;
+        static constexpr constant bool is_integer = false;
+        static constexpr constant bool is_exact = false;
+        static constexpr constant int radix = DBL_RADIX;
+        static constexpr double epsilon() noexcept { return DBL_EPSILON; }
+        static constexpr double round_error() noexcept { return 0.5; }
+
+        static constexpr constant int min_exponent = DBL_MIN_EXP;
+        static constexpr constant int min_exponent10 = DBL_MIN_10_EXP;
+        static constexpr constant int max_exponent = DBL_MAX_EXP;
+        static constexpr constant int max_exponent10 = DBL_MAX_10_EXP;
+
+        static constexpr constant bool has_infinity = true;
+        static constexpr constant bool has_quiet_NaN = true;
+        static constexpr constant bool has_signaling_NaN = true;
+        static constexpr constant float_denorm_style has_denorm = denorm_present;
+        static constexpr constant bool has_denorm_loss = true;
+        static constexpr double infinity() noexcept { return HUGE_VALF; }
+        static constexpr double quiet_NaN() noexcept { return NAN; }
+        static constexpr double signaling_NaN() noexcept { return 0; }
+        static constexpr double denorm_min() noexcept { return 0; }
+
+        static constexpr constant bool is_iec559 = true;
+        static constexpr constant bool is_bounded = true;
+        static constexpr constant bool is_modulo = false;
+
+        static constexpr constant bool traps = false;
+        static constexpr constant bool tinyness_before = false;
+        static constexpr constant float_round_style round_style = round_toward_zero;
+    };
+
+} // namespace std
+
+#endif // __METAL_VERSION__
+
 #include "../simd/platform.h"
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -470,7 +717,11 @@
 
 //
 #if GLM_LANG & GLM_LANG_CXX11_FLAG
-#	define GLM_HAS_MAKE_SIGNED 1
+#   if __METAL_VERSION__
+#       define GLM_HAS_MAKE_SIGNED 0
+#   else // __METAL_VERSION__
+#   	define GLM_HAS_MAKE_SIGNED 1
+#   endif // ..., __METAL_VERSION__
 #else
 #	define GLM_HAS_MAKE_SIGNED ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\
 		((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC12)) || \
@@ -807,7 +1058,7 @@ namespace glm
 	namespace glm
 	{
 		template <typename T, std::size_t N>
-		constexpr std::size_t countof(T const (&)[N])
+		constexpr std::size_t countof(__thread__ T const (&)[N])
 		{
 			return N;
 		}

@@ -6,7 +6,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> polar
 	(
-		tvec3<T, P> const & euclidean
+		__thread__ tvec3<T, P> const & euclidean
 	)
 	{
 		T const Length(length(euclidean));
@@ -22,7 +22,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> euclidean
 	(
-		tvec2<T, P> const & polar
+	    __thread__ tvec2<T, P> const & polar
 	)
 	{
 		T const latitude(polar.x);

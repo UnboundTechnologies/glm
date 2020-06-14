@@ -74,7 +74,7 @@ namespace fetch
 		texture2D & Image,
 		texture2D::dimensions_type const & Texcoord,
 		texture2D::level_type const & Level,
-		genType const & Color
+	    __thread__ genType const & Color
 	)
 	{
 		genType * Data = (genType*)Image[Level].data();

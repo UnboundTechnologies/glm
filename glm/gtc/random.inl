@@ -3,9 +3,12 @@
 
 #include "../geometric.hpp"
 #include "../exponential.hpp"
-#include <cstdlib>
-#include <ctime>
-#include <cassert>
+
+#if !__METAL_VERSION__
+#   include <cstdlib>
+#   include <ctime>
+#   include <cassert>
+#endif // __METAL_VERSION__
 
 namespace glm{
 namespace detail
@@ -98,13 +101,13 @@ namespace detail
 	template <typename T, precision P, template <class, precision> class vecType>
 	struct compute_linearRand
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & Min, vecType<T, P> const & Max);
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & Min, __thread__ vecType<T, P> const & Max);
 	};
 
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<int8, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<int8, P> call(vecType<int8, P> const & Min, vecType<int8, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<int8, P> call(__thread__ vecType<int8, P> const & Min, __thread__ vecType<int8, P> const & Max)
 		{
 			return (vecType<int8, P>(compute_rand<uint8, P, vecType>::call() % vecType<uint8, P>(Max + static_cast<int8>(1) - Min))) + Min;
 		}
@@ -113,7 +116,7 @@ namespace detail
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<uint8, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<uint8, P> call(vecType<uint8, P> const & Min, vecType<uint8, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<uint8, P> call(__thread__ vecType<uint8, P> const & Min, __thread__ vecType<uint8, P> const & Max)
 		{
 			return (compute_rand<uint8, P, vecType>::call() % (Max + static_cast<uint8>(1) - Min)) + Min;
 		}
@@ -122,7 +125,7 @@ namespace detail
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<int16, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<int16, P> call(vecType<int16, P> const & Min, vecType<int16, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<int16, P> call(__thread__ vecType<int16, P> const & Min, __thread__ vecType<int16, P> const & Max)
 		{
 			return (vecType<int16, P>(compute_rand<uint16, P, vecType>::call() % vecType<uint16, P>(Max + static_cast<int16>(1) - Min))) + Min;
 		}
@@ -131,7 +134,7 @@ namespace detail
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<uint16, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<uint16, P> call(vecType<uint16, P> const & Min, vecType<uint16, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<uint16, P> call(__thread__ vecType<uint16, P> const & Min, __thread__ vecType<uint16, P> const & Max)
 		{
 			return (compute_rand<uint16, P, vecType>::call() % (Max + static_cast<uint16>(1) - Min)) + Min;
 		}
@@ -140,7 +143,7 @@ namespace detail
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<int32, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<int32, P> call(vecType<int32, P> const & Min, vecType<int32, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<int32, P> call(__thread__ vecType<int32, P> const & Min, __thread__ vecType<int32, P> const & Max)
 		{
 			return (vecType<int32, P>(compute_rand<uint32, P, vecType>::call() % vecType<uint32, P>(Max + static_cast<int32>(1) - Min))) + Min;
 		}
@@ -149,25 +152,27 @@ namespace detail
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<uint32, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<uint32, P> call(vecType<uint32, P> const & Min, vecType<uint32, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<uint32, P> call(__thread__ vecType<uint32, P> const & Min, __thread__ vecType<uint32, P> const & Max)
 		{
 			return (compute_rand<uint32, P, vecType>::call() % (Max + static_cast<uint32>(1) - Min)) + Min;
 		}
 	};
- 
+
+#if !__METAL_VERSION__
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<int64, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<int64, P> call(vecType<int64, P> const & Min, vecType<int64, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<int64, P> call(__thread__ vecType<int64, P> const & Min, __thread__ vecType<int64, P> const & Max)
 		{
 			return (vecType<int64, P>(compute_rand<uint64, P, vecType>::call() % vecType<uint64, P>(Max + static_cast<int64>(1) - Min))) + Min;
 		}
 	};
+#endif // __METAL_VERSION__
 
 	template <precision P, template <class, precision> class vecType>
 	struct compute_linearRand<uint64, P, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<uint64, P> call(vecType<uint64, P> const & Min, vecType<uint64, P> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<uint64, P> call(__thread__ vecType<uint64, P> const & Min, __thread__ vecType<uint64, P> const & Max)
 		{
 			return (compute_rand<uint64, P, vecType>::call() % (Max + static_cast<uint64>(1) - Min)) + Min;
 		}
@@ -176,7 +181,7 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<float, lowp, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<float, lowp> call(vecType<float, lowp> const & Min, vecType<float, lowp> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<float, lowp> call(__thread__ vecType<float, lowp> const & Min, __thread__ vecType<float, lowp> const & Max)
 		{
 			return vecType<float, lowp>(compute_rand<uint8, lowp, vecType>::call()) / static_cast<float>(std::numeric_limits<uint8>::max()) * (Max - Min) + Min;
 		}
@@ -185,7 +190,7 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<float, mediump, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<float, mediump> call(vecType<float, mediump> const & Min, vecType<float, mediump> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<float, mediump> call(__thread__ vecType<float, mediump> const & Min, __thread__ vecType<float, mediump> const & Max)
 		{
 			return vecType<float, mediump>(compute_rand<uint16, mediump, vecType>::call()) / static_cast<float>(std::numeric_limits<uint16>::max()) * (Max - Min) + Min;
 		}
@@ -194,7 +199,7 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<float, highp, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<float, highp> call(vecType<float, highp> const & Min, vecType<float, highp> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<float, highp> call(__thread__ vecType<float, highp> const & Min, __thread__ vecType<float, highp> const & Max)
 		{
 			return vecType<float, highp>(compute_rand<uint32, highp, vecType>::call()) / static_cast<float>(std::numeric_limits<uint32>::max()) * (Max - Min) + Min;
 		}
@@ -203,7 +208,7 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<double, lowp, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<double, lowp> call(vecType<double, lowp> const & Min, vecType<double, lowp> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<double, lowp> call(__thread__ vecType<double, lowp> const & Min, __thread__ vecType<double, lowp> const & Max)
 		{
 			return vecType<double, lowp>(compute_rand<uint16, lowp, vecType>::call()) / static_cast<double>(std::numeric_limits<uint16>::max()) * (Max - Min) + Min;
 		}
@@ -212,7 +217,7 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<double, mediump, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<double, mediump> call(vecType<double, mediump> const & Min, vecType<double, mediump> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<double, mediump> call(__thread__ vecType<double, mediump> const & Min, __thread__ vecType<double, mediump> const & Max)
 		{
 			return vecType<double, mediump>(compute_rand<uint32, mediump, vecType>::call()) / static_cast<double>(std::numeric_limits<uint32>::max()) * (Max - Min) + Min;
 		}
@@ -221,16 +226,17 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<double, highp, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<double, highp> call(vecType<double, highp> const & Min, vecType<double, highp> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<double, highp> call(__thread__ vecType<double, highp> const & Min, __thread__ vecType<double, highp> const & Max)
 		{
 			return vecType<double, highp>(compute_rand<uint64, highp, vecType>::call()) / static_cast<double>(std::numeric_limits<uint64>::max()) * (Max - Min) + Min;
 		}
 	};
 
+#if !__METAL_VERSION__
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<long double, lowp, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<long double, lowp> call(vecType<long double, lowp> const & Min, vecType<long double, lowp> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<long double, lowp> call(__thread__ vecType<long double, lowp> const & Min, __thread__ vecType<long double, lowp> const & Max)
 		{
 			return vecType<long double, lowp>(compute_rand<uint32, lowp, vecType>::call()) / static_cast<long double>(std::numeric_limits<uint32>::max()) * (Max - Min) + Min;
 		}
@@ -239,7 +245,7 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<long double, mediump, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<long double, mediump> call(vecType<long double, mediump> const & Min, vecType<long double, mediump> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<long double, mediump> call(__thread__ vecType<long double, mediump> const & Min, __thread__ vecType<long double, mediump> const & Max)
 		{
 			return vecType<long double, mediump>(compute_rand<uint64, mediump, vecType>::call()) / static_cast<long double>(std::numeric_limits<uint64>::max()) * (Max - Min) + Min;
 		}
@@ -248,11 +254,12 @@ namespace detail
 	template <template <class, precision> class vecType>
 	struct compute_linearRand<long double, highp, vecType>
 	{
-		GLM_FUNC_QUALIFIER static vecType<long double, highp> call(vecType<long double, highp> const & Min, vecType<long double, highp> const & Max)
+		GLM_FUNC_QUALIFIER static vecType<long double, highp> call(__thread__ vecType<long double, highp> const & Min, __thread__ vecType<long double, highp> const & Max)
 		{
 			return vecType<long double, highp>(compute_rand<uint64, highp, vecType>::call()) / static_cast<long double>(std::numeric_limits<uint64>::max()) * (Max - Min) + Min;
 		}
 	};
+#endif // __METAL_VERSION__
 }//namespace detail
 
 	template <typename genType>
@@ -264,7 +271,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> linearRand(vecType<T, P> const & Min, vecType<T, P> const & Max)
+	GLM_FUNC_QUALIFIER vecType<T, P> linearRand(__thread__ vecType<T, P> const & Min, __thread__ vecType<T, P> const & Max)
 	{
 		return detail::compute_linearRand<T, P, vecType>::call(Min, Max);
 	}
@@ -286,7 +293,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> gaussRand(vecType<T, P> const & Mean, vecType<T, P> const & Deviation)
+	GLM_FUNC_QUALIFIER vecType<T, P> gaussRand(__thread__ vecType<T, P> const & Mean, __thread__ vecType<T, P> const & Deviation)
 	{
 		return detail::functor2<T, P, vecType>::call(gaussRand, Mean, Deviation);
 	}

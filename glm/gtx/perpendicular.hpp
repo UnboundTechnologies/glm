@@ -30,8 +30,8 @@ namespace glm
 	//! From GLM_GTX_perpendicular extension.
 	template <typename vecType> 
 	GLM_FUNC_DECL vecType perp(
-		vecType const & x, 
-		vecType const & Normal);
+		__thread__ vecType const & x,
+		__thread__ vecType const & Normal);
 
 	/// @}
 }//namespace glm

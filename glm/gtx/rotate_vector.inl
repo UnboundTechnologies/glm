@@ -6,9 +6,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> slerp
 	(
-		tvec3<T, P> const & x,
-		tvec3<T, P> const & y,
-		T const & a
+		__thread__ tvec3<T, P> const & x,
+		__thread__ tvec3<T, P> const & y,
+		__thread__ T const & a
 	)
 	{
 		// get cosine of angle between vectors (-1 -> 1)
@@ -28,8 +28,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec2<T, P> rotate
 	(
-		tvec2<T, P> const & v,
-		T const & angle
+	    __thread__ tvec2<T, P> const & v,
+		__thread__ T const & angle
 	)
 	{
 		tvec2<T, P> Result;
@@ -44,9 +44,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> rotate
 	(
-		tvec3<T, P> const & v,
-		T const & angle,
-		tvec3<T, P> const & normal
+		__thread__ tvec3<T, P> const & v,
+		__thread__ T const & angle,
+		__thread__ tvec3<T, P> const & normal
 	)
 	{
 		return tmat3x3<T, P>(glm::rotate(angle, normal)) * v;
@@ -54,9 +54,9 @@ namespace glm
 	/*
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> rotateGTX(
-		const tvec3<T, P>& x,
+	    __thread__ const tvec3<T, P>& x,
 		T angle,
-		const tvec3<T, P>& normal)
+	    __thread__ const tvec3<T, P>& normal)
 	{
 		const T Cos = cos(radians(angle));
 		const T Sin = sin(radians(angle));
@@ -66,9 +66,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec4<T, P> rotate
 	(
-		tvec4<T, P> const & v,
-		T const & angle,
-		tvec3<T, P> const & normal
+	    __thread__ tvec4<T, P> const & v,
+		__thread__ T const & angle,
+		__thread__ tvec3<T, P> const & normal
 	)
 	{
 		return rotate(angle, normal) * v;
@@ -77,8 +77,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> rotateX
 	(
-		tvec3<T, P> const & v,
-		T const & angle
+		__thread__ tvec3<T, P> const & v,
+		__thread__ T const & angle
 	)
 	{
 		tvec3<T, P> Result(v);
@@ -93,8 +93,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> rotateY
 	(
-		tvec3<T, P> const & v,
-		T const & angle
+		__thread__ tvec3<T, P> const & v,
+		__thread__ T const & angle
 	)
 	{
 		tvec3<T, P> Result = v;
@@ -109,8 +109,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> rotateZ
 	(
-		tvec3<T, P> const & v,
-		T const & angle
+		__thread__ tvec3<T, P> const & v,
+		__thread__ T const & angle
 	)
 	{
 		tvec3<T, P> Result = v;
@@ -125,8 +125,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec4<T, P> rotateX
 	(
-		tvec4<T, P> const & v,
-		T const & angle
+	    __thread__ tvec4<T, P> const & v,
+		__thread__ T const & angle
 	)
 	{
 		tvec4<T, P> Result = v;
@@ -141,8 +141,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec4<T, P> rotateY
 	(
-		tvec4<T, P> const & v,
-		T const & angle
+	    __thread__ tvec4<T, P> const & v,
+		__thread__ T const & angle
 	)
 	{
 		tvec4<T, P> Result = v;
@@ -157,8 +157,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec4<T, P> rotateZ
 	(
-		tvec4<T, P> const & v,
-		T const & angle
+	    __thread__ tvec4<T, P> const & v,
+		__thread__ T const & angle
 	)
 	{
 		tvec4<T, P> Result = v;
@@ -173,8 +173,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> orientation
 	(
-		tvec3<T, P> const & Normal,
-		tvec3<T, P> const & Up
+		__thread__ tvec3<T, P> const & Normal,
+		__thread__ tvec3<T, P> const & Up
 	)
 	{
 		if(all(equal(Normal, Up)))

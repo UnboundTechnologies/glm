@@ -15,8 +15,8 @@ namespace gli
 		void element
 		(
 			T & DataDst,
-			T const & DataSrcA,
-			T const & DataSrcB,
+			__thread__ T const & DataSrcA,
+			__thread__ T const & DataSrcB,
 			std::binary_function<T, T, T> const & Func
 		)
 		{

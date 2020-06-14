@@ -8,7 +8,7 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleX
 	(
-		T const & angleX
+		__thread__ T const & angleX
 	)
 	{
 		T cosX = glm::cos(angleX);
@@ -24,7 +24,7 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleY
 	(
-		T const & angleY
+		__thread__ T const & angleY
 	)
 	{
 		T cosY = glm::cos(angleY);
@@ -40,7 +40,7 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleZ
 	(
-		T const & angleZ
+		__thread__ T const & angleZ
 	)
 	{
 		T cosZ = glm::cos(angleZ);
@@ -56,8 +56,8 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleXY
 	(
-		T const & angleX,
-		T const & angleY
+		__thread__ T const & angleX,
+		__thread__ T const & angleY
 	)
 	{
 		T cosX = glm::cos(angleX);
@@ -75,8 +75,8 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleYX
 	(
-		T const & angleY,
-		T const & angleX
+		__thread__ T const & angleY,
+		__thread__ T const & angleX
 	)
 	{
 		T cosX = glm::cos(angleX);
@@ -94,8 +94,8 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleXZ
 	(
-		T const & angleX,
-		T const & angleZ
+		__thread__ T const & angleX,
+		__thread__ T const & angleZ
 	)
 	{
 		return eulerAngleX(angleX) * eulerAngleZ(angleZ);
@@ -104,8 +104,8 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleZX
 	(
-		T const & angleZ,
-		T const & angleX
+		__thread__ T const & angleZ,
+		__thread__ T const & angleX
 	)
 	{
 		return eulerAngleZ(angleZ) * eulerAngleX(angleX);
@@ -114,8 +114,8 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleYZ
 	(
-		T const & angleY,
-		T const & angleZ
+		__thread__ T const & angleY,
+		__thread__ T const & angleZ
 	)
 	{
 		return eulerAngleY(angleY) * eulerAngleZ(angleZ);
@@ -124,8 +124,8 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleZY
 	(
-		T const & angleZ,
-		T const & angleY
+		__thread__ T const & angleZ,
+		__thread__ T const & angleY
 	)
 	{
 		return eulerAngleZ(angleZ) * eulerAngleY(angleY);
@@ -134,9 +134,9 @@ namespace glm
     template <typename T>
     GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleXYZ
     (
-     T const & t1,
-     T const & t2,
-     T const & t3
+     __thread__ T const & t1,
+     __thread__ T const & t2,
+     __thread__ T const & t3
      )
     {
         T c1 = glm::cos(-t1);
@@ -169,9 +169,9 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> eulerAngleYXZ
 	(
-		T const & yaw,
-		T const & pitch,
-		T const & roll
+		__thread__ T const & yaw,
+		__thread__ T const & pitch,
+		__thread__ T const & roll
 	)
 	{
 		T tmp_ch = glm::cos(yaw);
@@ -204,9 +204,9 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat4x4<T, defaultp> yawPitchRoll
 	(
-		T const & yaw,
-		T const & pitch,
-		T const & roll
+		__thread__ T const & yaw,
+		__thread__ T const & pitch,
+		__thread__ T const & roll
 	)
 	{
 		T tmp_ch = glm::cos(yaw);
@@ -239,7 +239,7 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat2x2<T, defaultp> orientate2
 	(
-		T const & angle
+		__thread__ T const & angle
 	)
 	{
 		T c = glm::cos(angle);
@@ -256,7 +256,7 @@ namespace glm
 	template <typename T>
 	GLM_FUNC_QUALIFIER tmat3x3<T, defaultp> orientate3
 	(
-		T const & angle
+		__thread__ T const & angle
 	)
 	{
 		T c = glm::cos(angle);
@@ -278,7 +278,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat3x3<T, P> orientate3
 	(
-		tvec3<T, P> const & angles
+		__thread__ tvec3<T, P> const & angles
 	)
 	{
 		return tmat3x3<T, P>(yawPitchRoll(angles.z, angles.x, angles.y));
@@ -287,17 +287,17 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> orientate4
 	(
-		tvec3<T, P> const & angles
+		__thread__ tvec3<T, P> const & angles
 	)
 	{
 		return yawPitchRoll(angles.z, angles.x, angles.y);
 	}
     
     template <typename T>
-    GLM_FUNC_DECL void extractEulerAngleXYZ(tmat4x4<T, defaultp> const & M,
-                                            T & t1,
-                                            T & t2,
-                                            T & t3)
+    GLM_FUNC_DECL void extractEulerAngleXYZ(__thread__ tmat4x4<T, defaultp> const & M,
+                                            __thread__ T & t1,
+                                            __thread__ T & t2,
+                                            __thread__ T & t3)
     {
         float T1 = glm::atan2<T, defaultp>(M[2][1], M[2][2]);
         float C2 = glm::sqrt(M[0][0]*M[0][0] + M[1][0]*M[1][0]);

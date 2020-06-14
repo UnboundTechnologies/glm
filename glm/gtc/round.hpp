@@ -19,7 +19,10 @@
 #include "../detail/_vectorize.hpp"
 #include "../vector_relational.hpp"
 #include "../common.hpp"
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_EXT_INCLUDED)
 #	pragma message("GLM: GLM_GTC_integer extension included")
@@ -40,7 +43,7 @@ namespace glm
 	///
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<bool, P> isPowerOfTwo(vecType<T, P> const & value);
+	GLM_FUNC_DECL vecType<bool, P> isPowerOfTwo(__thread__ vecType<T, P> const & value);
 
 	/// Return the power of two number which value is just higher the input value,
 	/// round up to a power of two.
@@ -54,7 +57,7 @@ namespace glm
 	///
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> ceilPowerOfTwo(vecType<T, P> const & value);
+	GLM_FUNC_DECL vecType<T, P> ceilPowerOfTwo(__thread__ vecType<T, P> const & value);
 
 	/// Return the power of two number which value is just lower the input value,
 	/// round down to a power of two.
@@ -68,7 +71,7 @@ namespace glm
 	///
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> floorPowerOfTwo(vecType<T, P> const & value);
+	GLM_FUNC_DECL vecType<T, P> floorPowerOfTwo(__thread__ vecType<T, P> const & value);
 
 	/// Return the power of two number which value is the closet to the input value.
 	///
@@ -80,7 +83,7 @@ namespace glm
 	///
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> roundPowerOfTwo(vecType<T, P> const & value);
+	GLM_FUNC_DECL vecType<T, P> roundPowerOfTwo(__thread__ vecType<T, P> const & value);
 
 	/// Return true if the 'Value' is a multiple of 'Multiple'.
 	///
@@ -92,13 +95,13 @@ namespace glm
 	///
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<bool, P> isMultiple(vecType<T, P> const & Value, T Multiple);
+	GLM_FUNC_DECL vecType<bool, P> isMultiple(__thread__ vecType<T, P> const & Value, T Multiple);
 
 	/// Return true if the 'Value' is a multiple of 'Multiple'.
 	///
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<bool, P> isMultiple(vecType<T, P> const & Value, vecType<T, P> const & Multiple);
+	GLM_FUNC_DECL vecType<bool, P> isMultiple(__thread__ vecType<T, P> const & Value, __thread__ vecType<T, P> const & Multiple);
 
 	/// Higher multiple number of Source.
 	///
@@ -118,7 +121,7 @@ namespace glm
 	///
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> ceilMultiple(vecType<T, P> const & Source, vecType<T, P> const & Multiple);
+	GLM_FUNC_DECL vecType<T, P> ceilMultiple(__thread__ vecType<T, P> const & Source, __thread__ vecType<T, P> const & Multiple);
 
 	/// Lower multiple number of Source.
 	///
@@ -141,8 +144,8 @@ namespace glm
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL vecType<T, P> floorMultiple(
-		vecType<T, P> const & Source,
-		vecType<T, P> const & Multiple);
+		__thread__ vecType<T, P> const & Source,
+		__thread__ vecType<T, P> const & Multiple);
 
 	/// Lower multiple number of Source.
 	///
@@ -165,8 +168,8 @@ namespace glm
 	/// @see gtc_round
 	template <typename T, precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL vecType<T, P> roundMultiple(
-		vecType<T, P> const & Source,
-		vecType<T, P> const & Multiple);
+		__thread__ vecType<T, P> const & Source,
+		__thread__ vecType<T, P> const & Multiple);
 
 	/// @}
 } //namespace glm

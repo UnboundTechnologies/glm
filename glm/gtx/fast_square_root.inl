@@ -13,7 +13,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastSqrt(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastSqrt(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastSqrt, x);
 	}
@@ -31,7 +31,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastInverseSqrt(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastInverseSqrt(__thread__ vecType<T, P> const & x)
 	{
 		return detail::compute_inversesqrt<vecType, T, P, detail::is_aligned<P>::value>::call(x);
 	}
@@ -46,7 +46,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER T fastLength(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER T fastLength(__thread__ vecType<T, P> const & x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'fastLength' only accept floating-point inputs");
 
@@ -61,7 +61,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER T fastDistance(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER T fastDistance(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		return fastLength(y - x);
 	}
@@ -74,7 +74,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastNormalize(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastNormalize(__thread__ vecType<T, P> const & x)
 	{
 		return x * fastInverseSqrt(dot(x, x));
 	}

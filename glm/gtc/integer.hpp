@@ -19,7 +19,10 @@
 #include "../detail/func_common.hpp"
 #include "../detail/func_integer.hpp"
 #include "../detail/func_exponential.hpp"
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_EXT_INCLUDED)
 #	pragma message("GLM: GLM_GTC_integer extension included")
@@ -56,7 +59,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/mod.xml">GLSL mod man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> mod(vecType<T, P> const & x, T y);
+	GLM_FUNC_DECL vecType<T, P> mod(__thread__ vecType<T, P> const & x, T y);
 
 	/// Modulus. Returns x % y
 	/// for each component in x using the floating point value y.
@@ -68,7 +71,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/mod.xml">GLSL mod man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> mod(vecType<T, P> const & x, vecType<T, P> const & y);
+	GLM_FUNC_DECL vecType<T, P> mod(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y);
 
 	/// Returns a value equal to the nearest integer to x.
 	/// The fraction 0.5 will round in a direction chosen by the
@@ -81,7 +84,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/round.xml">GLSL round man page</a>
 	/// @see gtc_integer
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<int, P> iround(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<int, P> iround(__thread__ vecType<T, P> const & x);
 
 	/// Returns a value equal to the nearest integer to x.
 	/// The fraction 0.5 will round in a direction chosen by the
@@ -94,7 +97,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/round.xml">GLSL round man page</a>
 	/// @see gtc_integer
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<uint, P> uround(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<uint, P> uround(__thread__ vecType<T, P> const & x);
 
 	/// @}
 } //namespace glm

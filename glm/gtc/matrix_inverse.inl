@@ -4,7 +4,7 @@
 namespace glm
 {
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat3x3<T, P> affineInverse(tmat3x3<T, P> const & m)
+	GLM_FUNC_QUALIFIER tmat3x3<T, P> affineInverse(__thread__ tmat3x3<T, P> const & m)
 	{
 		tmat2x2<T, P> const Inv(inverse(tmat2x2<T, P>(m)));
 
@@ -15,7 +15,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> affineInverse(tmat4x4<T, P> const & m)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> affineInverse(__thread__ tmat4x4<T, P> const & m)
 	{
 		tmat3x3<T, P> const Inv(inverse(tmat3x3<T, P>(m)));
 
@@ -27,7 +27,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat2x2<T, P> inverseTranspose(tmat2x2<T, P> const & m)
+	GLM_FUNC_QUALIFIER tmat2x2<T, P> inverseTranspose(__thread__ tmat2x2<T, P> const & m)
 	{
 		T Determinant = m[0][0] * m[1][1] - m[1][0] * m[0][1];
 
@@ -41,7 +41,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat3x3<T, P> inverseTranspose(tmat3x3<T, P> const & m)
+	GLM_FUNC_QUALIFIER tmat3x3<T, P> inverseTranspose(__thread__ tmat3x3<T, P> const & m)
 	{
 		T Determinant =
 			+ m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
@@ -64,7 +64,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> inverseTranspose(tmat4x4<T, P> const & m)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> inverseTranspose(__thread__ tmat4x4<T, P> const & m)
 	{
 		T SubFactor00 = m[2][2] * m[3][3] - m[3][2] * m[2][3];
 		T SubFactor01 = m[2][1] * m[3][3] - m[3][1] * m[2][3];

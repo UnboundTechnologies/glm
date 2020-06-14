@@ -2,7 +2,10 @@
 /// @file glm/detail/func_matrix.inl
 
 #include "../geometric.hpp"
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 namespace glm{
 namespace detail
@@ -10,7 +13,7 @@ namespace detail
 	template <template <typename, precision> class matType, typename T, precision P, bool Aligned>
 	struct compute_matrixCompMult
 	{
-		GLM_FUNC_QUALIFIER static matType<T, P> call(matType<T, P> const& x, matType<T, P> const& y)
+		GLM_FUNC_QUALIFIER static matType<T, P> call(__thread__ matType<T, P> const& x, __thread__ matType<T, P> const& y)
 		{
 			matType<T, P> result(uninitialize);
 			for(length_t i = 0; i < result.length(); ++i)
@@ -25,7 +28,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat2x2, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat2x2<T, P> call(tmat2x2<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat2x2<T, P> call(__thread__ tmat2x2<T, P> const & m)
 		{
 			tmat2x2<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -39,7 +42,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat2x3, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat3x2<T, P> call(tmat2x3<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat3x2<T, P> call(__thread__ tmat2x3<T, P> const & m)
 		{
 			tmat3x2<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -55,7 +58,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat2x4, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat4x2<T, P> call(tmat2x4<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat4x2<T, P> call(__thread__ tmat2x4<T, P> const & m)
 		{
 			tmat4x2<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -73,7 +76,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat3x2, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat2x3<T, P> call(tmat3x2<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat2x3<T, P> call(__thread__ tmat3x2<T, P> const & m)
 		{
 			tmat2x3<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -89,7 +92,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat3x3, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat3x3<T, P> call(tmat3x3<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat3x3<T, P> call(__thread__ tmat3x3<T, P> const & m)
 		{
 			tmat3x3<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -110,7 +113,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat3x4, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat4x3<T, P> call(tmat3x4<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat4x3<T, P> call(__thread__ tmat3x4<T, P> const & m)
 		{
 			tmat4x3<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -132,7 +135,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat4x2, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat2x4<T, P> call(tmat4x2<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat2x4<T, P> call(__thread__ tmat4x2<T, P> const & m)
 		{
 			tmat2x4<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -150,7 +153,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat4x3, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat3x4<T, P> call(tmat4x3<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat3x4<T, P> call(__thread__ tmat4x3<T, P> const & m)
 		{
 			tmat3x4<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -172,7 +175,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_transpose<tmat4x4, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat4x4<T, P> call(tmat4x4<T, P> const & m)
+		GLM_FUNC_QUALIFIER static tmat4x4<T, P> call(__thread__ tmat4x4<T, P> const & m)
 		{
 			tmat4x4<T, P> result(uninitialize);
 			result[0][0] = m[0][0];
@@ -204,7 +207,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_determinant<tmat2x2, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static T call(tmat2x2<T, P> const & m)
+		GLM_FUNC_QUALIFIER static T call(__thread__ tmat2x2<T, P> const & m)
 		{
 			return m[0][0] * m[1][1] - m[1][0] * m[0][1];
 		}
@@ -213,7 +216,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_determinant<tmat3x3, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static T call(tmat3x3<T, P> const & m)
+		GLM_FUNC_QUALIFIER static T call(__thread__ tmat3x3<T, P> const & m)
 		{
 			return
 				+ m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2])
@@ -225,7 +228,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_determinant<tmat4x4, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static T call(tmat4x4<T, P> const & m)
+		GLM_FUNC_QUALIFIER static T call(__thread__ tmat4x4<T, P> const & m)
 		{
 			T SubFactor00 = m[2][2] * m[3][3] - m[3][2] * m[2][3];
 			T SubFactor01 = m[2][1] * m[3][3] - m[3][1] * m[2][3];
@@ -252,7 +255,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_inverse<tmat2x2, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat2x2<T, P> call(tmat2x2<T, P> const& m)
+		GLM_FUNC_QUALIFIER static tmat2x2<T, P> call(__thread__ tmat2x2<T, P> const& m)
 		{
 			T OneOverDeterminant = static_cast<T>(1) / (
 				+ m[0][0] * m[1][1]
@@ -271,7 +274,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_inverse<tmat3x3, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat3x3<T, P> call(tmat3x3<T, P> const& m)
+		GLM_FUNC_QUALIFIER static tmat3x3<T, P> call(__thread__ tmat3x3<T, P> const& m)
 		{
 			T OneOverDeterminant = static_cast<T>(1) / (
 				+ m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2])
@@ -296,7 +299,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_inverse<tmat4x4, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static tmat4x4<T, P> call(tmat4x4<T, P> const& m)
+		GLM_FUNC_QUALIFIER static tmat4x4<T, P> call(__thread__ tmat4x4<T, P> const& m)
 		{
 			T Coef00 = m[2][2] * m[3][3] - m[3][2] * m[2][3];
 			T Coef02 = m[1][2] * m[3][3] - m[3][2] * m[1][3];
@@ -356,14 +359,14 @@ namespace detail
 }//namespace detail
 
 	template <typename T, precision P, template <typename, precision> class matType>
-	GLM_FUNC_QUALIFIER matType<T, P> matrixCompMult(matType<T, P> const & x, matType<T, P> const & y)
+	GLM_FUNC_QUALIFIER matType<T, P> matrixCompMult(__thread__ matType<T, P> const & x, __thread__ matType<T, P> const & y)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559 || GLM_UNRESTRICTED_GENTYPE, "'matrixCompMult' only accept floating-point inputs");
 		return detail::compute_matrixCompMult<matType, T, P, detail::is_aligned<P>::value>::call(x, y);
 	}
 
 	template<typename T, precision P, template <typename, precision> class vecTypeA, template <typename, precision> class vecTypeB>
-	GLM_FUNC_QUALIFIER typename detail::outerProduct_trait<T, P, vecTypeA, vecTypeB>::type outerProduct(vecTypeA<T, P> const & c, vecTypeB<T, P> const & r)
+	GLM_FUNC_QUALIFIER typename detail::outerProduct_trait<T, P, vecTypeA, vecTypeB>::type outerProduct(__thread__ vecTypeA<T, P> const & c, __thread__ vecTypeB<T, P> const & r)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559 || GLM_UNRESTRICTED_GENTYPE, "'outerProduct' only accept floating-point inputs");
 
@@ -374,21 +377,21 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class matType>
-	GLM_FUNC_QUALIFIER typename matType<T, P>::transpose_type transpose(matType<T, P> const & m)
+	GLM_FUNC_QUALIFIER typename matType<T, P>::transpose_type transpose(__thread__ matType<T, P> const & m)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559 || GLM_UNRESTRICTED_GENTYPE, "'transpose' only accept floating-point inputs");
 		return detail::compute_transpose<matType, T, P, detail::is_aligned<P>::value>::call(m);
 	}
 
 	template <typename T, precision P, template <typename, precision> class matType>
-	GLM_FUNC_QUALIFIER T determinant(matType<T, P> const & m)
+	GLM_FUNC_QUALIFIER T determinant(__thread__ matType<T, P> const & m)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559 || GLM_UNRESTRICTED_GENTYPE, "'determinant' only accept floating-point inputs");
 		return detail::compute_determinant<matType, T, P, detail::is_aligned<P>::value>::call(m);
 	}
 
 	template <typename T, precision P, template <typename, precision> class matType>
-	GLM_FUNC_QUALIFIER matType<T, P> inverse(matType<T, P> const & m)
+	GLM_FUNC_QUALIFIER matType<T, P> inverse(__thread__ matType<T, P> const & m)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559 || GLM_UNRESTRICTED_GENTYPE, "'inverse' only accept floating-point inputs");
 		return detail::compute_inverse<matType, T, P, detail::is_aligned<P>::value>::call(m);

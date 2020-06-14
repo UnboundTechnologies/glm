@@ -175,7 +175,7 @@ namespace taylorCos
 	glm::vec4 const AngleShift(0.0f, glm::pi<float>() * 0.5f, glm::pi<float>() * 1.0f, glm::pi<float>() * 1.5f);
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> taylorSeriesNewCos(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> taylorSeriesNewCos(__thread__ vecType<T, P> const & x)
 	{
 		vecType<T, P> const Powed2(x * x);
 		vecType<T, P> const Powed4(Powed2 * Powed2);
@@ -190,7 +190,7 @@ namespace taylorCos
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> taylorSeriesNewCos6(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> taylorSeriesNewCos6(__thread__ vecType<T, P> const & x)
 	{
 		vecType<T, P> const Powed2(x * x);
 		vecType<T, P> const Powed4(Powed2 * Powed2);
@@ -214,7 +214,7 @@ namespace taylorCos
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastCosNew(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastCosNew(__thread__ vecType<T, P> const & x)
 	{
 		vecType<T, P> const Angle0_PI(fastAbs(fmod(x + glm::pi<T>(), glm::two_pi<T>()) - glm::pi<T>()));
 		return taylorSeriesNewCos6(x);
@@ -252,13 +252,13 @@ namespace taylorCos
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> deterministic_fmod(vecType<T, P> const & x, T y)
+	GLM_FUNC_QUALIFIER vecType<T, P> deterministic_fmod(__thread__ vecType<T, P> const & x, T y)
 	{
 		return x - y * trunc(x / y);
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastCosDeterminisctic(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastCosDeterminisctic(__thread__ vecType<T, P> const & x)
 	{
 		vecType<T, P> const Angle0_PI(abs(deterministic_fmod(x + glm::pi<T>(), glm::two_pi<T>()) - glm::pi<T>()));
 		vecType<bool, P> const FirstQuarterPi(lessThanEqual(Angle0_PI, vecType<T, P>(glm::half_pi<T>())));
@@ -293,7 +293,7 @@ namespace taylorCos
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> taylorSeriesRefCos(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> taylorSeriesRefCos(__thread__ vecType<T, P> const & x)
 	{
 		return static_cast<T>(1)
 			- (x * x) / glm::factorial(static_cast<T>(2))
@@ -303,7 +303,7 @@ namespace taylorCos
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastRefCos(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastRefCos(__thread__ vecType<T, P> const & x)
 	{
 		vecType<T, P> const Angle0_PI(glm::abs(fmod(x + glm::pi<T>(), glm::two_pi<T>()) - glm::pi<T>()));
 //		return taylorSeriesRefCos(Angle0_PI);

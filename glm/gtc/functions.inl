@@ -19,9 +19,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T gauss
 	(
-		tvec2<T, P> const& Coord,
-		tvec2<T, P> const& ExpectedValue,
-		tvec2<T, P> const& StandardDeviation
+		__thread__ tvec2<T, P> const& Coord,
+		__thread__ tvec2<T, P> const& ExpectedValue,
+		__thread__ tvec2<T, P> const& StandardDeviation
 	)
 	{
 		tvec2<T, P> const Squared = ((Coord - ExpectedValue) * (Coord - ExpectedValue)) / (static_cast<T>(2) * StandardDeviation * StandardDeviation);

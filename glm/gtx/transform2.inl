@@ -4,7 +4,7 @@
 namespace glm
 {
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat3x3<T, P> shearX2D(tmat3x3<T, P> const& m, T s)
+	GLM_FUNC_QUALIFIER tmat3x3<T, P> shearX2D(__thread__ tmat3x3<T, P> const& m, T s)
 	{
 		tmat3x3<T, P> r(1);
 		r[1][0] = s;
@@ -12,7 +12,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat3x3<T, P> shearY2D(tmat3x3<T, P> const& m, T s)
+	GLM_FUNC_QUALIFIER tmat3x3<T, P> shearY2D(__thread__ tmat3x3<T, P> const& m, T s)
 	{
 		tmat3x3<T, P> r(1);
 		r[0][1] = s;
@@ -20,7 +20,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> shearX3D(tmat4x4<T, P> const& m, T s, T t)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> shearX3D(__thread__ tmat4x4<T, P> const& m, T s, T t)
 	{
 		tmat4x4<T, P> r(1);
 		r[0][1] = s;
@@ -29,7 +29,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> shearY3D(tmat4x4<T, P> const& m, T s, T t)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> shearY3D(__thread__ tmat4x4<T, P> const& m, T s, T t)
 	{
 		tmat4x4<T, P> r(1);
 		r[1][0] = s;
@@ -38,7 +38,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> shearZ3D(tmat4x4<T, P> const& m, T s, T t)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> shearZ3D(__thread__ tmat4x4<T, P> const& m, T s, T t)
 	{
 		tmat4x4<T, P> r(1);
 		r[2][0] = s;
@@ -47,7 +47,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat3x3<T, P> reflect2D(tmat3x3<T, P> const& m, tvec3<T, P> const& normal)
+	GLM_FUNC_QUALIFIER tmat3x3<T, P> reflect2D(__thread__ tmat3x3<T, P> const& m, __thread__ tvec3<T, P> const& normal)
 	{
 		tmat3x3<T, P> r(static_cast<T>(1));
 		r[0][0] = static_cast<T>(1) - static_cast<T>(2) * normal.x * normal.x;
@@ -58,7 +58,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> reflect3D(tmat4x4<T, P> const& m, tvec3<T, P> const& normal)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> reflect3D(__thread__ tmat4x4<T, P> const& m, __thread__ tvec3<T, P> const& normal)
 	{
 		tmat4x4<T, P> r(static_cast<T>(1));
 		r[0][0] = static_cast<T>(1) - static_cast<T>(2) * normal.x * normal.x;
@@ -77,8 +77,8 @@ namespace glm
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat3x3<T, P> proj2D(
-		const tmat3x3<T, P>& m, 
-		const tvec3<T, P>& normal)
+	    __thread__ const tmat3x3<T, P>& m, 
+	    __thread__ const tvec3<T, P>& normal)
 	{
 		tmat3x3<T, P> r(static_cast<T>(1));
 		r[0][0] = static_cast<T>(1) - normal.x * normal.x;
@@ -90,8 +90,8 @@ namespace glm
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> proj3D(
-		const tmat4x4<T, P>& m, 
-		const tvec3<T, P>& normal)
+	    __thread__ const tmat4x4<T, P>& m, 
+	    __thread__ const tvec3<T, P>& normal)
 	{
 		tmat4x4<T, P> r(static_cast<T>(1));
 		r[0][0] = static_cast<T>(1) - normal.x * normal.x;
@@ -118,7 +118,7 @@ namespace glm
 	}
 
 	template <typename T, precision P> 
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> scaleBias(tmat4x4<T, P> const& m, T scale, T bias)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> scaleBias(__thread__ tmat4x4<T, P> const& m, T scale, T bias)
 	{
 		return m * scaleBias(scale, bias);
 	}

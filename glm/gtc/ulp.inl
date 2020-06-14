@@ -9,9 +9,12 @@
 /// is preserved.
 
 #include "../detail/type_int.hpp"
-#include <cmath>
-#include <cfloat>
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <cmath>
+#   include <cfloat>
+#   include <limits>
+#endif // __METAL_VERSION__
 
 #if(GLM_COMPILER & GLM_COMPILER_VC)
 #	pragma warning(push)
@@ -171,8 +174,10 @@ namespace detail
 
 namespace glm
 {
+
+#if !__METAL_VERSION__
 	template <>
-	GLM_FUNC_QUALIFIER float next_float(float const & x)
+	GLM_FUNC_QUALIFIER float next_float(__thread__ float const & x)
 	{
 #		if GLM_HAS_CXX11_STL
 			return std::nextafter(x, std::numeric_limits<float>::max());
@@ -184,9 +189,11 @@ namespace glm
 			return nextafterf(x, FLT_MAX);
 #		endif
 	}
+#endif // __METAL_VERSION__
 
+#if !__METAL_VERSION__
 	template <>
-	GLM_FUNC_QUALIFIER double next_float(double const & x)
+	GLM_FUNC_QUALIFIER double next_float(__thread__ double const & x)
 	{
 #		if GLM_HAS_CXX11_STL
 			return std::nextafter(x, std::numeric_limits<double>::max());
@@ -198,9 +205,10 @@ namespace glm
 			return nextafter(x, DBL_MAX);
 #		endif
 	}
+#endif // __METAL_VERSION__
 
 	template<typename T, precision P, template<typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> next_float(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> next_float(__thread__ vecType<T, P> const & x)
 	{
 		vecType<T, P> Result(uninitialize);
 		for(length_t i = 0, n = Result.length(); i < n; ++i)
@@ -208,7 +216,8 @@ namespace glm
 		return Result;
 	}
 
-	GLM_FUNC_QUALIFIER float prev_float(float const & x)
+#if !__METAL_VERSION__
+	GLM_FUNC_QUALIFIER float prev_float(__thread__ float const & x)
 	{
 #		if GLM_HAS_CXX11_STL
 			return std::nextafter(x, std::numeric_limits<float>::min());
@@ -220,8 +229,10 @@ namespace glm
 			return nextafterf(x, FLT_MIN);
 #		endif
 	}
+#endif // __METAL_VERSION__
 
-	GLM_FUNC_QUALIFIER double prev_float(double const & x)
+#if !__METAL_VERSION__
+	GLM_FUNC_QUALIFIER double prev_float(__thread__ double const & x)
 	{
 #		if GLM_HAS_CXX11_STL
 			return std::nextafter(x, std::numeric_limits<double>::min());
@@ -233,9 +244,10 @@ namespace glm
 			return nextafter(x, DBL_MIN);
 #		endif
 	}
+#endif // __METAL_VERSION__
 
 	template<typename T, precision P, template<typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> prev_float(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> prev_float(__thread__ vecType<T, P> const & x)
 	{
 		vecType<T, P> Result(uninitialize);
 		for(length_t i = 0, n = Result.length(); i < n; ++i)
@@ -244,7 +256,7 @@ namespace glm
 	}
 
 	template <typename T>
-	GLM_FUNC_QUALIFIER T next_float(T const & x, uint const & ulps)
+	GLM_FUNC_QUALIFIER T next_float(__thread__ T const & x, __thread__ uint const & ulps)
 	{
 		T temp = x;
 		for(uint i = 0; i < ulps; ++i)
@@ -253,7 +265,7 @@ namespace glm
 	}
 
 	template<typename T, precision P, template<typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> next_float(vecType<T, P> const & x, vecType<uint, P> const & ulps)
+	GLM_FUNC_QUALIFIER vecType<T, P> next_float(__thread__ vecType<T, P> const & x, __thread__ vecType<uint, P> const & ulps)
 	{
 		vecType<T, P> Result(uninitialize);
 		for(length_t i = 0, n = Result.length(); i < n; ++i)
@@ -262,7 +274,7 @@ namespace glm
 	}
 
 	template <typename T>
-	GLM_FUNC_QUALIFIER T prev_float(T const & x, uint const & ulps)
+	GLM_FUNC_QUALIFIER T prev_float(__thread__ T const & x, __thread__ uint const & ulps)
 	{
 		T temp = x;
 		for(uint i = 0; i < ulps; ++i)
@@ -271,7 +283,7 @@ namespace glm
 	}
 
 	template<typename T, precision P, template<typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> prev_float(vecType<T, P> const & x, vecType<uint, P> const & ulps)
+	GLM_FUNC_QUALIFIER vecType<T, P> prev_float(__thread__ vecType<T, P> const & x, __thread__ vecType<uint, P> const & ulps)
 	{
 		vecType<T, P> Result(uninitialize);
 		for(length_t i = 0, n = Result.length(); i < n; ++i)
@@ -280,7 +292,7 @@ namespace glm
 	}
 
 	template <typename T>
-	GLM_FUNC_QUALIFIER uint float_distance(T const & x, T const & y)
+	GLM_FUNC_QUALIFIER uint float_distance(__thread__ T const & x, __thread__ T const & y)
 	{
 		uint ulp = 0;
 
@@ -311,7 +323,7 @@ namespace glm
 	}
 
 	template<typename T, precision P, template<typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<uint, P> float_distance(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<uint, P> float_distance(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		vecType<uint, P> Result(uninitialize);
 		for(length_t i = 0, n = Result.length(); i < n; ++i)

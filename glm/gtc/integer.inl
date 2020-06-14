@@ -7,7 +7,7 @@ namespace detail
 	template <typename T, precision P, template <typename, precision> class vecType, bool Aligned>
 	struct compute_log2<T, P, vecType, false, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & vec)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & vec)
 		{
 			//Equivalent to return findMSB(vec); but save one function call in ASM with VC
 			//return findMSB(vec);
@@ -43,7 +43,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<int, P> iround(vecType<T, P> const& x)
+	GLM_FUNC_QUALIFIER vecType<int, P> iround(__thread__ vecType<T, P> const& x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'iround' only accept floating-point inputs");
 		assert(all(lessThanEqual(vecType<T, P>(0), x)));
@@ -61,7 +61,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<uint, P> uround(vecType<T, P> const& x)
+	GLM_FUNC_QUALIFIER vecType<uint, P> uround(__thread__ vecType<T, P> const& x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'uround' only accept floating-point inputs");
 		assert(all(lessThanEqual(vecType<T, P>(0), x)));

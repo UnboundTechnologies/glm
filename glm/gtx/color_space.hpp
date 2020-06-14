@@ -28,13 +28,13 @@ namespace glm
 	/// @see gtx_color_space
 	template <typename T, precision P>
 	GLM_FUNC_DECL tvec3<T, P> rgbColor(
-		tvec3<T, P> const & hsvValue);
+		__thread__ tvec3<T, P> const & hsvValue);
 
 	/// Converts a color from RGB color space to its color in HSV color space.
 	/// @see gtx_color_space
 	template <typename T, precision P>
 	GLM_FUNC_DECL tvec3<T, P> hsvColor(
-		tvec3<T, P> const & rgbValue);
+		__thread__ tvec3<T, P> const & rgbValue);
 		
 	/// Build a saturation matrix.
 	/// @see gtx_color_space
@@ -47,20 +47,20 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_DECL tvec3<T, P> saturation(
 		T const s,
-		tvec3<T, P> const & color);
+		__thread__ tvec3<T, P> const & color);
 		
 	/// Modify the saturation of a color.
 	/// @see gtx_color_space
 	template <typename T, precision P>
 	GLM_FUNC_DECL tvec4<T, P> saturation(
 		T const s,
-		tvec4<T, P> const & color);
+		__thread__ tvec4<T, P> const & color);
 		
 	/// Compute color luminosity associating ratios (0.33, 0.59, 0.11) to RGB canals.
 	/// @see gtx_color_space
 	template <typename T, precision P>
 	GLM_FUNC_DECL T luminosity(
-		tvec3<T, P> const & color);
+		__thread__ tvec3<T, P> const & color);
 
 	/// @}
 }//namespace glm

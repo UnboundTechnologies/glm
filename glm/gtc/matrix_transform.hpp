@@ -52,12 +52,12 @@ namespace glm
 	/// // m[3][0] == 1.0f, m[3][1] == 1.0f, m[3][2] == 1.0f, m[3][3] == 1.0f
 	/// @endcode
 	/// @see gtc_matrix_transform
-	/// @see - translate(tmat4x4<T, P> const & m, T x, T y, T z)
-	/// @see - translate(tvec3<T, P> const & v)
+	/// @see - translate(__thread__ tmat4x4<T, P> const & m, T x, T y, T z)
+	/// @see - translate(__thread__ tvec3<T, P> const & v)
 	template <typename T, precision P>
 	GLM_FUNC_DECL tmat4x4<T, P> translate(
-		tmat4x4<T, P> const & m,
-		tvec3<T, P> const & v);
+		__thread__ tmat4x4<T, P> const & m,
+		__thread__ tvec3<T, P> const & v);
 		
 	/// Builds a rotation 4 * 4 matrix created from an axis vector and an angle. 
 	/// 
@@ -66,13 +66,13 @@ namespace glm
 	/// @param axis Rotation axis, recommended to be normalized.
 	/// @tparam T Value type used to build the matrix. Supported: half, float or double.
 	/// @see gtc_matrix_transform
-	/// @see - rotate(tmat4x4<T, P> const & m, T angle, T x, T y, T z) 
-	/// @see - rotate(T angle, tvec3<T, P> const & v) 
+	/// @see - rotate(__thread__ tmat4x4<T, P> const & m, T angle, T x, T y, T z) 
+	/// @see - rotate(T angle, __thread__ tvec3<T, P> const & v) 
 	template <typename T, precision P>
 	GLM_FUNC_DECL tmat4x4<T, P> rotate(
-		tmat4x4<T, P> const & m,
+		__thread__ tmat4x4<T, P> const & m,
 		T angle,
-		tvec3<T, P> const & axis);
+		__thread__ tvec3<T, P> const & axis);
 
 	/// Builds a scale 4 * 4 matrix created from 3 scalars. 
 	/// 
@@ -80,12 +80,12 @@ namespace glm
 	/// @param v Ratio of scaling for each axis.
 	/// @tparam T Value type used to build the matrix. Currently supported: half (not recommanded), float or double.
 	/// @see gtc_matrix_transform
-	/// @see - scale(tmat4x4<T, P> const & m, T x, T y, T z)
-	/// @see - scale(tvec3<T, P> const & v)
+	/// @see - scale(__thread__ tmat4x4<T, P> const & m, T x, T y, T z)
+	/// @see - scale(__thread__ tvec3<T, P> const & v)
 	template <typename T, precision P>
 	GLM_FUNC_DECL tmat4x4<T, P> scale(
-		tmat4x4<T, P> const & m,
-		tvec3<T, P> const & v);
+		__thread__ tmat4x4<T, P> const & m,
+		__thread__ tvec3<T, P> const & v);
 
 	/// Creates a matrix for an orthographic parallel viewing volume, using the default handedness.
 	///
@@ -97,7 +97,7 @@ namespace glm
 	/// @param zFar
 	/// @tparam T Value type used to build the matrix. Currently supported: half (not recommanded), float or double.
 	/// @see gtc_matrix_transform
-	/// @see - glm::ortho(T const & left, T const & right, T const & bottom, T const & top)
+	/// @see - glm::ortho(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top)
 	template <typename T>
 	GLM_FUNC_DECL tmat4x4<T, defaultp> ortho(
 		T left,
@@ -117,7 +117,7 @@ namespace glm
 	/// @param zFar
 	/// @tparam T Value type used to build the matrix. Currently supported: half (not recommanded), float or double.
 	/// @see gtc_matrix_transform
-	/// @see - glm::ortho(T const & left, T const & right, T const & bottom, T const & top)
+	/// @see - glm::ortho(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top)
 	template <typename T>
 	GLM_FUNC_DECL tmat4x4<T, defaultp> orthoLH(
 		T left,
@@ -137,7 +137,7 @@ namespace glm
 	/// @param zFar
 	/// @tparam T Value type used to build the matrix. Currently supported: half (not recommanded), float or double.
 	/// @see gtc_matrix_transform
-	/// @see - glm::ortho(T const & left, T const & right, T const & bottom, T const & top)
+	/// @see - glm::ortho(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top)
 	template <typename T>
 	GLM_FUNC_DECL tmat4x4<T, defaultp> orthoRH(
 		T left,
@@ -155,7 +155,7 @@ namespace glm
 	/// @param top
 	/// @tparam T Value type used to build the matrix. Currently supported: half (not recommanded), float or double.
 	/// @see gtc_matrix_transform
-	/// @see - glm::ortho(T const & left, T const & right, T const & bottom, T const & top, T const & zNear, T const & zFar)
+	/// @see - glm::ortho(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top, __thread__ T const & zNear, __thread__ T const & zFar)
 	template <typename T>
 	GLM_FUNC_DECL tmat4x4<T, defaultp> ortho(
 		T left,
@@ -384,10 +384,10 @@ namespace glm
 	/// @see gtc_matrix_transform
 	template <typename T, typename U, precision P>
 	GLM_FUNC_DECL tvec3<T, P> project(
-		tvec3<T, P> const & obj,
-		tmat4x4<T, P> const & model,
-		tmat4x4<T, P> const & proj,
-		tvec4<U, P> const & viewport);
+		__thread__ tvec3<T, P> const & obj,
+		__thread__ tmat4x4<T, P> const & model,
+		__thread__ tmat4x4<T, P> const & proj,
+		__thread__ tvec4<U, P> const & viewport);
 
 	/// Map the specified window coordinates (win.x, win.y, win.z) into object coordinates.
 	///
@@ -401,10 +401,10 @@ namespace glm
 	/// @see gtc_matrix_transform
 	template <typename T, typename U, precision P>
 	GLM_FUNC_DECL tvec3<T, P> unProject(
-		tvec3<T, P> const & win,
-		tmat4x4<T, P> const & model,
-		tmat4x4<T, P> const & proj,
-		tvec4<U, P> const & viewport);
+		__thread__ tvec3<T, P> const & win,
+		__thread__ tmat4x4<T, P> const & model,
+		__thread__ tmat4x4<T, P> const & proj,
+		__thread__ tvec4<U, P> const & viewport);
 
 	/// Define a picking region
 	///
@@ -416,9 +416,9 @@ namespace glm
 	/// @see gtc_matrix_transform
 	template <typename T, precision P, typename U>
 	GLM_FUNC_DECL tmat4x4<T, P> pickMatrix(
-		tvec2<T, P> const & center,
-		tvec2<T, P> const & delta,
-		tvec4<U, P> const & viewport);
+		__thread__ tvec2<T, P> const & center,
+		__thread__ tvec2<T, P> const & delta,
+		__thread__ tvec4<U, P> const & viewport);
 
 	/// Build a look at view matrix based on the default handedness.
 	///
@@ -426,12 +426,12 @@ namespace glm
 	/// @param center Position where the camera is looking at
 	/// @param up Normalized up vector, how the camera is oriented. Typically (0, 0, 1)
 	/// @see gtc_matrix_transform
-	/// @see - frustum(T const & left, T const & right, T const & bottom, T const & top, T const & nearVal, T const & farVal) frustum(T const & left, T const & right, T const & bottom, T const & top, T const & nearVal, T const & farVal)
+	/// @see - frustum(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top, __thread__ T const & nearVal, __thread__ T const & farVal) frustum(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top, __thread__ T const & nearVal, __thread__ T const & farVal)
 	template <typename T, precision P>
 	GLM_FUNC_DECL tmat4x4<T, P> lookAt(
-		tvec3<T, P> const & eye,
-		tvec3<T, P> const & center,
-		tvec3<T, P> const & up);
+		__thread__ tvec3<T, P> const & eye,
+		__thread__ tvec3<T, P> const & center,
+		__thread__ tvec3<T, P> const & up);
 
 	/// Build a right handed look at view matrix.
 	///
@@ -439,12 +439,12 @@ namespace glm
 	/// @param center Position where the camera is looking at
 	/// @param up Normalized up vector, how the camera is oriented. Typically (0, 0, 1)
 	/// @see gtc_matrix_transform
-	/// @see - frustum(T const & left, T const & right, T const & bottom, T const & top, T const & nearVal, T const & farVal) frustum(T const & left, T const & right, T const & bottom, T const & top, T const & nearVal, T const & farVal)
+	/// @see - frustum(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top, __thread__ T const & nearVal, __thread__ T const & farVal) frustum(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top, __thread__ T const & nearVal, __thread__ T const & farVal)
 	template <typename T, precision P>
 	GLM_FUNC_DECL tmat4x4<T, P> lookAtRH(
-		tvec3<T, P> const & eye,
-		tvec3<T, P> const & center,
-		tvec3<T, P> const & up);
+		__thread__ tvec3<T, P> const & eye,
+		__thread__ tvec3<T, P> const & center,
+		__thread__ tvec3<T, P> const & up);
 
 	/// Build a left handed look at view matrix.
 	///
@@ -452,12 +452,12 @@ namespace glm
 	/// @param center Position where the camera is looking at
 	/// @param up Normalized up vector, how the camera is oriented. Typically (0, 0, 1)
 	/// @see gtc_matrix_transform
-	/// @see - frustum(T const & left, T const & right, T const & bottom, T const & top, T const & nearVal, T const & farVal) frustum(T const & left, T const & right, T const & bottom, T const & top, T const & nearVal, T const & farVal)
+	/// @see - frustum(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top, __thread__ T const & nearVal, __thread__ T const & farVal) frustum(__thread__ T const & left, __thread__ T const & right, __thread__ T const & bottom, __thread__ T const & top, __thread__ T const & nearVal, __thread__ T const & farVal)
 	template <typename T, precision P>
 	GLM_FUNC_DECL tmat4x4<T, P> lookAtLH(
-		tvec3<T, P> const & eye,
-		tvec3<T, P> const & center,
-		tvec3<T, P> const & up);
+		__thread__ tvec3<T, P> const & eye,
+		__thread__ tvec3<T, P> const & center,
+		__thread__ tvec3<T, P> const & up);
 
 	/// @}
 }//namespace glm

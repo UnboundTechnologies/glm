@@ -65,7 +65,7 @@ namespace detail
 			return *this;
 		}
 
-		GLM_FUNC_QUALIFIER _swizzle_base2& operator= (vecType<T, P> const& that)
+		GLM_FUNC_QUALIFIER _swizzle_base2& operator= (__thread__ vecType<T, P> const& that)
 		{
 			struct op { 
 				GLM_FUNC_QUALIFIER void operator() (T& e, T& t) { e = t; } 
@@ -74,7 +74,7 @@ namespace detail
 			return *this;
 		}
 
-		GLM_FUNC_QUALIFIER void operator -= (vecType<T, P> const& that)
+		GLM_FUNC_QUALIFIER void operator -= (__thread__ vecType<T, P> const& that)
 		{
 			struct op { 
 				GLM_FUNC_QUALIFIER void operator() (T& e, T& t) { e -= t; } 
@@ -82,7 +82,7 @@ namespace detail
 			_apply_op(that, op());
 		}
 
-		GLM_FUNC_QUALIFIER void operator += (vecType<T, P> const& that)
+		GLM_FUNC_QUALIFIER void operator += (__thread__ vecType<T, P> const& that)
 		{
 			struct op { 
 				GLM_FUNC_QUALIFIER void operator() (T& e, T& t) { e += t; } 
@@ -90,7 +90,7 @@ namespace detail
 			_apply_op(that, op());
 		}
 
-		GLM_FUNC_QUALIFIER void operator *= (vecType<T, P> const& that)
+		GLM_FUNC_QUALIFIER void operator *= (__thread__ vecType<T, P> const& that)
 		{
 			struct op { 
 				GLM_FUNC_QUALIFIER void operator() (T& e, T& t) { e *= t; } 
@@ -98,7 +98,7 @@ namespace detail
 			_apply_op(that, op());
 		}
 
-		GLM_FUNC_QUALIFIER void operator /= (vecType<T, P> const& that)
+		GLM_FUNC_QUALIFIER void operator /= (__thread__ vecType<T, P> const& that)
 		{
 			struct op { 
 				GLM_FUNC_QUALIFIER void operator() (T& e, T& t) { e /= t; } 
@@ -119,7 +119,7 @@ namespace detail
 
 	protected:
 		template <typename U>
-		GLM_FUNC_QUALIFIER void _apply_op(vecType<T, P> const& that, U op)
+		GLM_FUNC_QUALIFIER void _apply_op(__thread__ vecType<T, P> const& that, U op)
 		{
 			// Make a copy of the data in this == &that.
 			// The copier should optimize out the copy in cases where the function is

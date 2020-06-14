@@ -1,19 +1,22 @@
 /// @ref gtx_quaternion
 /// @file glm/gtx/quaternion.inl
 
-#include <limits>
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
+
 #include "../gtc/constants.hpp"
 
 namespace glm
 {
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> cross(tvec3<T, P> const& v, tquat<T, P> const& q)
+	GLM_FUNC_QUALIFIER tvec3<T, P> cross(__thread__ tvec3<T, P> const& v, __thread__ tquat<T, P> const& q)
 	{
 		return inverse(q) * v;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> cross(tquat<T, P> const& q, tvec3<T, P> const& v)
+	GLM_FUNC_QUALIFIER tvec3<T, P> cross(__thread__ tquat<T, P> const& q, __thread__ tvec3<T, P> const& v)
 	{
 		return q * v;
 	}
@@ -21,11 +24,11 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tquat<T, P> squad
 	(
-		tquat<T, P> const & q1,
-		tquat<T, P> const & q2,
-		tquat<T, P> const & s1,
-		tquat<T, P> const & s2,
-		T const & h)
+	    __thread__ tquat<T, P> const & q1,
+	    __thread__ tquat<T, P> const & q2,
+	    __thread__ tquat<T, P> const & s1,
+	    __thread__ tquat<T, P> const & s2,
+		__thread__ T const & h)
 	{
 		return mix(mix(q1, q2, h), mix(s1, s2, h), static_cast<T>(2) * (static_cast<T>(1) - h) * h);
 	}
@@ -33,9 +36,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tquat<T, P> intermediate
 	(
-		tquat<T, P> const & prev,
-		tquat<T, P> const & curr,
-		tquat<T, P> const & next
+	    __thread__ tquat<T, P> const & prev,
+	    __thread__ tquat<T, P> const & curr,
+	    __thread__ tquat<T, P> const & next
 	)
 	{
 		tquat<T, P> invQuat = inverse(curr);
@@ -43,7 +46,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> exp(tquat<T, P> const& q)
+	GLM_FUNC_QUALIFIER tquat<T, P> exp(__thread__ tquat<T, P> const& q)
 	{
 		tvec3<T, P> u(q.x, q.y, q.z);
 		T const Angle = glm::length(u);
@@ -55,7 +58,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> log(tquat<T, P> const& q)
+	GLM_FUNC_QUALIFIER tquat<T, P> log(__thread__ tquat<T, P> const& q)
 	{
 		tvec3<T, P> u(q.x, q.y, q.z);
 		T Vec3Len = length(u);
@@ -78,7 +81,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> pow(tquat<T, P> const & x, T const & y)
+	GLM_FUNC_QUALIFIER tquat<T, P> pow(__thread__ tquat<T, P> const & x, __thread__ T const & y)
 	{
 		//Raising to the power of 0 should yield 1
 		//Needed to prevent a division by 0 error later on
@@ -102,19 +105,19 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> rotate(tquat<T, P> const& q, tvec3<T, P> const& v)
+	GLM_FUNC_QUALIFIER tvec3<T, P> rotate(__thread__ tquat<T, P> const& q, __thread__ tvec3<T, P> const& v)
 	{
 		return q * v;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<T, P> rotate(tquat<T, P> const& q, tvec4<T, P> const& v)
+	GLM_FUNC_QUALIFIER tvec4<T, P> rotate(__thread__ tquat<T, P> const& q, __thread__ tvec4<T, P> const& v)
 	{
 		return q * v;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T extractRealComponent(tquat<T, P> const& q)
+	GLM_FUNC_QUALIFIER T extractRealComponent(__thread__ tquat<T, P> const& q)
 	{
 		T w = static_cast<T>(1) - q.x * q.x - q.y * q.y - q.z * q.z;
 		if(w < T(0))
@@ -124,13 +127,13 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T length2(tquat<T, P> const& q)
+	GLM_FUNC_QUALIFIER T length2(__thread__ tquat<T, P> const& q)
 	{
 		return q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> shortMix(tquat<T, P> const& x, tquat<T, P> const& y, T const& a)
+	GLM_FUNC_QUALIFIER tquat<T, P> shortMix(__thread__ tquat<T, P> const& x, __thread__ tquat<T, P> const& y, __thread__ T const& a)
 	{
 		if(a <= static_cast<T>(0)) return x;
 		if(a >= static_cast<T>(1)) return y;
@@ -167,13 +170,13 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> fastMix(tquat<T, P> const& x, tquat<T, P> const& y, T const & a)
+	GLM_FUNC_QUALIFIER tquat<T, P> fastMix(__thread__ tquat<T, P> const& x, __thread__ tquat<T, P> const& y, __thread__ T const & a)
 	{
 		return glm::normalize(x * (static_cast<T>(1) - a) + (y * a));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> rotation(tvec3<T, P> const& orig, tvec3<T, P> const& dest)
+	GLM_FUNC_QUALIFIER tquat<T, P> rotation(__thread__ tvec3<T, P> const& orig, __thread__ tvec3<T, P> const& dest)
 	{
 		T cosTheta = dot(orig, dest);
 		tvec3<T, P> rotationAxis;

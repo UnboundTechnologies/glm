@@ -152,7 +152,7 @@ namespace bitfieldReverse
 	}
 */
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldReverseLoop(vecType<T, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldReverseLoop(__thread__ vecType<T, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'bitfieldReverse' only accept integer values");
 
@@ -198,7 +198,7 @@ namespace bitfieldReverse
 	struct compute_bitfieldReverseStep
 	{
 		template <typename T, glm::precision P, template <class, glm::precision> class vecType>
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T, T)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T, T)
 		{
 			return v;
 		}
@@ -208,14 +208,14 @@ namespace bitfieldReverse
 	struct compute_bitfieldReverseStep<true>
 	{
 		template <typename T, glm::precision P, template <class, glm::precision> class vecType>
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T Mask, T Shift)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T Mask, T Shift)
 		{
 			return (v & Mask) << Shift | (v & (~Mask)) >> Shift;
 		}
 	};
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldReverseOps(vecType<T, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldReverseOps(__thread__ vecType<T, P> const & v)
 	{
 		vecType<T, P> x(v);
 		x = compute_bitfieldReverseStep<sizeof(T) * 8 >=  2>::call(x, T(0x5555555555555555ull), static_cast<T>( 1));
@@ -1408,7 +1408,7 @@ namespace bitCount
 	struct compute_bitfieldBitCountStep
 	{
 		template <typename T, glm::precision P, template <class, glm::precision> class vecType>
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T, T)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T, T)
 		{
 			return v;
 		}
@@ -1418,14 +1418,14 @@ namespace bitCount
 	struct compute_bitfieldBitCountStep<true>
 	{
 		template <typename T, glm::precision P, template <class, glm::precision> class vecType>
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T Mask, T Shift)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T Mask, T Shift)
 		{
 			return (v & Mask) + ((v >> Shift) & Mask);
 		}
 	};
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<int, P> bitCount_bitfield(vecType<T, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<int, P> bitCount_bitfield(__thread__ vecType<T, P> const & v)
 	{
 		vecType<typename glm::detail::make_unsigned<T>::type, P> x(*reinterpret_cast<vecType<typename glm::detail::make_unsigned<T>::type, P> const *>(&v));
 		x = compute_bitfieldBitCountStep<sizeof(T) * 8 >=  2>::call(x, typename glm::detail::make_unsigned<T>::type(0x5555555555555555ull), typename glm::detail::make_unsigned<T>::type( 1));

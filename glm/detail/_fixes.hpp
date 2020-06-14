@@ -1,7 +1,9 @@
 /// @ref core
 /// @file glm/detail/_fixes.hpp
 
-#include <cmath>
+#if !__METAL_VERSION__
+#   include <cmath>
+#endif // __METAL_VERSION__
 
 //! Workaround for compatibility with other libraries
 #ifdef max

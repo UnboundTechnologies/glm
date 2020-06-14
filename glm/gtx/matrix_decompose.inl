@@ -8,15 +8,15 @@ namespace detail
 	// result = (a * ascl) + (b * bscl)
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> combine(
-		tvec3<T, P> const & a, 
-		tvec3<T, P> const & b,
+		__thread__ tvec3<T, P> const & a, 
+		__thread__ tvec3<T, P> const & b,
 		T ascl, T bscl)
 	{
 		return (a * ascl) + (b * bscl);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> scale(tvec3<T, P> const& v, T desiredLength)
+	GLM_FUNC_QUALIFIER tvec3<T, P> scale(__thread__ tvec3<T, P> const& v, T desiredLength)
 	{
 		return v * desiredLength / length(v);
 	}
@@ -27,7 +27,7 @@ namespace detail
 	// Decomposes the mode matrix to translations,rotation scale components
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER bool decompose(tmat4x4<T, P> const & ModelMatrix, tvec3<T, P> & Scale, tquat<T, P> & Orientation, tvec3<T, P> & Translation, tvec3<T, P> & Skew, tvec4<T, P> & Perspective)
+	GLM_FUNC_QUALIFIER bool decompose(__thread__ tmat4x4<T, P> const & ModelMatrix, tvec3<T, P> & Scale, tquat<T, P> & Orientation, tvec3<T, P> & Translation, tvec3<T, P> & Skew, tvec4<T, P> & Perspective)
 	{
 		tmat4x4<T, P> LocalMatrix(ModelMatrix);
 

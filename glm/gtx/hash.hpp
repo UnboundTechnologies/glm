@@ -55,7 +55,7 @@ namespace std
 	template <typename T, glm::precision P>
 	struct hash<glm::tvec3<T,P> >
 	{
-		GLM_FUNC_DECL size_t operator()(glm::tvec3<T, P> const & v) const;
+		GLM_FUNC_DECL size_t operator()(glm::__thread__ tvec3<T, P> const & v) const;
 	};
 
 	template <typename T, glm::precision P>

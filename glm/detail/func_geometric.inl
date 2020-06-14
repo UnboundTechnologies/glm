@@ -13,7 +13,7 @@ namespace detail
 	template <template <typename, precision> class vecType, typename T, precision P, bool Aligned>
 	struct compute_length
 	{
-		GLM_FUNC_QUALIFIER static T call(vecType<T, P> const & v)
+		GLM_FUNC_QUALIFIER static T call(__thread__ vecType<T, P> const & v)
 		{
 			return sqrt(dot(v, v));
 		}
@@ -22,7 +22,7 @@ namespace detail
 	template <template <typename, precision> class vecType, typename T, precision P, bool Aligned>
 	struct compute_distance
 	{
-		GLM_FUNC_QUALIFIER static T call(vecType<T, P> const & p0, vecType<T, P> const & p1)
+		GLM_FUNC_QUALIFIER static T call(__thread__ vecType<T, P> const & p0, __thread__ vecType<T, P> const & p1)
 		{
 			return length(p1 - p0);
 		}
@@ -34,7 +34,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_dot<tvec1, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static T call(tvec1<T, P> const & a, tvec1<T, P> const & b)
+		GLM_FUNC_QUALIFIER static T call(__thread__ tvec1<T, P> const & a, __thread__ tvec1<T, P> const & b)
 		{
 			return a.x * b.x;
 		}
@@ -43,7 +43,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_dot<tvec2, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static T call(tvec2<T, P> const & x, tvec2<T, P> const & y)
+		GLM_FUNC_QUALIFIER static T call(__thread__ tvec2<T, P> const & x, __thread__ tvec2<T, P> const & y)
 		{
 			tvec2<T, P> tmp(x * y);
 			return tmp.x + tmp.y;
@@ -53,7 +53,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_dot<tvec3, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static T call(tvec3<T, P> const & x, tvec3<T, P> const & y)
+		GLM_FUNC_QUALIFIER static T call(__thread__ tvec3<T, P> const & x, __thread__ tvec3<T, P> const & y)
 		{
 			tvec3<T, P> tmp(x * y);
 			return tmp.x + tmp.y + tmp.z;
@@ -63,7 +63,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_dot<tvec4, T, P, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static T call(tvec4<T, P> const & x, tvec4<T, P> const & y)
+		GLM_FUNC_QUALIFIER static T call(__thread__ tvec4<T, P> const & x, __thread__ tvec4<T, P> const & y)
 		{
 			tvec4<T, P> tmp(x * y);
 			return (tmp.x + tmp.y) + (tmp.z + tmp.w);
@@ -73,7 +73,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_cross
 	{
-		GLM_FUNC_QUALIFIER static tvec3<T, P> call(tvec3<T, P> const & x, tvec3<T, P> const & y)
+		GLM_FUNC_QUALIFIER static tvec3<T, P> call(__thread__ tvec3<T, P> const & x, __thread__ tvec3<T, P> const & y)
 		{
 			GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'cross' accepts only floating-point inputs");
 
@@ -87,7 +87,7 @@ namespace detail
 	template <typename T, precision P, template <typename, precision> class vecType, bool Aligned>
 	struct compute_normalize
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v)
 		{
 			GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'normalize' accepts only floating-point inputs");
 
@@ -98,7 +98,7 @@ namespace detail
 	template <typename T, precision P, template <typename, precision> class vecType, bool Aligned>
 	struct compute_faceforward
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & N, vecType<T, P> const & I, vecType<T, P> const & Nref)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & N, __thread__ vecType<T, P> const & I, __thread__ vecType<T, P> const & Nref)
 		{
 			GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'normalize' accepts only floating-point inputs");
 
@@ -109,7 +109,7 @@ namespace detail
 	template <typename T, precision P, template <typename, precision> class vecType, bool Aligned>
 	struct compute_reflect
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & I, vecType<T, P> const & N)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & I, __thread__ vecType<T, P> const & N)
 		{
 			return I - N * dot(N, I) * static_cast<T>(2);
 		}
@@ -118,7 +118,7 @@ namespace detail
 	template <typename T, precision P, template <typename, precision> class vecType, bool Aligned>
 	struct compute_refract
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & I, vecType<T, P> const & N, T eta)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & I, __thread__ vecType<T, P> const & N, T eta)
 		{
 			T const dotValue(dot(N, I));
 			T const k(static_cast<T>(1) - eta * eta * (static_cast<T>(1) - dotValue * dotValue));
@@ -137,7 +137,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER T length(vecType<T, P> const & v)
+	GLM_FUNC_QUALIFIER T length(__thread__ vecType<T, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'length' accepts only floating-point inputs");
 
@@ -146,7 +146,7 @@ namespace detail
 
 	// distance
 	template <typename genType>
-	GLM_FUNC_QUALIFIER genType distance(genType const & p0, genType const & p1)
+	GLM_FUNC_QUALIFIER genType distance(__thread__ genType const & p0, __thread__ genType const & p1)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<genType>::is_iec559, "'distance' accepts only floating-point inputs");
 
@@ -154,7 +154,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER T distance(vecType<T, P> const & p0, vecType<T, P> const & p1)
+	GLM_FUNC_QUALIFIER T distance(__thread__ vecType<T, P> const & p0, __thread__ vecType<T, P> const & p1)
 	{
 		return detail::compute_distance<vecType, T, P, detail::is_aligned<P>::value>::call(p0, p1);
 	}
@@ -168,7 +168,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER T dot(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER T dot(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'dot' accepts only floating-point inputs");
 		return detail::compute_dot<vecType, T, P, detail::is_aligned<P>::value>::call(x, y);
@@ -176,14 +176,14 @@ namespace detail
 
 	// cross
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> cross(tvec3<T, P> const & x, tvec3<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec3<T, P> cross(__thread__ tvec3<T, P> const & x, __thread__ tvec3<T, P> const & y)
 	{
 		return detail::compute_cross<T, P, detail::is_aligned<P>::value>::call(x, y);
 	}
 
 	// normalize
 	template <typename genType>
-	GLM_FUNC_QUALIFIER genType normalize(genType const & x)
+	GLM_FUNC_QUALIFIER genType normalize(__thread__ genType const & x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<genType>::is_iec559, "'normalize' accepts only floating-point inputs");
 
@@ -191,7 +191,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> normalize(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> normalize(__thread__ vecType<T, P> const & x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'normalize' accepts only floating-point inputs");
 
@@ -200,33 +200,33 @@ namespace detail
 
 	// faceforward
 	template <typename genType>
-	GLM_FUNC_QUALIFIER genType faceforward(genType const & N, genType const & I, genType const & Nref)
+	GLM_FUNC_QUALIFIER genType faceforward(__thread__ genType const & N, __thread__ genType const & I, __thread__ genType const & Nref)
 	{
 		return dot(Nref, I) < static_cast<genType>(0) ? N : -N;
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> faceforward(vecType<T, P> const & N, vecType<T, P> const & I, vecType<T, P> const & Nref)
+	GLM_FUNC_QUALIFIER vecType<T, P> faceforward(__thread__ vecType<T, P> const & N, __thread__ vecType<T, P> const & I, __thread__ vecType<T, P> const & Nref)
 	{
 		return detail::compute_faceforward<T, P, vecType, detail::is_aligned<P>::value>::call(N, I, Nref);
 	}
 
 	// reflect
 	template <typename genType>
-	GLM_FUNC_QUALIFIER genType reflect(genType const & I, genType const & N)
+	GLM_FUNC_QUALIFIER genType reflect(__thread__ genType const & I, __thread__ genType const & N)
 	{
 		return I - N * dot(N, I) * genType(2);
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> reflect(vecType<T, P> const & I, vecType<T, P> const & N)
+	GLM_FUNC_QUALIFIER vecType<T, P> reflect(__thread__ vecType<T, P> const & I, __thread__ vecType<T, P> const & N)
 	{
 		return detail::compute_reflect<T, P, vecType, detail::is_aligned<P>::value>::call(I, N);
 	}
 
 	// refract
 	template <typename genType>
-	GLM_FUNC_QUALIFIER genType refract(genType const & I, genType const & N, genType eta)
+	GLM_FUNC_QUALIFIER genType refract(__thread__ genType const & I, __thread__ genType const & N, genType eta)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<genType>::is_iec559, "'refract' accepts only floating-point inputs");
 		genType const dotValue(dot(N, I));
@@ -235,7 +235,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> refract(vecType<T, P> const & I, vecType<T, P> const & N, T eta)
+	GLM_FUNC_QUALIFIER vecType<T, P> refract(__thread__ vecType<T, P> const & I, __thread__ vecType<T, P> const & N, T eta)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'refract' accepts only floating-point inputs");
 		return detail::compute_refract<T, P, vecType, detail::is_aligned<P>::value>::call(I, N, eta);

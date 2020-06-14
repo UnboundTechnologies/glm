@@ -11,7 +11,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastPow(vecType<T, P> const & x, vecType<T, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastPow(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y)
 	{
 		return exp(y * log(x));
 	}
@@ -26,7 +26,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastPow(vecType<T, P> const & x, vecType<int, P> const & y)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastPow(__thread__ vecType<T, P> const & x, __thread__ vecType<int, P> const & y)
 	{
 		vecType<T, P> Result(uninitialize);
 		for(length_t i = 0, n = x.length(); i < n; ++i)
@@ -82,7 +82,7 @@ namespace glm
 	*/
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastExp(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastExp(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastExp, x);
 	}
@@ -104,7 +104,7 @@ namespace glm
 	*/
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastLog(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastLog(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastLog, x);
 	}
@@ -117,7 +117,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastExp2(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastExp2(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastExp2, x);
 	}
@@ -130,7 +130,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastLog2(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastLog2(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastLog2, x);
 	}

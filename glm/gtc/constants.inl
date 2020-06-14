@@ -1,7 +1,9 @@
 /// @ref gtc_constants
 /// @file glm/gtc/constants.inl
 
-#include <limits>
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 namespace glm
 {

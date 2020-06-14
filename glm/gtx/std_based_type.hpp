@@ -14,7 +14,10 @@
 
 // Dependency:
 #include "../glm.hpp"
-#include <cstdlib>
+
+#if !__METAL_VERSION__
+#   include <cstdlib>
+#endif // __METAL_VERSION__
 
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_EXT_INCLUDED)
 #	pragma message("GLM: GLM_GTX_std_based_type extension included")

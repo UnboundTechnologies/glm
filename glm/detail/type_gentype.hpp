@@ -106,7 +106,7 @@ namespace detail
 		base();
 		base(class_type const & m);
 
-		explicit base(T const & x);
+		explicit base(__thread__ T const & x);
 		explicit base(value_type const * const x);
 		explicit base(col_type const * const x);
 
@@ -118,18 +118,18 @@ namespace detail
 		//////////////////////////////////////
 		// Accesses
 		col_type& operator[](size_type i);
-		col_type const & operator[](size_type i) const;
+		__thread__ col_type const & operator[](size_type i) const;
 
 		//////////////////////////////////////
 		// Unary updatable operators
 		class_type& operator=  (class_type const & x);
-		class_type& operator+= (T const & x);
+		class_type& operator+= (__thread__ T const & x);
 		class_type& operator+= (class_type const & x);
-		class_type& operator-= (T const & x);
+		class_type& operator-= (__thread__ T const & x);
 		class_type& operator-= (class_type const & x);
-		class_type& operator*= (T const & x);
+		class_type& operator*= (__thread__ T const & x);
 		class_type& operator*= (class_type const & x);
-		class_type& operator/= (T const & x);
+		class_type& operator/= (__thread__ T const & x);
 		class_type& operator/= (class_type const & x);
 		class_type& operator++ ();
 		class_type& operator-- ();

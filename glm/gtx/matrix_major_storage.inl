@@ -6,8 +6,8 @@ namespace glm
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat2x2<T, P> rowMajor2
 	(
-		tvec2<T, P> const & v1, 
-		tvec2<T, P> const & v2
+	    __thread__ tvec2<T, P> const & v1, 
+	    __thread__ tvec2<T, P> const & v2
 	)
 	{
 		tmat2x2<T, P> Result;
@@ -20,7 +20,7 @@ namespace glm
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat2x2<T, P> rowMajor2(
-		const tmat2x2<T, P>& m)
+	    __thread__ const tmat2x2<T, P>& m)
 	{
 		tmat2x2<T, P> Result;
 		Result[0][0] = m[0][0];
@@ -32,9 +32,9 @@ namespace glm
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat3x3<T, P> rowMajor3(
-		const tvec3<T, P>& v1, 
-		const tvec3<T, P>& v2, 
-		const tvec3<T, P>& v3)
+	    __thread__ const tvec3<T, P>& v1, 
+	    __thread__ const tvec3<T, P>& v2, 
+	    __thread__ const tvec3<T, P>& v3)
 	{
 		tmat3x3<T, P> Result;
 		Result[0][0] = v1.x;
@@ -51,7 +51,7 @@ namespace glm
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat3x3<T, P> rowMajor3(
-		const tmat3x3<T, P>& m)
+	    __thread__ const tmat3x3<T, P>& m)
 	{
 		tmat3x3<T, P> Result;
 		Result[0][0] = m[0][0];
@@ -68,10 +68,10 @@ namespace glm
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> rowMajor4(
-		const tvec4<T, P>& v1, 
-		const tvec4<T, P>& v2, 
-		const tvec4<T, P>& v3, 
-		const tvec4<T, P>& v4)
+	    __thread__ const tvec4<T, P>& v1, 
+	    __thread__ const tvec4<T, P>& v2, 
+	    __thread__ const tvec4<T, P>& v3, 
+	    __thread__ const tvec4<T, P>& v4)
 	{
 		tmat4x4<T, P> Result;
 		Result[0][0] = v1.x;
@@ -95,7 +95,7 @@ namespace glm
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> rowMajor4(
-		const tmat4x4<T, P>& m)
+	    __thread__ const tmat4x4<T, P>& m)
 	{
 		tmat4x4<T, P> Result;
 		Result[0][0] = m[0][0];
@@ -119,48 +119,48 @@ namespace glm
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat2x2<T, P> colMajor2(
-		const tvec2<T, P>& v1, 
-		const tvec2<T, P>& v2)
+	    __thread__ const tvec2<T, P>& v1, 
+	    __thread__ const tvec2<T, P>& v2)
 	{
 		return tmat2x2<T, P>(v1, v2);
 	}
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat2x2<T, P> colMajor2(
-		const tmat2x2<T, P>& m)
+	    __thread__ const tmat2x2<T, P>& m)
 	{
 		return tmat2x2<T, P>(m);
 	}
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat3x3<T, P> colMajor3(
-		const tvec3<T, P>& v1, 
-		const tvec3<T, P>& v2, 
-		const tvec3<T, P>& v3)
+	    __thread__ const tvec3<T, P>& v1, 
+	    __thread__ const tvec3<T, P>& v2, 
+	    __thread__ const tvec3<T, P>& v3)
 	{
 		return tmat3x3<T, P>(v1, v2, v3);
 	}
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat3x3<T, P> colMajor3(
-		const tmat3x3<T, P>& m)
+	    __thread__ const tmat3x3<T, P>& m)
 	{
 		return tmat3x3<T, P>(m);
 	}
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> colMajor4(
-		const tvec4<T, P>& v1, 
-		const tvec4<T, P>& v2, 
-		const tvec4<T, P>& v3, 
-		const tvec4<T, P>& v4)
+	    __thread__ const tvec4<T, P>& v1, 
+	    __thread__ const tvec4<T, P>& v2, 
+	    __thread__ const tvec4<T, P>& v3, 
+	    __thread__ const tvec4<T, P>& v4)
 	{
 		return tmat4x4<T, P>(v1, v2, v3, v4);
 	}
 
 	template <typename T, precision P> 
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> colMajor4(
-		const tmat4x4<T, P>& m)
+	    __thread__ const tmat4x4<T, P>& m)
 	{
 		return tmat4x4<T, P>(m);
 	}

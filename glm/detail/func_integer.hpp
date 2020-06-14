@@ -32,9 +32,9 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL vecType<uint, P> uaddCarry(
-		vecType<uint, P> const & x,
-		vecType<uint, P> const & y,
-		vecType<uint, P> & carry);
+		__thread__ vecType<uint, P> const & x,
+		__thread__ vecType<uint, P> const & y,
+		__thread__ vecType<uint, P> & carry);
 
 	/// Subtracts the 32-bit unsigned integer y from x, returning
 	/// the difference if non-negative, or pow(2, 32) plus the difference
@@ -46,9 +46,9 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL vecType<uint, P> usubBorrow(
-		vecType<uint, P> const & x,
-		vecType<uint, P> const & y,
-		vecType<uint, P> & borrow);
+		__thread__ vecType<uint, P> const & x,
+		__thread__ vecType<uint, P> const & y,
+		__thread__ vecType<uint, P> & borrow);
 
 	/// Multiplies 32-bit integers x and y, producing a 64-bit
 	/// result. The 32 least-significant bits are returned in lsb.
@@ -60,10 +60,10 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL void umulExtended(
-		vecType<uint, P> const & x,
-		vecType<uint, P> const & y,
-		vecType<uint, P> & msb,
-		vecType<uint, P> & lsb);
+		__thread__ vecType<uint, P> const & x,
+		__thread__ vecType<uint, P> const & y,
+		__thread__ vecType<uint, P> & msb,
+		__thread__ vecType<uint, P> & lsb);
 		
 	/// Multiplies 32-bit integers x and y, producing a 64-bit
 	/// result. The 32 least-significant bits are returned in lsb.
@@ -75,10 +75,10 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL void imulExtended(
-		vecType<int, P> const & x,
-		vecType<int, P> const & y,
-		vecType<int, P> & msb,
-		vecType<int, P> & lsb);
+		__thread__ vecType<int, P> const & x,
+		__thread__ vecType<int, P> const & y,
+		__thread__ vecType<int, P> & msb,
+		__thread__ vecType<int, P> & lsb);
 
 	/// Extracts bits [offset, offset + bits - 1] from value,
 	/// returning them in the least significant bits of the result.
@@ -97,7 +97,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL vecType<T, P> bitfieldExtract(
-		vecType<T, P> const & Value,
+		__thread__ vecType<T, P> const & Value,
 		int Offset,
 		int Bits);
 
@@ -117,8 +117,8 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL vecType<T, P> bitfieldInsert(
-		vecType<T, P> const & Base,
-		vecType<T, P> const & Insert,
+		__thread__ vecType<T, P> const & Base,
+		__thread__ vecType<T, P> const & Insert,
 		int Offset,
 		int Bits);
 
@@ -131,7 +131,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/bitfieldReverse.xml">GLSL bitfieldReverse man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> bitfieldReverse(vecType<T, P> const & v);
+	GLM_FUNC_DECL vecType<T, P> bitfieldReverse(__thread__ vecType<T, P> const & v);
 
 	/// Returns the number of bits set to 1 in the binary representation of value.
 	///
@@ -149,7 +149,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/bitCount.xml">GLSL bitCount man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<int, P> bitCount(vecType<T, P> const & v);
+	GLM_FUNC_DECL vecType<int, P> bitCount(__thread__ vecType<T, P> const & v);
 
 	/// Returns the bit number of the least significant bit set to
 	/// 1 in the binary representation of value. 
@@ -171,7 +171,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/findLSB.xml">GLSL findLSB man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<int, P> findLSB(vecType<T, P> const & v);
+	GLM_FUNC_DECL vecType<int, P> findLSB(__thread__ vecType<T, P> const & v);
 
 	/// Returns the bit number of the most significant bit in the binary representation of value.
 	/// For positive integers, the result will be the bit number of the most significant bit set to 1. 
@@ -195,7 +195,7 @@ namespace glm
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/findMSB.xml">GLSL findMSB man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.8 Integer Functions</a>
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<int, P> findMSB(vecType<T, P> const & v);
+	GLM_FUNC_DECL vecType<int, P> findMSB(__thread__ vecType<T, P> const & v);
 
 	/// @}
 }//namespace glm

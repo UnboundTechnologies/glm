@@ -29,18 +29,18 @@ namespace glm
 	/// @see - gtx_gradient_paint
 	template <typename T, precision P>
 	GLM_FUNC_DECL T radialGradient(
-		tvec2<T, P> const & Center,
-		T const & Radius,
-		tvec2<T, P> const & Focal,
-		tvec2<T, P> const & Position);
+		__thread__ tvec2<T, P> const & Center,
+		__thread__ T const & Radius,
+		__thread__ tvec2<T, P> const & Focal,
+		__thread__ tvec2<T, P> const & Position);
 
 	/// Return a color from a linear gradient.
 	/// @see - gtx_gradient_paint
 	template <typename T, precision P>
 	GLM_FUNC_DECL T linearGradient(
-		tvec2<T, P> const & Point0,
-		tvec2<T, P> const & Point1,
-		tvec2<T, P> const & Position);
+		__thread__ tvec2<T, P> const & Point0,
+		__thread__ tvec2<T, P> const & Point1,
+		__thread__ tvec2<T, P> const & Position);
 
 	/// @}
 }// namespace glm

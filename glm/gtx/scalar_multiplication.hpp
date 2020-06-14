@@ -22,7 +22,10 @@
 #include "../vec3.hpp"
 #include "../vec4.hpp"
 #include "../mat2x2.hpp"
+
+#if !__METAL_VERSION__
 #include <type_traits>
+#endif // __METAL_VERSION__
 
 namespace glm
 {
@@ -35,19 +38,19 @@ namespace glm
 #define GLM_IMPLEMENT_SCAL_MULT(Vec) \
 	template <typename T> \
 	return_type_scalar_multiplication<T, Vec> \
-	operator*(T const & s, Vec rh){ \
+	operator*(__thread__ T const & s, Vec rh){ \
 		return rh *= static_cast<float>(s); \
 	} \
 	 \
 	template <typename T> \
 	return_type_scalar_multiplication<T, Vec> \
-	operator*(Vec lh, T const & s){ \
+	operator*(Vec lh, __thread__ T const & s){ \
 		return lh *= static_cast<float>(s); \
 	} \
 	 \
 	template <typename T> \
 	return_type_scalar_multiplication<T, Vec> \
-	operator/(Vec lh, T const & s){ \
+	operator/(Vec lh, __thread__ T const & s){ \
 		return lh *= 1.0f / s; \
 	}
 

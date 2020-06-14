@@ -189,7 +189,7 @@ namespace detail
 	template <precision P>
 	struct compute_mix_vector<float, bool, P, tvec4, true>
 	{
-		GLM_FUNC_QUALIFIER static tvec4<float, P> call(tvec4<float, P> const & x, tvec4<float, P> const & y, tvec4<bool, P> const & a)
+		GLM_FUNC_QUALIFIER static tvec4<float, P> call(tvec4<float, P> const & x, tvec4<float, P> const & y, __thread__ tvec4<bool, P> const & a)
 		{
 			__m128i const Load = _mm_set_epi32(-(int)a.w, -(int)a.z, -(int)a.y, -(int)a.x);
 			__m128 const Mask = _mm_castsi128_ps(Load);

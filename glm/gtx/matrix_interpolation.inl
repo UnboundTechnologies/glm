@@ -6,9 +6,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER void axisAngle
 	(
-		tmat4x4<T, P> const & mat,
-		tvec3<T, P> & axis,
-		T & angle
+		__thread__ tmat4x4<T, P> const & mat,
+	    __thread__ tvec3<T, P> & axis,
+		__thread__ T & angle
 	)
 	{
 		T epsilon = (T)0.01;
@@ -81,7 +81,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> axisAngleMatrix
 	(
-		tvec3<T, P> const & axis,
+		__thread__ tvec3<T, P> const & axis,
 		T const angle
 	)
 	{
@@ -101,7 +101,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> extractMatrixRotation
 	(
-		tmat4x4<T, P> const & mat
+		__thread__ tmat4x4<T, P> const & mat
 	)
 	{
 		return tmat4x4<T, P>(
@@ -115,8 +115,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> interpolate
 	(
-		tmat4x4<T, P> const & m1,
-		tmat4x4<T, P> const & m2,
+		__thread__ tmat4x4<T, P> const & m1,
+		__thread__ tmat4x4<T, P> const & m2,
 		T const delta
 	)
 	{

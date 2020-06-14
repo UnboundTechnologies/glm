@@ -60,11 +60,11 @@ namespace glm
 	/// the last component will be written to the most significant bits.
 	///
 	/// @see gtc_packing
-	/// @see uint8 packUnorm1x8(float const & v)
+	/// @see uint8 packUnorm1x8(__thread__ float const & v)
 	/// @see uint32 packUnorm4x8(vec4 const & v)
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/packUnorm4x8.xml">GLSL packUnorm4x8 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
-	GLM_FUNC_DECL uint16 packUnorm2x8(vec2 const & v);
+	GLM_FUNC_DECL uint16 packUnorm2x8(__thread__ vec2 const & v);
 
 	/// First, unpacks a single 16-bit unsigned integer p into a pair of 8-bit unsigned integers. 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned two-component vector.
@@ -118,11 +118,11 @@ namespace glm
 	/// the last component will be written to the most significant bits.
 	///
 	/// @see gtc_packing
-	/// @see uint8 packSnorm1x8(float const & v)
+	/// @see uint8 packSnorm1x8(__thread__ float const & v)
 	/// @see uint32 packSnorm4x8(vec4 const & v)
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/packSnorm4x8.xml">GLSL packSnorm4x8 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
-	GLM_FUNC_DECL uint16 packSnorm2x8(vec2 const & v);
+	GLM_FUNC_DECL uint16 packSnorm2x8(__thread__ vec2 const & v);
 
 	/// First, unpacks a single 16-bit unsigned integer p into a pair of 8-bit signed integers. 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned two-component vector.
@@ -147,7 +147,7 @@ namespace glm
 	/// packUnorm1x16:	round(clamp(c, 0, +1) * 65535.0)
 	///
 	/// @see gtc_packing
-	/// @see uint16 packSnorm1x16(float const & v)
+	/// @see uint16 packSnorm1x16(__thread__ float const & v)
 	/// @see uint64 packSnorm4x16(vec4 const & v)
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/packUnorm4x8.xml">GLSL packUnorm4x8 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
@@ -176,11 +176,11 @@ namespace glm
 	/// the last component will be written to the most significant bits.
 	///
 	/// @see gtc_packing
-	/// @see uint16 packUnorm1x16(float const & v)
+	/// @see uint16 packUnorm1x16(__thread__ float const & v)
 	/// @see uint32 packUnorm2x16(vec2 const & v)
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/packUnorm4x8.xml">GLSL packUnorm4x8 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
-	GLM_FUNC_DECL uint64 packUnorm4x16(vec4 const & v);
+	GLM_FUNC_DECL uint64 packUnorm4x16(__thread__ vec4 const & v);
 
 	/// First, unpacks a single 64-bit unsigned integer p into four 16-bit unsigned integers. 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned four-component vector.
@@ -234,11 +234,11 @@ namespace glm
 	/// the last component will be written to the most significant bits.
 	///
 	/// @see gtc_packing
-	/// @see uint16 packSnorm1x16(float const & v)
+	/// @see uint16 packSnorm1x16(__thread__ float const & v)
 	/// @see uint32 packSnorm2x16(vec2 const & v)
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/packSnorm4x8.xml">GLSL packSnorm4x8 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
-	GLM_FUNC_DECL uint64 packSnorm4x16(vec4 const & v);
+	GLM_FUNC_DECL uint64 packSnorm4x16(__thread__ vec4 const & v);
 
 	/// First, unpacks a single 64-bit unsigned integer p into four 16-bit signed integers. 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned four-component vector.
@@ -285,11 +285,11 @@ namespace glm
 	/// the forth component specifies the 16 most-significant bits.
 	/// 
 	/// @see gtc_packing
-	/// @see uint16 packHalf1x16(float const & v)
+	/// @see uint16 packHalf1x16(__thread__ float const & v)
 	/// @see uint32 packHalf2x16(vec2 const & v)
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/packHalf2x16.xml">GLSL packHalf2x16 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
-	GLM_FUNC_DECL uint64 packHalf4x16(vec4 const & v);
+	GLM_FUNC_DECL uint64 packHalf4x16(__thread__ vec4 const & v);
 	
 	/// Returns a four-component floating-point vector with components obtained by unpacking a 64-bit unsigned integer into four 16-bit values,
 	/// interpreting those values as 16-bit floating-point numbers according to the OpenGL Specification, 
@@ -315,7 +315,7 @@ namespace glm
 	/// @see uint32 packSnorm3x10_1x2(vec4 const & v)
 	/// @see uint32 packUnorm3x10_1x2(vec4 const & v)
 	/// @see ivec4 unpackI3x10_1x2(uint32 const & p)
-	GLM_FUNC_DECL uint32 packI3x10_1x2(ivec4 const & v);
+	GLM_FUNC_DECL uint32 packI3x10_1x2(__thread__ ivec4 const & v);
 
 	/// Unpacks a single 32-bit unsigned integer p into three 10-bit and one 2-bit signed integers. 
 	/// 
@@ -339,7 +339,7 @@ namespace glm
 	/// @see uint32 packSnorm3x10_1x2(vec4 const & v)
 	/// @see uint32 packUnorm3x10_1x2(vec4 const & v)
 	/// @see ivec4 unpackU3x10_1x2(uint32 const & p)
-	GLM_FUNC_DECL uint32 packU3x10_1x2(uvec4 const & v);
+	GLM_FUNC_DECL uint32 packU3x10_1x2(__thread__ uvec4 const & v);
 
 	/// Unpacks a single 32-bit unsigned integer p into three 10-bit and one 2-bit unsigned integers. 
 	/// 
@@ -368,7 +368,7 @@ namespace glm
 	/// @see uint32 packUnorm3x10_1x2(vec4 const & v)
 	/// @see uint32 packU3x10_1x2(uvec4 const & v)
 	/// @see uint32 packI3x10_1x2(ivec4 const & v)
-	GLM_FUNC_DECL uint32 packSnorm3x10_1x2(vec4 const & v);
+	GLM_FUNC_DECL uint32 packSnorm3x10_1x2(__thread__ vec4 const & v);
 
 	/// First, unpacks a single 32-bit unsigned integer p into four 16-bit signed integers. 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned four-component vector.
@@ -403,7 +403,7 @@ namespace glm
 	/// @see uint32 packUnorm3x10_1x2(vec4 const & v)
 	/// @see uint32 packU3x10_1x2(uvec4 const & v)
 	/// @see uint32 packI3x10_1x2(ivec4 const & v)
-	GLM_FUNC_DECL uint32 packUnorm3x10_1x2(vec4 const & v);
+	GLM_FUNC_DECL uint32 packUnorm3x10_1x2(__thread__ vec4 const & v);
 
 	/// First, unpacks a single 32-bit unsigned integer p into four 16-bit signed integers. 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned four-component vector.
@@ -431,7 +431,7 @@ namespace glm
 	///
 	/// @see gtc_packing
 	/// @see vec3 unpackF2x11_1x10(uint32 const & p)
-	GLM_FUNC_DECL uint32 packF2x11_1x10(vec3 const & v);
+	GLM_FUNC_DECL uint32 packF2x11_1x10(__thread__ vec3 const & v);
 
 	/// First, unpacks a single 32-bit unsigned integer p into two 11-bit signless floating-point values and one 10-bit signless floating-point value . 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned three-component vector.
@@ -453,7 +453,7 @@ namespace glm
 	///
 	/// @see gtc_packing
 	/// @see vec3 unpackF3x9_E1x5(uint32 const & p)
-	GLM_FUNC_DECL uint32 packF3x9_E1x5(vec3 const & v);
+	GLM_FUNC_DECL uint32 packF3x9_E1x5(__thread__ vec3 const & v);
 
 	/// First, unpacks a single 32-bit unsigned integer p into two 11-bit signless floating-point values and one 10-bit signless floating-point value . 
 	/// Then, each component is converted to a normalized floating-point value to generate the returned three-component vector.
@@ -474,7 +474,7 @@ namespace glm
 	/// @see vecType<float, P> unpackHalf(vecType<uint16, P> const & p)
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<uint16, P> packHalf(vecType<float, P> const & v);
+	GLM_FUNC_DECL vecType<uint16, P> packHalf(__thread__ vecType<float, P> const & v);
 
 	/// Returns a floating-point vector with components obtained by reinterpreting an integer vector as 16-bit floating-point numbers and converting them to 32-bit floating-point values.
 	/// The first component of the vector is obtained from the 16 least-significant bits of v;
@@ -484,41 +484,41 @@ namespace glm
 	/// @see vecType<uint16, P> packHalf(vecType<float, P> const & v)
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<float, P> unpackHalf(vecType<uint16, P> const & p);
+	GLM_FUNC_DECL vecType<float, P> unpackHalf(__thread__ vecType<uint16, P> const & p);
 
 	/// Convert each component of the normalized floating-point vector into unsigned integer values.
 	///
 	/// @see gtc_packing
 	/// @see vecType<floatType, P> unpackUnorm(vecType<intType, P> const & p);
 	template <typename uintType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<uintType, P> packUnorm(vecType<floatType, P> const & v);
+	GLM_FUNC_DECL vecType<uintType, P> packUnorm(__thread__ vecType<floatType, P> const & v);
 
 	/// Convert each unsigned integer components of a vector to normalized floating-point values.
 	/// 
 	/// @see gtc_packing
 	/// @see vecType<intType, P> packUnorm(vecType<floatType, P> const & v)
 	template <typename uintType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<floatType, P> unpackUnorm(vecType<uintType, P> const & v);
+	GLM_FUNC_DECL vecType<floatType, P> unpackUnorm(__thread__ vecType<uintType, P> const & v);
 
 	/// Convert each component of the normalized floating-point vector into signed integer values.
 	///
 	/// @see gtc_packing
 	/// @see vecType<floatType, P> unpackSnorm(vecType<intType, P> const & p);
 	template <typename intType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<intType, P> packSnorm(vecType<floatType, P> const & v);
+	GLM_FUNC_DECL vecType<intType, P> packSnorm(__thread__ vecType<floatType, P> const & v);
 
 	/// Convert each signed integer components of a vector to normalized floating-point values.
 	/// 
 	/// @see gtc_packing
 	/// @see vecType<intType, P> packSnorm(vecType<floatType, P> const & v)
 	template <typename intType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<floatType, P> unpackSnorm(vecType<intType, P> const & v);
+	GLM_FUNC_DECL vecType<floatType, P> unpackSnorm(__thread__ vecType<intType, P> const & v);
 
 	/// Convert each component of the normalized floating-point vector into unsigned integer values.
 	///
 	/// @see gtc_packing
 	/// @see vec2 unpackUnorm2x4(uint8 p)
-	GLM_FUNC_DECL uint8 packUnorm2x4(vec2 const & v);
+	GLM_FUNC_DECL uint8 packUnorm2x4(__thread__ vec2 const & v);
 
 	/// Convert each unsigned integer components of a vector to normalized floating-point values.
 	/// 
@@ -530,7 +530,7 @@ namespace glm
 	///
 	/// @see gtc_packing
 	/// @see vec4 unpackUnorm4x4(uint16 p)
-	GLM_FUNC_DECL uint16 packUnorm4x4(vec4 const & v);
+	GLM_FUNC_DECL uint16 packUnorm4x4(__thread__ vec4 const & v);
 
 	/// Convert each unsigned integer components of a vector to normalized floating-point values.
 	/// 
@@ -542,7 +542,7 @@ namespace glm
 	///
 	/// @see gtc_packing
 	/// @see vec3 unpackUnorm1x5_1x6_1x5(uint16 p)
-	GLM_FUNC_DECL uint16 packUnorm1x5_1x6_1x5(vec3 const & v);
+	GLM_FUNC_DECL uint16 packUnorm1x5_1x6_1x5(__thread__ vec3 const & v);
 
 	/// Convert each unsigned integer components of a vector to normalized floating-point values.
 	/// 
@@ -554,7 +554,7 @@ namespace glm
 	///
 	/// @see gtc_packing
 	/// @see vec4 unpackUnorm3x5_1x1(uint16 p)
-	GLM_FUNC_DECL uint16 packUnorm3x5_1x1(vec4 const & v);
+	GLM_FUNC_DECL uint16 packUnorm3x5_1x1(__thread__ vec4 const & v);
 
 	/// Convert each unsigned integer components of a vector to normalized floating-point values.
 	/// 
@@ -566,7 +566,7 @@ namespace glm
 	///
 	/// @see gtc_packing
 	/// @see vec3 unpackUnorm2x3_1x2(uint8 p)
-	GLM_FUNC_DECL uint8 packUnorm2x3_1x2(vec3 const & v);
+	GLM_FUNC_DECL uint8 packUnorm2x3_1x2(__thread__ vec3 const & v);
 
 	/// Convert each unsigned integer components of a vector to normalized floating-point values.
 	/// 

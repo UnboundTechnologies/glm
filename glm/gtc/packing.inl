@@ -6,8 +6,11 @@
 #include "../vec3.hpp"
 #include "../vec4.hpp"
 #include "../detail/type_half.hpp"
-#include <cstring>
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <cstring>
+#   include <limits>
+#endif // __METAL_VERSION__
 
 namespace glm{
 namespace detail
@@ -277,7 +280,7 @@ namespace detail
 	template <precision P>
 	struct compute_half<P, tvec1>
 	{
-		GLM_FUNC_QUALIFIER static tvec1<uint16, P> pack(tvec1<float, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec1<uint16, P> pack(__thread__ tvec1<float, P> const & v)
 		{
 			int16 const Unpack(detail::toFloat16(v.x));
 			u16vec1 Packed(uninitialize);
@@ -285,7 +288,7 @@ namespace detail
 			return Packed;
 		}
 
-		GLM_FUNC_QUALIFIER static tvec1<float, P> unpack(tvec1<uint16, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec1<float, P> unpack(__thread__ tvec1<uint16, P> const & v)
 		{
 			i16vec1 Unpack(uninitialize);
 			memcpy(&Unpack, &v, sizeof(Unpack));
@@ -296,7 +299,7 @@ namespace detail
 	template <precision P>
 	struct compute_half<P, tvec2>
 	{
-		GLM_FUNC_QUALIFIER static tvec2<uint16, P> pack(tvec2<float, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec2<uint16, P> pack(__thread__ tvec2<float, P> const & v)
 		{
 			tvec2<int16, P> const Unpack(detail::toFloat16(v.x), detail::toFloat16(v.y));
 			u16vec2 Packed(uninitialize);
@@ -304,7 +307,7 @@ namespace detail
 			return Packed;
 		}
 
-		GLM_FUNC_QUALIFIER static tvec2<float, P> unpack(tvec2<uint16, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec2<float, P> unpack(__thread__ tvec2<uint16, P> const & v)
 		{
 			i16vec2 Unpack(uninitialize);
 			memcpy(&Unpack, &v, sizeof(Unpack));
@@ -315,7 +318,7 @@ namespace detail
 	template <precision P>
 	struct compute_half<P, tvec3>
 	{
-		GLM_FUNC_QUALIFIER static tvec3<uint16, P> pack(tvec3<float, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec3<uint16, P> pack(__thread__ tvec3<float, P> const & v)
 		{
 			tvec3<int16, P> const Unpack(detail::toFloat16(v.x), detail::toFloat16(v.y), detail::toFloat16(v.z));
 			u16vec3 Packed(uninitialize);
@@ -323,7 +326,7 @@ namespace detail
 			return Packed;
 		}
 
-		GLM_FUNC_QUALIFIER static tvec3<float, P> unpack(tvec3<uint16, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec3<float, P> unpack(__thread__ tvec3<uint16, P> const & v)
 		{
 			i16vec3 Unpack(uninitialize);
 			memcpy(&Unpack, &v, sizeof(Unpack));
@@ -334,7 +337,7 @@ namespace detail
 	template <precision P>
 	struct compute_half<P, tvec4>
 	{
-		GLM_FUNC_QUALIFIER static tvec4<uint16, P> pack(tvec4<float, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec4<uint16, P> pack(__thread__ tvec4<float, P> const & v)
 		{
 			tvec4<int16, P> const Unpack(detail::toFloat16(v.x), detail::toFloat16(v.y), detail::toFloat16(v.z), detail::toFloat16(v.w));
 			u16vec4 Packed(uninitialize);
@@ -342,7 +345,7 @@ namespace detail
 			return Packed;
 		}
 
-		GLM_FUNC_QUALIFIER static tvec4<float, P> unpack(tvec4<uint16, P> const & v)
+		GLM_FUNC_QUALIFIER static tvec4<float, P> unpack(__thread__ tvec4<uint16, P> const & v)
 		{
 			i16vec4 Unpack(uninitialize);
 			memcpy(&Unpack, &v, sizeof(Unpack));
@@ -362,7 +365,7 @@ namespace detail
 		return Unpack * static_cast<float>(0.0039215686274509803921568627451); // 1 / 255
 	}
 	
-	GLM_FUNC_QUALIFIER uint16 packUnorm2x8(vec2 const & v)
+	GLM_FUNC_QUALIFIER uint16 packUnorm2x8(__thread__ vec2 const & v)
 	{
 		u8vec2 const Topack(round(clamp(v, 0.0f, 1.0f) * 255.0f));
 
@@ -395,7 +398,7 @@ namespace detail
 			-1.0f, 1.0f);
 	}
 	
-	GLM_FUNC_QUALIFIER uint16 packSnorm2x8(vec2 const & v)
+	GLM_FUNC_QUALIFIER uint16 packSnorm2x8(__thread__ vec2 const & v)
 	{
 		i8vec2 const Topack(round(clamp(v, -1.0f, 1.0f) * 127.0f));
 		uint16 Packed = 0;
@@ -423,7 +426,7 @@ namespace detail
 		return Unpack * 1.5259021896696421759365224689097e-5f; // 1.0 / 65535.0
 	}
 
-	GLM_FUNC_QUALIFIER uint64 packUnorm4x16(vec4 const & v)
+	GLM_FUNC_QUALIFIER uint64 packUnorm4x16(__thread__ vec4 const & v)
 	{
 		u16vec4 const Topack(round(clamp(v , 0.0f, 1.0f) * 65535.0f));
 		uint64 Packed = 0;
@@ -455,7 +458,7 @@ namespace detail
 			-1.0f, 1.0f);
 	}
 
-	GLM_FUNC_QUALIFIER uint64 packSnorm4x16(vec4 const & v)
+	GLM_FUNC_QUALIFIER uint64 packSnorm4x16(__thread__ vec4 const & v)
 	{
 		i16vec4 const Topack(round(clamp(v ,-1.0f, 1.0f) * 32767.0f));
 		uint64 Packed = 0;
@@ -487,7 +490,7 @@ namespace detail
 		return detail::toFloat32(Unpack);
 	}
 
-	GLM_FUNC_QUALIFIER uint64 packHalf4x16(glm::vec4 const & v)
+	GLM_FUNC_QUALIFIER uint64 packHalf4x16(__thread__ glm::vec4 const & v)
 	{
 		i16vec4 const Unpack(
 			detail::toFloat16(v.x),
@@ -510,7 +513,7 @@ namespace detail
 			detail::toFloat32(Unpack.w));
 	}
 
-	GLM_FUNC_QUALIFIER uint32 packI3x10_1x2(ivec4 const & v)
+	GLM_FUNC_QUALIFIER uint32 packI3x10_1x2(__thread__ ivec4 const & v)
 	{
 		detail::i10i10i10i2 Result;
 		Result.data.x = v.x;
@@ -531,7 +534,7 @@ namespace detail
 			Unpack.data.w);
 	}
 
-	GLM_FUNC_QUALIFIER uint32 packU3x10_1x2(uvec4 const & v)
+	GLM_FUNC_QUALIFIER uint32 packU3x10_1x2(__thread__ uvec4 const & v)
 	{
 		detail::u10u10u10u2 Result;
 		Result.data.x = v.x;
@@ -552,7 +555,7 @@ namespace detail
 			Unpack.data.w);
 	}
 
-	GLM_FUNC_QUALIFIER uint32 packSnorm3x10_1x2(vec4 const & v)
+	GLM_FUNC_QUALIFIER uint32 packSnorm3x10_1x2(__thread__ vec4 const & v)
 	{
 		detail::i10i10i10i2 Result;
 		Result.data.x = int(round(clamp(v.x,-1.0f, 1.0f) * 511.f));
@@ -574,7 +577,7 @@ namespace detail
 		return Result;
 	}
 
-	GLM_FUNC_QUALIFIER uint32 packUnorm3x10_1x2(vec4 const & v)
+	GLM_FUNC_QUALIFIER uint32 packUnorm3x10_1x2(__thread__ vec4 const & v)
 	{
 		uvec4 const Unpack(round(clamp(v, 0.0f, 1.0f) * vec4(1023.f, 1023.f, 1023.f, 3.f)));
 
@@ -595,7 +598,7 @@ namespace detail
 		return vec4(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w) * ScaleFactors;
 	}
 
-	GLM_FUNC_QUALIFIER uint32 packF2x11_1x10(vec3 const & v)
+	GLM_FUNC_QUALIFIER uint32 packF2x11_1x10(__thread__ vec3 const & v)
 	{
 		return
 			((detail::floatTo11bit(v.x) & ((1 << 11) - 1)) <<  0) |
@@ -611,7 +614,7 @@ namespace detail
 			detail::packed10bitToFloat(v >> 22));
 	}
 
-	GLM_FUNC_QUALIFIER uint32 packF3x9_E1x5(vec3 const & v)
+	GLM_FUNC_QUALIFIER uint32 packF3x9_E1x5(__thread__ vec3 const & v)
 	{
 		float const SharedExpMax = (pow(2.0f, 9.0f - 1.0f) / pow(2.0f, 9.0f)) * pow(2.0f, 31.f - 15.f);
 		vec3 const Color = clamp(v, 0.0f, SharedExpMax);
@@ -640,19 +643,19 @@ namespace detail
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<uint16, P> packHalf(vecType<float, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<uint16, P> packHalf(__thread__ vecType<float, P> const & v)
 	{
 		return detail::compute_half<P, vecType>::pack(v);
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<float, P> unpackHalf(vecType<uint16, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<float, P> unpackHalf(__thread__ vecType<uint16, P> const & v)
 	{
 		return detail::compute_half<P, vecType>::unpack(v);
 	}
 
 	template <typename uintType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<uintType, P> packUnorm(vecType<floatType, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<uintType, P> packUnorm(__thread__ vecType<floatType, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<uintType>::is_integer, "uintType must be an integer type");
 		GLM_STATIC_ASSERT(std::numeric_limits<floatType>::is_iec559, "floatType must be a floating point type");
@@ -661,7 +664,7 @@ namespace detail
 	}
 
 	template <typename uintType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<floatType, P> unpackUnorm(vecType<uintType, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<floatType, P> unpackUnorm(__thread__ vecType<uintType, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<uintType>::is_integer, "uintType must be an integer type");
 		GLM_STATIC_ASSERT(std::numeric_limits<floatType>::is_iec559, "floatType must be a floating point type");
@@ -670,7 +673,7 @@ namespace detail
 	}
 
 	template <typename intType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<intType, P> packSnorm(vecType<floatType, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<intType, P> packSnorm(__thread__ vecType<floatType, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<intType>::is_integer, "uintType must be an integer type");
 		GLM_STATIC_ASSERT(std::numeric_limits<floatType>::is_iec559, "floatType must be a floating point type");
@@ -679,7 +682,7 @@ namespace detail
 	}
 
 	template <typename intType, typename floatType, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<floatType, P> unpackSnorm(vecType<intType, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<floatType, P> unpackSnorm(__thread__ vecType<intType, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<intType>::is_integer, "uintType must be an integer type");
 		GLM_STATIC_ASSERT(std::numeric_limits<floatType>::is_iec559, "floatType must be a floating point type");
@@ -687,7 +690,7 @@ namespace detail
 		return clamp(vecType<floatType, P>(v) * (static_cast<floatType>(1) / static_cast<floatType>(std::numeric_limits<intType>::max())), static_cast<floatType>(-1), static_cast<floatType>(1));
 	}
 
-	GLM_FUNC_QUALIFIER uint8 packUnorm2x4(vec2 const & v)
+	GLM_FUNC_QUALIFIER uint8 packUnorm2x4(__thread__ vec2 const & v)
 	{
 		u32vec2 const Unpack(round(clamp(v, 0.0f, 1.0f) * 15.0f));
 		detail::u4u4 Result;
@@ -704,7 +707,7 @@ namespace detail
 		return vec2(Unpack.data.x, Unpack.data.y) * ScaleFactor;
 	}
 
-	GLM_FUNC_QUALIFIER uint16 packUnorm4x4(vec4 const & v)
+	GLM_FUNC_QUALIFIER uint16 packUnorm4x4(__thread__ vec4 const & v)
 	{
 		u32vec4 const Unpack(round(clamp(v, 0.0f, 1.0f) * 15.0f));
 		detail::u4u4u4u4 Result;
@@ -723,7 +726,7 @@ namespace detail
 		return vec4(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w) * ScaleFactor;
 	}
 
-	GLM_FUNC_QUALIFIER uint16 packUnorm1x5_1x6_1x5(vec3 const & v)
+	GLM_FUNC_QUALIFIER uint16 packUnorm1x5_1x6_1x5(__thread__ vec3 const & v)
 	{
 		u32vec3 const Unpack(round(clamp(v, 0.0f, 1.0f) * vec3(31.f, 63.f, 31.f)));
 		detail::u5u6u5 Result;
@@ -741,7 +744,7 @@ namespace detail
 		return vec3(Unpack.data.x, Unpack.data.y, Unpack.data.z) * ScaleFactor;
 	}
 
-	GLM_FUNC_QUALIFIER uint16 packUnorm3x5_1x1(vec4 const & v)
+	GLM_FUNC_QUALIFIER uint16 packUnorm3x5_1x1(__thread__ vec4 const & v)
 	{
 		u32vec4 const Unpack(round(clamp(v, 0.0f, 1.0f) * vec4(31.f, 31.f, 31.f, 1.f)));
 		detail::u5u5u5u1 Result;
@@ -760,7 +763,7 @@ namespace detail
 		return vec4(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w) * ScaleFactor;
 	}
 
-	GLM_FUNC_QUALIFIER uint8 packUnorm2x3_1x2(vec3 const & v)
+	GLM_FUNC_QUALIFIER uint8 packUnorm2x3_1x2(__thread__ vec3 const & v)
 	{
 		u32vec3 const Unpack(round(clamp(v, 0.0f, 1.0f) * vec3(7.f, 7.f, 3.f)));
 		detail::u3u3u2 Result;

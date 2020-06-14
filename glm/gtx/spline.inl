@@ -6,11 +6,11 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER genType catmullRom
 	(
-		genType const & v1, 
-		genType const & v2, 
-		genType const & v3, 
-		genType const & v4, 
-		typename genType::value_type const & s
+	    __thread__ genType const & v1, 
+	    __thread__ genType const & v2, 
+	    __thread__ genType const & v3, 
+	    __thread__ genType const & v4, 
+		__thread__ typename genType::value_type const & s
 	)
 	{
 		typename genType::value_type s1 = s;
@@ -29,11 +29,11 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER genType hermite
 	(
-		genType const & v1, 
-		genType const & t1, 
-		genType const & v2, 
-		genType const & t2, 
-		typename genType::value_type const & s
+	    __thread__ genType const & v1, 
+	    __thread__ genType const & t1, 
+	    __thread__ genType const & v2, 
+	    __thread__ genType const & t2, 
+		__thread__ typename genType::value_type const & s
 	)
 	{
 		typename genType::value_type s1 = s;
@@ -51,11 +51,11 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER genType cubic
 	(
-		genType const & v1, 
-		genType const & v2, 
-		genType const & v3, 
-		genType const & v4, 
-		typename genType::value_type const & s
+	    __thread__ genType const & v1, 
+	    __thread__ genType const & v2, 
+	    __thread__ genType const & v3, 
+	    __thread__ genType const & v4, 
+		__thread__ typename genType::value_type const & s
 	)
 	{
 		return ((v1 * s + v2) * s + v3) * s + v4;

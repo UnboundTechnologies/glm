@@ -125,7 +125,7 @@ namespace gli
 	}
 
 	template <typename T>
-	T const & shared_array<T>::operator*() const
+	__thread__ T const & shared_array<T>::operator*() const
 	{
 		return * this->Pointer;
 	}

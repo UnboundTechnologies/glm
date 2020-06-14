@@ -14,8 +14,11 @@
 
 // Dependency:
 #include "../glm.hpp"
-#include <cfloat>
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <cfloat>
+#   include <limits>
+#endif // __METAL_VERSION__
 
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_EXT_INCLUDED)
 #	pragma message("GLM: GLM_GTX_vector_query extension included")
@@ -29,32 +32,32 @@ namespace glm
 	//! Check whether two vectors are collinears.
 	/// @see gtx_vector_query extensions.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL bool areCollinear(vecType<T, P> const & v0, vecType<T, P> const & v1, T const & epsilon);
+	GLM_FUNC_DECL bool areCollinear(__thread__ vecType<T, P> const & v0, __thread__ vecType<T, P> const & v1, __thread__ T const & epsilon);
 		
 	//! Check whether two vectors are orthogonals.
 	/// @see gtx_vector_query extensions.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL bool areOrthogonal(vecType<T, P> const & v0, vecType<T, P> const & v1, T const & epsilon);
+	GLM_FUNC_DECL bool areOrthogonal(__thread__ vecType<T, P> const & v0, __thread__ vecType<T, P> const & v1, __thread__ T const & epsilon);
 
 	//! Check whether a vector is normalized.
 	/// @see gtx_vector_query extensions.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL bool isNormalized(vecType<T, P> const & v, T const & epsilon);
+	GLM_FUNC_DECL bool isNormalized(__thread__ vecType<T, P> const & v, __thread__ T const & epsilon);
 		
 	//! Check whether a vector is null.
 	/// @see gtx_vector_query extensions.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL bool isNull(vecType<T, P> const & v, T const & epsilon);
+	GLM_FUNC_DECL bool isNull(__thread__ vecType<T, P> const & v, __thread__ T const & epsilon);
 
 	//! Check whether a each component of a vector is null.
 	/// @see gtx_vector_query extensions.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<bool, P> isCompNull(vecType<T, P> const & v, T const & epsilon);
+	GLM_FUNC_DECL vecType<bool, P> isCompNull(__thread__ vecType<T, P> const & v, __thread__ T const & epsilon);
 
 	//! Check whether two vectors are orthonormal.
 	/// @see gtx_vector_query extensions.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL bool areOrthonormal(vecType<T, P> const & v0, vecType<T, P> const & v1, T const & epsilon);
+	GLM_FUNC_DECL bool areOrthonormal(__thread__ vecType<T, P> const & v0, __thread__ vecType<T, P> const & v1, __thread__ T const & epsilon);
 
 	/// @}
 }// namespace glm

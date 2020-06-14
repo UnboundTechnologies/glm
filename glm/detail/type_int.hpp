@@ -4,12 +4,19 @@
 #pragma once
 
 #include "setup.hpp"
+
 #if GLM_HAS_MAKE_SIGNED
-#	include <type_traits>
+#   if __METAL_VERSION__
+#   else // __METAL_VERSION__
+#	    include <type_traits>
+#   endif // ..., __METAL_VERSION__
 #endif
 
 #if GLM_HAS_EXTENDED_INTEGER_TYPE
-#	include <cstdint>
+#   if __METAL_VERSION__
+#   else // __METAL_VERSION__
+#	    include <cstdint>
+#   endif // ..., __METAL_VERSION__
 #endif
 
 namespace glm{
@@ -95,11 +102,13 @@ namespace detail
 			typedef int type;
 		};
 
+#if !__METAL_VERSION__
 		template <>
 		struct make_signed<long>
 		{
 			typedef long type;
 		};
+#endif // __METAL_VERSION__
 	
 		template <>
 		struct make_signed<unsigned char>
@@ -119,11 +128,13 @@ namespace detail
 			typedef int type;
 		};
 
+#if !__METAL_VERSION__
 		template <>
 		struct make_signed<unsigned long>
 		{
 			typedef long type;
 		};
+#endif // __METAL_VERSION__
 
 		template <typename genType>
 		struct make_unsigned
@@ -147,11 +158,13 @@ namespace detail
 			typedef unsigned int type;
 		};
 
+#       if !__METAL_VERSION__
 		template <>
 		struct make_unsigned<long>
 		{
 			typedef unsigned long type;
 		};
+#       endif // __METAL_VERSION__
 
 		template <>
 		struct make_unsigned<unsigned char>
@@ -171,6 +184,7 @@ namespace detail
 			typedef unsigned int type;
 		};
 
+#       if !__METAL_VERSION__
 		template <>
 		struct make_unsigned<unsigned long>
 		{
@@ -200,6 +214,7 @@ namespace detail
 		{
 			typedef unsigned long long type;
 		};
+#       endif // __METAL_VERSION__
 #	endif//GLM_HAS_MAKE_SIGNED
 }//namespace detail
 

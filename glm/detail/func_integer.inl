@@ -6,11 +6,15 @@
 #include "type_vec4.hpp"
 #include "type_int.hpp"
 #include "_vectorize.hpp"
+
 #if(GLM_ARCH & GLM_ARCH_X86 && GLM_COMPILER & GLM_COMPILER_VC)
 #	include <intrin.h>
 #	pragma intrinsic(_BitScanReverse)
 #endif//(GLM_ARCH & GLM_ARCH_X86 && GLM_COMPILER & GLM_COMPILER_VC)
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 #if !GLM_HAS_EXTENDED_INTEGER_TYPE
 #	if GLM_COMPILER & GLM_COMPILER_GCC
@@ -33,7 +37,7 @@ namespace detail
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType, bool Aligned, bool EXEC>
 	struct compute_bitfieldReverseStep
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T, T)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T, T)
 		{
 			return v;
 		}
@@ -42,7 +46,7 @@ namespace detail
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType, bool Aligned>
 	struct compute_bitfieldReverseStep<T, P, vecType, Aligned, true>
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T Mask, T Shift)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T Mask, T Shift)
 		{
 			return (v & Mask) << Shift | (v & (~Mask)) >> Shift;
 		}
@@ -51,7 +55,7 @@ namespace detail
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType, bool Aligned, bool EXEC>
 	struct compute_bitfieldBitCountStep
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T, T)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T, T)
 		{
 			return v;
 		}
@@ -60,7 +64,7 @@ namespace detail
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType, bool Aligned>
 	struct compute_bitfieldBitCountStep<T, P, vecType, Aligned, true>
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & v, T Mask, T Shift)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & v, T Mask, T Shift)
 		{
 			return (v & Mask) + ((v >> Shift) & Mask);
 		}
@@ -107,7 +111,7 @@ namespace detail
 	template <typename T, glm::precision P, template <class, glm::precision> class vecType, bool EXEC = true>
 	struct compute_findMSB_step_vec
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & x, T Shift)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & x, T Shift)
 		{
 			return x | (x >> Shift);
 		}
@@ -116,7 +120,7 @@ namespace detail
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
 	struct compute_findMSB_step_vec<T, P, vecType, false>
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & x, T)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & x, T)
 		{
 			return x;
 		}
@@ -125,7 +129,7 @@ namespace detail
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType, int>
 	struct compute_findMSB_vec
 	{
-		GLM_FUNC_QUALIFIER static vecType<int, P> call(vecType<T, P> const & vec)
+		GLM_FUNC_QUALIFIER static vecType<int, P> call(__thread__ vecType<T, P> const & vec)
 		{
 			vecType<T, P> x(vec);
 			x = compute_findMSB_step_vec<T, P, vecType, sizeof(T) * 8 >=  8>::call(x, static_cast<T>( 1));
@@ -150,7 +154,7 @@ namespace detail
 		template <typename T, glm::precision P, template<typename, glm::precision> class vecType>
 		struct compute_findMSB_vec<T, P, vecType, 32>
 		{
-			GLM_FUNC_QUALIFIER static vecType<int, P> call(vecType<T, P> const & x)
+			GLM_FUNC_QUALIFIER static vecType<int, P> call(__thread__ vecType<T, P> const & x)
 			{
 				return detail::functor1<int, T, P, vecType>::call(compute_findMSB_32, x);
 			}
@@ -168,7 +172,7 @@ namespace detail
 		template <typename T, glm::precision P, template <class, glm::precision> class vecType>
 		struct compute_findMSB_vec<T, P, vecType, 64>
 		{
-			GLM_FUNC_QUALIFIER static vecType<int, P> call(vecType<T, P> const & x)
+			GLM_FUNC_QUALIFIER static vecType<int, P> call(__thread__ vecType<T, P> const & x)
 			{
 				return detail::functor1<int, T, P, vecType>::call(compute_findMSB_64, x);
 			}
@@ -178,7 +182,7 @@ namespace detail
 }//namespace detail
 
 	// uaddCarry
-	GLM_FUNC_QUALIFIER uint uaddCarry(uint const & x, uint const & y, uint & Carry)
+	GLM_FUNC_QUALIFIER uint uaddCarry(__thread__ uint const & x, __thread__ uint const & y, __thread__ uint & Carry)
 	{
 		uint64 const Value64(static_cast<uint64>(x) + static_cast<uint64>(y));
 		uint64 const Max32((static_cast<uint64>(1) << static_cast<uint64>(32)) - static_cast<uint64>(1));
@@ -187,7 +191,7 @@ namespace detail
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<uint, P> uaddCarry(vecType<uint, P> const & x, vecType<uint, P> const & y, vecType<uint, P> & Carry)
+	GLM_FUNC_QUALIFIER vecType<uint, P> uaddCarry(__thread__ vecType<uint, P> const & x, __thread__ vecType<uint, P> const & y, __thread__ vecType<uint, P> & Carry)
 	{
 		vecType<uint64, P> Value64(vecType<uint64, P>(x) + vecType<uint64, P>(y));
 		vecType<uint64, P> Max32((static_cast<uint64>(1) << static_cast<uint64>(32)) - static_cast<uint64>(1));
@@ -196,7 +200,7 @@ namespace detail
 	}
 
 	// usubBorrow
-	GLM_FUNC_QUALIFIER uint usubBorrow(uint const & x, uint const & y, uint & Borrow)
+	GLM_FUNC_QUALIFIER uint usubBorrow(__thread__ uint const & x, __thread__ uint const & y, __thread__ uint & Borrow)
 	{
 		GLM_STATIC_ASSERT(sizeof(uint) == sizeof(uint32), "uint and uint32 size mismatch");
 
@@ -208,7 +212,7 @@ namespace detail
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<uint, P> usubBorrow(vecType<uint, P> const & x, vecType<uint, P> const & y, vecType<uint, P> & Borrow)
+	GLM_FUNC_QUALIFIER vecType<uint, P> usubBorrow(__thread__ vecType<uint, P> const & x, __thread__ vecType<uint, P> const & y, __thread__ vecType<uint, P> & Borrow)
 	{
 		Borrow = mix(vecType<uint, P>(1), vecType<uint, P>(0), greaterThanEqual(x, y));
 		vecType<uint, P> const YgeX(y - x);
@@ -217,7 +221,7 @@ namespace detail
 	}
 
 	// umulExtended
-	GLM_FUNC_QUALIFIER void umulExtended(uint const & x, uint const & y, uint & msb, uint & lsb)
+	GLM_FUNC_QUALIFIER void umulExtended(__thread__ uint const & x, __thread__ uint const & y, __thread__ uint & msb, __thread__ uint & lsb)
 	{
 		GLM_STATIC_ASSERT(sizeof(uint) == sizeof(uint32), "uint and uint32 size mismatch");
 
@@ -227,7 +231,7 @@ namespace detail
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER void umulExtended(vecType<uint, P> const & x, vecType<uint, P> const & y, vecType<uint, P> & msb, vecType<uint, P> & lsb)
+	GLM_FUNC_QUALIFIER void umulExtended(__thread__ vecType<uint, P> const & x, __thread__ vecType<uint, P> const & y, __thread__ vecType<uint, P> & msb, __thread__ vecType<uint, P> & lsb)
 	{
 		GLM_STATIC_ASSERT(sizeof(uint) == sizeof(uint32), "uint and uint32 size mismatch");
 
@@ -237,7 +241,7 @@ namespace detail
 	}
 
 	// imulExtended
-	GLM_FUNC_QUALIFIER void imulExtended(int x, int y, int & msb, int & lsb)
+	GLM_FUNC_QUALIFIER void imulExtended(int x, int y, __thread__ int & msb, __thread__ int & lsb)
 	{
 		GLM_STATIC_ASSERT(sizeof(int) == sizeof(int32), "int and int32 size mismatch");
 
@@ -247,7 +251,7 @@ namespace detail
 	}
 
 	template <precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER void imulExtended(vecType<int, P> const & x, vecType<int, P> const & y, vecType<int, P> & msb, vecType<int, P> & lsb)
+	GLM_FUNC_QUALIFIER void imulExtended(__thread__ vecType<int, P> const & x, __thread__ vecType<int, P> const & y, __thread__ vecType<int, P> & msb, __thread__ vecType<int, P> & lsb)
 	{
 		GLM_STATIC_ASSERT(sizeof(int) == sizeof(int32), "int and int32 size mismatch");
 
@@ -264,7 +268,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldExtract(vecType<T, P> const & Value, int Offset, int Bits)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldExtract(__thread__ vecType<T, P> const & Value, int Offset, int Bits)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'bitfieldExtract' only accept integer inputs");
 
@@ -273,13 +277,13 @@ namespace detail
 
 	// bitfieldInsert
 	template <typename genIUType>
-	GLM_FUNC_QUALIFIER genIUType bitfieldInsert(genIUType const & Base, genIUType const & Insert, int Offset, int Bits)
+	GLM_FUNC_QUALIFIER genIUType bitfieldInsert(__thread__ genIUType const & Base, __thread__ genIUType const & Insert, int Offset, int Bits)
 	{
 		return bitfieldInsert(tvec1<genIUType>(Base), tvec1<genIUType>(Insert), Offset, Bits).x;
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldInsert(vecType<T, P> const & Base, vecType<T, P> const & Insert, int Offset, int Bits)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldInsert(__thread__ vecType<T, P> const & Base, __thread__ vecType<T, P> const & Insert, int Offset, int Bits)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'bitfieldInsert' only accept integer values");
 
@@ -295,7 +299,7 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldReverse(vecType<T, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldReverse(__thread__ vecType<T, P> const & v)
 	{
 		vecType<T, P> x(v);
 		x = detail::compute_bitfieldReverseStep<T, P, vecType, detail::is_aligned<P>::value, sizeof(T) * 8>=  2>::call(x, T(0x5555555555555555ull), static_cast<T>( 1));
@@ -315,9 +319,9 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P, template <typename, glm::precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<int, P> bitCount(vecType<T, P> const & v)
+	GLM_FUNC_QUALIFIER vecType<int, P> bitCount(__thread__ vecType<T, P> const & v)
 	{
-		vecType<typename detail::make_unsigned<T>::type, P> x(*reinterpret_cast<vecType<typename detail::make_unsigned<T>::type, P> const *>(&v));
+		vecType<typename detail::make_unsigned<T>::type, P> x(*reinterpret_cast<__thread__ vecType<typename detail::make_unsigned<T>::type, P> const *>(&v));
 		x = detail::compute_bitfieldBitCountStep<typename detail::make_unsigned<T>::type, P, vecType, detail::is_aligned<P>::value, sizeof(T) * 8>=  2>::call(x, typename detail::make_unsigned<T>::type(0x5555555555555555ull), typename detail::make_unsigned<T>::type( 1));
 		x = detail::compute_bitfieldBitCountStep<typename detail::make_unsigned<T>::type, P, vecType, detail::is_aligned<P>::value, sizeof(T) * 8>=  4>::call(x, typename detail::make_unsigned<T>::type(0x3333333333333333ull), typename detail::make_unsigned<T>::type( 2));
 		x = detail::compute_bitfieldBitCountStep<typename detail::make_unsigned<T>::type, P, vecType, detail::is_aligned<P>::value, sizeof(T) * 8>=  8>::call(x, typename detail::make_unsigned<T>::type(0x0F0F0F0F0F0F0F0Full), typename detail::make_unsigned<T>::type( 4));
@@ -337,7 +341,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<int, P> findLSB(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<int, P> findLSB(__thread__ vecType<T, P> const & x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'findLSB' only accept integer values");
 
@@ -354,7 +358,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<int, P> findMSB(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<int, P> findMSB(__thread__ vecType<T, P> const & x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'findMSB' only accept integer values");
 

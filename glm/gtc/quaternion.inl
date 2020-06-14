@@ -4,7 +4,10 @@
 #include "../trigonometric.hpp"
 #include "../geometric.hpp"
 #include "../exponential.hpp"
-#include <limits>
+
+#if !__METAL_VERSION__
+#   include <limits>
+#endif // __METAL_VERSION__
 
 namespace glm{
 namespace detail
@@ -12,7 +15,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_dot<tquat, T, P, Aligned>
 	{
-		static GLM_FUNC_QUALIFIER T call(tquat<T, P> const& x, tquat<T, P> const& y)
+		static GLM_FUNC_QUALIFIER T call(__thread__ tquat<T, P> const& x, __thread__ tquat<T, P> const& y)
 		{
 			tvec4<T, P> tmp(x.x * y.x, x.y * y.y, x.z * y.z, x.w * y.w);
 			return (tmp.x + tmp.y) + (tmp.z + tmp.w);
@@ -22,7 +25,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_quat_add
 	{
-		static tquat<T, P> call(tquat<T, P> const& q, tquat<T, P> const& p)
+		static tquat<T, P> call(__thread__ tquat<T, P> const& q, __thread__ tquat<T, P> const& p)
 		{
 			return tquat<T, P>(q.w + p.w, q.x + p.x, q.y + p.y, q.z + p.z);
 		}
@@ -31,7 +34,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_quat_sub
 	{
-		static tquat<T, P> call(tquat<T, P> const& q, tquat<T, P> const& p)
+		static tquat<T, P> call(__thread__ tquat<T, P> const& q, __thread__ tquat<T, P> const& p)
 		{
 			return tquat<T, P>(q.w - p.w, q.x - p.x, q.y - p.y, q.z - p.z);
 		}
@@ -40,7 +43,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_quat_mul_scalar
 	{
-		static tquat<T, P> call(tquat<T, P> const& q, T s)
+		static tquat<T, P> call(__thread__ tquat<T, P> const& q, T s)
 		{
 			return tquat<T, P>(q.w * s, q.x * s, q.y * s, q.z * s);
 		}
@@ -49,7 +52,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_quat_div_scalar
 	{
-		static tquat<T, P> call(tquat<T, P> const& q, T s)
+		static tquat<T, P> call(__thread__ tquat<T, P> const& q, T s)
 		{
 			return tquat<T, P>(q.w / s, q.x / s, q.y / s, q.z / s);
 		}
@@ -58,7 +61,7 @@ namespace detail
 	template <typename T, precision P, bool Aligned>
 	struct compute_quat_mul_vec4
 	{
-		static tvec4<T, P> call(tquat<T, P> const & q, tvec4<T, P> const & v)
+		static tvec4<T, P> call(__thread__ tquat<T, P> const & q, __thread__ tvec4<T, P> const & v)
 		{
 			return tvec4<T, P>(q * tvec3<T, P>(v), v.w);
 		}
@@ -68,14 +71,14 @@ namespace detail
 	// -- Component accesses --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T & tquat<T, P>::operator[](typename tquat<T, P>::length_type i)
+	GLM_FUNC_QUALIFIER __thread__ T & tquat<T, P>::operator[](typename tquat<T, P>::length_type i)
 	{
 		assert(i >= 0 && i < this->length());
 		return (&x)[i];
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T const & tquat<T, P>::operator[](typename tquat<T, P>::length_type i) const
+	GLM_FUNC_QUALIFIER __thread__ T const & tquat<T, P>::operator[](typename tquat<T, P>::length_type i) const
 	{
 		assert(i >= 0 && i < this->length());
 		return (&x)[i];
@@ -94,14 +97,14 @@ namespace detail
 
 #	if !GLM_HAS_DEFAULTED_FUNCTIONS
 		template <typename T, precision P>
-		GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(tquat<T, P> const & q)
+		GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(__thread__ tquat<T, P> const & q)
 			: x(q.x), y(q.y), z(q.z), w(q.w)
 		{}
 #	endif//!GLM_HAS_DEFAULTED_FUNCTIONS
 
 	template <typename T, precision P>
 	template <precision Q>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(tquat<T, Q> const & q)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(__thread__ tquat<T, Q> const & q)
 		: x(q.x), y(q.y), z(q.z), w(q.w)
 	{}
 
@@ -112,12 +115,12 @@ namespace detail
 	{}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(T const & s, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(__thread__ T const & s, __thread__ tvec3<T, P> const & v)
 		: x(v.x), y(v.y), z(v.z), w(s)
 	{}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(T const & w, T const & x, T const & y, T const & z)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(__thread__ T const & w, __thread__ T const & x, __thread__ T const & y, __thread__ T const & z)
 		: x(x), y(y), z(z), w(w)
 	{}
 
@@ -125,7 +128,7 @@ namespace detail
 
 	template <typename T, precision P>
 	template <typename U, precision Q>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(tquat<U, Q> const & q)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR tquat<T, P>::tquat(__thread__ tquat<U, Q> const & q)
 		: x(static_cast<T>(q.x))
 		, y(static_cast<T>(q.y))
 		, z(static_cast<T>(q.z))
@@ -151,7 +154,7 @@ namespace detail
 	//}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(tvec3<T, P> const & u, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(__thread__ tvec3<T, P> const & u, __thread__ tvec3<T, P> const & v)
 	{
 		tvec3<T, P> const LocalW(cross(u, v));
 		T Dot = detail::compute_dot<tvec3, T, P, detail::is_aligned<P>::value>::call(u, v);
@@ -161,7 +164,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(tvec3<T, P> const & eulerAngle)
+	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(__thread__ tvec3<T, P> const & eulerAngle)
 	{
 		tvec3<T, P> c = glm::cos(eulerAngle * T(0.5));
 		tvec3<T, P> s = glm::sin(eulerAngle * T(0.5));
@@ -173,13 +176,13 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(tmat3x3<T, P> const & m)
+	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(__thread__ tmat3x3<T, P> const & m)
 	{
 		*this = quat_cast(m);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(tmat4x4<T, P> const & m)
+	GLM_FUNC_QUALIFIER tquat<T, P>::tquat(__thread__ tmat4x4<T, P> const & m)
 	{
 		*this = quat_cast(m);
 	}
@@ -199,13 +202,13 @@ namespace detail
 #	endif//GLM_HAS_EXPLICIT_CONVERSION_OPERATORS
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> conjugate(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tquat<T, P> conjugate(__thread__ tquat<T, P> const & q)
 	{
 		return tquat<T, P>(q.w, -q.x, -q.y, -q.z);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> inverse(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tquat<T, P> inverse(__thread__ tquat<T, P> const & q)
 	{
 		return conjugate(q) / dot(q, q);
 	}
@@ -214,7 +217,7 @@ namespace detail
 
 #	if !GLM_HAS_DEFAULTED_FUNCTIONS
 		template <typename T, precision P>
-		GLM_FUNC_QUALIFIER tquat<T, P> & tquat<T, P>::operator=(tquat<T, P> const & q)
+		GLM_FUNC_QUALIFIER __thread__ tquat<T, P> & tquat<T, P>::operator=(__thread__ tquat<T, P> const & q)
 		{
 			this->w = q.w;
 			this->x = q.x;
@@ -226,7 +229,7 @@ namespace detail
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tquat<T, P> & tquat<T, P>::operator=(tquat<U, P> const & q)
+	GLM_FUNC_QUALIFIER __thread__ tquat<T, P> & tquat<T, P>::operator=(__thread__ tquat<U, P> const & q)
 	{
 		this->w = static_cast<T>(q.w);
 		this->x = static_cast<T>(q.x);
@@ -237,21 +240,21 @@ namespace detail
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tquat<T, P> & tquat<T, P>::operator+=(tquat<U, P> const& q)
+	GLM_FUNC_QUALIFIER __thread__ tquat<T, P> & tquat<T, P>::operator+=(__thread__ tquat<U, P> const& q)
 	{
 		return (*this = detail::compute_quat_add<T, P, detail::is_aligned<P>::value>::call(*this, tquat<T, P>(q)));
 	}
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tquat<T, P> & tquat<T, P>::operator-=(tquat<U, P> const& q)
+	GLM_FUNC_QUALIFIER __thread__ tquat<T, P> & tquat<T, P>::operator-=(__thread__ tquat<U, P> const& q)
 	{
 		return (*this = detail::compute_quat_sub<T, P, detail::is_aligned<P>::value>::call(*this, tquat<T, P>(q)));
 	}
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tquat<T, P> & tquat<T, P>::operator*=(tquat<U, P> const & r)
+	GLM_FUNC_QUALIFIER __thread__ tquat<T, P> & tquat<T, P>::operator*=(__thread__ tquat<U, P> const & r)
 	{
 		tquat<T, P> const p(*this);
 		tquat<T, P> const q(r);
@@ -265,14 +268,14 @@ namespace detail
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tquat<T, P> & tquat<T, P>::operator*=(U s)
+	GLM_FUNC_QUALIFIER __thread__ tquat<T, P> & tquat<T, P>::operator*=(U s)
 	{
 		return (*this = detail::compute_quat_mul_scalar<T, P, detail::is_aligned<P>::value>::call(*this, static_cast<U>(s)));
 	}
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tquat<T, P> & tquat<T, P>::operator/=(U s)
+	GLM_FUNC_QUALIFIER __thread__ tquat<T, P> & tquat<T, P>::operator/=(U s)
 	{
 		return (*this = detail::compute_quat_div_scalar<T, P, detail::is_aligned<P>::value>::call(*this, static_cast<U>(s)));
 	}
@@ -280,13 +283,13 @@ namespace detail
 	// -- Unary bit operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> operator+(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tquat<T, P> operator+(__thread__ tquat<T, P> const & q)
 	{
 		return q;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> operator-(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tquat<T, P> operator-(__thread__ tquat<T, P> const & q)
 	{
 		return tquat<T, P>(-q.w, -q.x, -q.y, -q.z);
 	}
@@ -294,19 +297,19 @@ namespace detail
 	// -- Binary operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> operator+(tquat<T, P> const & q,	tquat<T, P> const & p)
+	GLM_FUNC_QUALIFIER tquat<T, P> operator+(__thread__ tquat<T, P> const & q,    __thread__ tquat<T, P> const & p)
 	{
 		return tquat<T, P>(q) += p;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> operator*(tquat<T, P> const & q,	tquat<T, P> const & p)
+	GLM_FUNC_QUALIFIER tquat<T, P> operator*(__thread__ tquat<T, P> const & q,    __thread__ tquat<T, P> const & p)
 	{
 		return tquat<T, P>(q) *= p;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> operator*(tquat<T, P> const & q,	tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec3<T, P> operator*(__thread__ tquat<T, P> const & q,	__thread__ tvec3<T, P> const & v)
 	{
 		tvec3<T, P> const QuatVector(q.x, q.y, q.z);
 		tvec3<T, P> const uv(glm::cross(QuatVector, v));
@@ -316,38 +319,38 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> operator*(tvec3<T, P> const & v, tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tvec3<T, P> operator*(__thread__ tvec3<T, P> const & v, __thread__ tquat<T, P> const & q)
 	{
 		return glm::inverse(q) * v;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<T, P> operator*(tquat<T, P> const& q, tvec4<T, P> const& v)
+	GLM_FUNC_QUALIFIER tvec4<T, P> operator*(__thread__ tquat<T, P> const& q, __thread__ tvec4<T, P> const& v)
 	{
 		return detail::compute_quat_mul_vec4<T, P, detail::is_aligned<P>::value>::call(q, v);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<T, P> operator*(tvec4<T, P> const & v, tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tvec4<T, P> operator*(__thread__ tvec4<T, P> const & v, __thread__ tquat<T, P> const & q)
 	{
 		return glm::inverse(q) * v;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> operator*(tquat<T, P> const & q, T const & s)
+	GLM_FUNC_QUALIFIER tquat<T, P> operator*(__thread__ tquat<T, P> const & q, __thread__ T const & s)
 	{
 		return tquat<T, P>(
 			q.w * s, q.x * s, q.y * s, q.z * s);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> operator*(T const & s, tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tquat<T, P> operator*(__thread__ T const & s, __thread__ tquat<T, P> const & q)
 	{
 		return q * s;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> operator/(tquat<T, P> const & q, T const & s)
+	GLM_FUNC_QUALIFIER tquat<T, P> operator/(__thread__ tquat<T, P> const & q, __thread__ T const & s)
 	{
 		return tquat<T, P>(
 			q.w / s, q.x / s, q.y / s, q.z / s);
@@ -356,13 +359,13 @@ namespace detail
 	// -- Boolean operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER bool operator==(tquat<T, P> const & q1, tquat<T, P> const & q2)
+	GLM_FUNC_QUALIFIER bool operator==(__thread__ tquat<T, P> const & q1, __thread__ tquat<T, P> const & q2)
 	{
 		return (q1.x == q2.x) && (q1.y == q2.y) && (q1.z == q2.z) && (q1.w == q2.w);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER bool operator!=(tquat<T, P> const & q1, tquat<T, P> const & q2)
+	GLM_FUNC_QUALIFIER bool operator!=(__thread__ tquat<T, P> const & q1, __thread__ tquat<T, P> const & q2)
 	{
 		return (q1.x != q2.x) || (q1.y != q2.y) || (q1.z != q2.z) || (q1.w != q2.w);
 	}
@@ -370,13 +373,13 @@ namespace detail
 	// -- Operations --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T length(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER T length(__thread__ tquat<T, P> const & q)
 	{
 		return glm::sqrt(dot(q, q));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> normalize(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tquat<T, P> normalize(__thread__ tquat<T, P> const & q)
 	{
 		T len = length(q);
 		if(len <= T(0)) // Problem
@@ -386,7 +389,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> cross(tquat<T, P> const & q1, tquat<T, P> const & q2)
+	GLM_FUNC_QUALIFIER tquat<T, P> cross(__thread__ tquat<T, P> const & q1, __thread__ tquat<T, P> const & q2)
 	{
 		return tquat<T, P>(
 			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z,
@@ -397,7 +400,7 @@ namespace detail
 /*
 	// (x * sin(1 - a) * angle / sin(angle)) + (y * sin(a) * angle / sin(angle))
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> mix(tquat<T, P> const & x, tquat<T, P> const & y, T const & a)
+	GLM_FUNC_QUALIFIER tquat<T, P> mix(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y, __thread__ T const & a)
 	{
 		if(a <= T(0)) return x;
 		if(a >= T(1)) return y;
@@ -436,9 +439,9 @@ namespace detail
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tquat<T, P> mix2
 	(
-		tquat<T, P> const & x, 
-		tquat<T, P> const & y, 
-		T const & a
+	    __thread__ tquat<T, P> const & x, 
+	    __thread__ tquat<T, P> const & y, 
+		__thread__ T const & a
 	)
 	{
 		bool flip = false;
@@ -472,7 +475,7 @@ namespace detail
 */
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> mix(tquat<T, P> const & x, tquat<T, P> const & y, T a)
+	GLM_FUNC_QUALIFIER tquat<T, P> mix(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y, T a)
 	{
 		T cosTheta = dot(x, y);
 
@@ -495,7 +498,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> lerp(tquat<T, P> const & x, tquat<T, P> const & y, T a)
+	GLM_FUNC_QUALIFIER tquat<T, P> lerp(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y, T a)
 	{
 		// Lerp is only defined in [0, 1]
 		assert(a >= static_cast<T>(0));
@@ -505,7 +508,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> slerp(tquat<T, P> const & x,	tquat<T, P> const & y, T a)
+	GLM_FUNC_QUALIFIER tquat<T, P> slerp(__thread__ tquat<T, P> const & x,    __thread__ tquat<T, P> const & y, T a)
 	{
 		tquat<T, P> z = y;
 
@@ -538,7 +541,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> rotate(tquat<T, P> const & q, T const & angle, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tquat<T, P> rotate(__thread__ tquat<T, P> const & q, __thread__ T const & angle, __thread__ tvec3<T, P> const & v)
 	{
 		tvec3<T, P> Tmp = v;
 
@@ -560,31 +563,31 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> eulerAngles(tquat<T, P> const & x)
+	GLM_FUNC_QUALIFIER tvec3<T, P> eulerAngles(__thread__ tquat<T, P> const & x)
 	{
 		return tvec3<T, P>(pitch(x), yaw(x), roll(x));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T roll(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER T roll(__thread__ tquat<T, P> const & q)
 	{
 		return T(atan(T(2) * (q.x * q.y + q.w * q.z), q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T pitch(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER T pitch(__thread__ tquat<T, P> const & q)
 	{
 		return T(atan(T(2) * (q.y * q.z + q.w * q.x), q.w * q.w - q.x * q.x - q.y * q.y + q.z * q.z));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T yaw(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER T yaw(__thread__ tquat<T, P> const & q)
 	{
 		return asin(clamp(T(-2) * (q.x * q.z - q.w * q.y), T(-1), T(1)));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat3x3<T, P> mat3_cast(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tmat3x3<T, P> mat3_cast(__thread__ tquat<T, P> const & q)
 	{
 		tmat3x3<T, P> Result(T(1));
 		T qxx(q.x * q.x);
@@ -612,13 +615,13 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> mat4_cast(tquat<T, P> const & q)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> mat4_cast(__thread__ tquat<T, P> const & q)
 	{
 		return tmat4x4<T, P>(mat3_cast(q));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> quat_cast(tmat3x3<T, P> const & m)
+	GLM_FUNC_QUALIFIER tquat<T, P> quat_cast(__thread__ tmat3x3<T, P> const & m)
 	{
 		T fourXSquaredMinus1 = m[0][0] - m[1][1] - m[2][2];
 		T fourYSquaredMinus1 = m[1][1] - m[0][0] - m[2][2];
@@ -682,19 +685,19 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> quat_cast(tmat4x4<T, P> const & m4)
+	GLM_FUNC_QUALIFIER tquat<T, P> quat_cast(__thread__ tmat4x4<T, P> const & m4)
 	{
 		return quat_cast(tmat3x3<T, P>(m4));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T angle(tquat<T, P> const & x)
+	GLM_FUNC_QUALIFIER T angle(__thread__ tquat<T, P> const & x)
 	{
 		return acos(x.w) * T(2);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> axis(tquat<T, P> const & x)
+	GLM_FUNC_QUALIFIER tvec3<T, P> axis(__thread__ tquat<T, P> const & x)
 	{
 		T tmp1 = static_cast<T>(1) - x.w * x.w;
 		if(tmp1 <= static_cast<T>(0))
@@ -704,7 +707,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tquat<T, P> angleAxis(T const & angle, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tquat<T, P> angleAxis(__thread__ T const & angle, __thread__ tvec3<T, P> const & v)
 	{
 		tquat<T, P> Result(uninitialize);
 
@@ -719,7 +722,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> lessThan(tquat<T, P> const & x, tquat<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> lessThan(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y)
 	{
 		tvec4<bool, P> Result(uninitialize);
 		for(length_t i = 0; i < x.length(); ++i)
@@ -728,7 +731,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> lessThanEqual(tquat<T, P> const & x, tquat<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> lessThanEqual(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y)
 	{
 		tvec4<bool, P> Result(uninitialize);
 		for(length_t i = 0; i < x.length(); ++i)
@@ -737,7 +740,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> greaterThan(tquat<T, P> const & x, tquat<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> greaterThan(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y)
 	{
 		tvec4<bool, P> Result(uninitialize);
 		for(length_t i = 0; i < x.length(); ++i)
@@ -746,7 +749,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> greaterThanEqual(tquat<T, P> const & x, tquat<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> greaterThanEqual(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y)
 	{
 		tvec4<bool, P> Result(uninitialize);
 		for(length_t i = 0; i < x.length(); ++i)
@@ -755,7 +758,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> equal(tquat<T, P> const & x, tquat<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> equal(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y)
 	{
 		tvec4<bool, P> Result(uninitialize);
 		for(length_t i = 0; i < x.length(); ++i)
@@ -764,7 +767,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> notEqual(tquat<T, P> const & x, tquat<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> notEqual(__thread__ tquat<T, P> const & x, __thread__ tquat<T, P> const & y)
 	{
 		tvec4<bool, P> Result(uninitialize);
 		for(length_t i = 0; i < x.length(); ++i)
@@ -773,7 +776,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> isnan(tquat<T, P> const& q)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> isnan(__thread__ tquat<T, P> const& q)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'isnan' only accept floating-point inputs");
 
@@ -781,7 +784,7 @@ namespace detail
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<bool, P> isinf(tquat<T, P> const& q)
+	GLM_FUNC_QUALIFIER tvec4<bool, P> isinf(__thread__ tquat<T, P> const& q)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'isinf' only accept floating-point inputs");
 

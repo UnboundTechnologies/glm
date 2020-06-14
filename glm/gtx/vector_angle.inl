@@ -6,8 +6,8 @@ namespace glm
 	template <typename genType> 
 	GLM_FUNC_QUALIFIER genType angle
 	(
-		genType const & x,
-		genType const & y
+	    __thread__ genType const & x,
+	    __thread__ genType const & y
 	)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<genType>::is_iec559, "'angle' only accept floating-point inputs");
@@ -17,8 +17,8 @@ namespace glm
 	template <typename T, precision P, template <typename, precision> class vecType> 
 	GLM_FUNC_QUALIFIER T angle
 	(
-		vecType<T, P> const & x,
-		vecType<T, P> const & y
+	    __thread__ vecType<T, P> const & x,
+	    __thread__ vecType<T, P> const & y
 	)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'angle' only accept floating-point inputs");
@@ -29,8 +29,8 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T orientedAngle
 	(
-		tvec2<T, P> const & x,
-		tvec2<T, P> const & y
+	    __thread__ tvec2<T, P> const & x,
+	    __thread__ tvec2<T, P> const & y
 	)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'orientedAngle' only accept floating-point inputs");
@@ -45,9 +45,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T orientedAngle
 	(
-		tvec3<T, P> const & x,
-		tvec3<T, P> const & y,
-		tvec3<T, P> const & ref
+		__thread__ tvec3<T, P> const & x,
+		__thread__ tvec3<T, P> const & y,
+		__thread__ tvec3<T, P> const & ref
 	)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'orientedAngle' only accept floating-point inputs");

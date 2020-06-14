@@ -6,7 +6,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> rgb2YCoCg
 	(
-		tvec3<T, P> const & rgbColor
+		__thread__ tvec3<T, P> const & rgbColor
 	)
 	{
 		tvec3<T, P> result;
@@ -19,7 +19,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> YCoCg2rgb
 	(
-		tvec3<T, P> const & YCoCgColor
+		__thread__ tvec3<T, P> const & YCoCgColor
 	)
 	{
 		tvec3<T, P> result;
@@ -34,7 +34,7 @@ namespace glm
 	public:
 		static GLM_FUNC_QUALIFIER tvec3<T, P> rgb2YCoCgR
 		(
-			tvec3<T, P> const & rgbColor
+			__thread__ tvec3<T, P> const & rgbColor
 		)
 		{
 			tvec3<T, P> result;
@@ -46,7 +46,7 @@ namespace glm
 
 		static GLM_FUNC_QUALIFIER tvec3<T, P> YCoCgR2rgb
 		(
-			tvec3<T, P> const & YCoCgRColor
+			__thread__ tvec3<T, P> const & YCoCgRColor
 		)
 		{
 			tvec3<T, P> result;
@@ -63,7 +63,7 @@ namespace glm
 	public:
 		static GLM_FUNC_QUALIFIER tvec3<T, P> rgb2YCoCgR
 		(
-			tvec3<T, P> const & rgbColor
+			__thread__ tvec3<T, P> const & rgbColor
 		)
 		{
 			tvec3<T, P> result;
@@ -76,7 +76,7 @@ namespace glm
 
 		static GLM_FUNC_QUALIFIER tvec3<T, P> YCoCgR2rgb
 		(
-			tvec3<T, P> const & YCoCgRColor
+			__thread__ tvec3<T, P> const & YCoCgRColor
 		)
 		{
 			tvec3<T, P> result;
@@ -91,7 +91,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> rgb2YCoCgR
 	(
-		tvec3<T, P> const & rgbColor
+		__thread__ tvec3<T, P> const & rgbColor
 	)
 	{
 		return compute_YCoCgR<T, P, std::numeric_limits<T>::is_integer>::rgb2YCoCgR(rgbColor);
@@ -100,7 +100,7 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> YCoCgR2rgb
 	(
-		tvec3<T, P> const & YCoCgRColor
+		__thread__ tvec3<T, P> const & YCoCgRColor
 	)
 	{
 		return compute_YCoCgR<T, P, std::numeric_limits<T>::is_integer>::YCoCgR2rgb(YCoCgRColor);

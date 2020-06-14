@@ -33,7 +33,7 @@ namespace glm
 	/// Faster than the common pow function but less accurate.
 	/// @see gtx_fast_exponential
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastPow(vecType<T, P> const & x, vecType<T, P> const & y);
+	GLM_FUNC_DECL vecType<T, P> fastPow(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y);
 
 	/// Faster than the common pow function but less accurate.
 	/// @see gtx_fast_exponential
@@ -43,7 +43,7 @@ namespace glm
 	/// Faster than the common pow function but less accurate.
 	/// @see gtx_fast_exponential
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastPow(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<T, P> fastPow(__thread__ vecType<T, P> const & x);
 
 	/// Faster than the common exp function but less accurate.
 	/// @see gtx_fast_exponential
@@ -53,7 +53,7 @@ namespace glm
 	/// Faster than the common exp function but less accurate.
 	/// @see gtx_fast_exponential
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastExp(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<T, P> fastExp(__thread__ vecType<T, P> const & x);
 
 	/// Faster than the common log function but less accurate.
 	/// @see gtx_fast_exponential
@@ -63,7 +63,7 @@ namespace glm
 	/// Faster than the common exp2 function but less accurate.
 	/// @see gtx_fast_exponential
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastLog(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<T, P> fastLog(__thread__ vecType<T, P> const & x);
 
 	/// Faster than the common exp2 function but less accurate.
 	/// @see gtx_fast_exponential
@@ -73,7 +73,7 @@ namespace glm
 	/// Faster than the common exp2 function but less accurate.
 	/// @see gtx_fast_exponential
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastExp2(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<T, P> fastExp2(__thread__ vecType<T, P> const & x);
 
 	/// Faster than the common log2 function but less accurate.
 	/// @see gtx_fast_exponential
@@ -83,7 +83,7 @@ namespace glm
 	/// Faster than the common log2 function but less accurate.
 	/// @see gtx_fast_exponential
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastLog2(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<T, P> fastLog2(__thread__ vecType<T, P> const & x);
 
 	/// @}
 }//namespace glm

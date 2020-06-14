@@ -8,7 +8,7 @@
 namespace glm
 {
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> translate(tmat4x4<T, P> const & m, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> translate(__thread__ tmat4x4<T, P> const & m, __thread__ tvec3<T, P> const & v)
 	{
 		tmat4x4<T, P> Result(m);
 		Result[3] = m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3];
@@ -16,7 +16,7 @@ namespace glm
 	}
 	
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> rotate(tmat4x4<T, P> const & m, T angle, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> rotate(__thread__ tmat4x4<T, P> const & m, T angle, __thread__ tvec3<T, P> const & v)
 	{
 		T const a = angle;
 		T const c = cos(a);
@@ -47,7 +47,7 @@ namespace glm
 	}
 		
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> rotate_slow(tmat4x4<T, P> const & m, T angle, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> rotate_slow(__thread__ tmat4x4<T, P> const & m, T angle, __thread__ tvec3<T, P> const & v)
 	{
 		T const a = angle;
 		T const c = cos(a);
@@ -76,7 +76,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> scale(tmat4x4<T, P> const & m, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> scale(__thread__ tmat4x4<T, P> const & m, __thread__ tvec3<T, P> const & v)
 	{
 		tmat4x4<T, P> Result(uninitialize);
 		Result[0] = m[0] * v[0];
@@ -87,7 +87,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> scale_slow(tmat4x4<T, P> const & m, tvec3<T, P> const & v)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> scale_slow(__thread__ tmat4x4<T, P> const & m, __thread__ tvec3<T, P> const & v)
 	{
 		tmat4x4<T, P> Result(T(1));
 		Result[0][0] = v.x;
@@ -438,10 +438,10 @@ namespace glm
 	template <typename T, typename U, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> project
 	(
-		tvec3<T, P> const & obj,
-		tmat4x4<T, P> const & model,
-		tmat4x4<T, P> const & proj,
-		tvec4<U, P> const & viewport
+		__thread__ tvec3<T, P> const & obj,
+		__thread__ tmat4x4<T, P> const & model,
+		__thread__ tmat4x4<T, P> const & proj,
+		__thread__ tvec4<U, P> const & viewport
 	)
 	{
 		tvec4<T, P> tmp = tvec4<T, P>(obj, static_cast<T>(1));
@@ -464,10 +464,10 @@ namespace glm
 	template <typename T, typename U, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> unProject
 	(
-		tvec3<T, P> const & win,
-		tmat4x4<T, P> const & model,
-		tmat4x4<T, P> const & proj,
-		tvec4<U, P> const & viewport
+		__thread__ tvec3<T, P> const & win,
+		__thread__ tmat4x4<T, P> const & model,
+		__thread__ tmat4x4<T, P> const & proj,
+		__thread__ tvec4<U, P> const & viewport
 	)
 	{
 		tmat4x4<T, P> Inverse = inverse(proj * model);
@@ -489,7 +489,7 @@ namespace glm
 	}
 
 	template <typename T, precision P, typename U>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> pickMatrix(tvec2<T, P> const & center, tvec2<T, P> const & delta, tvec4<U, P> const & viewport)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> pickMatrix(__thread__ tvec2<T, P> const & center, __thread__ tvec2<T, P> const & delta, __thread__ tvec4<U, P> const & viewport)
 	{
 		assert(delta.x > static_cast<T>(0) && delta.y > static_cast<T>(0));
 		tmat4x4<T, P> Result(static_cast<T>(1));
@@ -508,7 +508,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat4x4<T, P> lookAt(tvec3<T, P> const & eye, tvec3<T, P> const & center, tvec3<T, P> const & up)
+	GLM_FUNC_QUALIFIER tmat4x4<T, P> lookAt(__thread__ tvec3<T, P> const & eye, __thread__ tvec3<T, P> const & center, __thread__ tvec3<T, P> const & up)
 	{
 #		if GLM_COORDINATE_SYSTEM == GLM_LEFT_HANDED
 			return lookAtLH(eye, center, up);
@@ -520,9 +520,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> lookAtRH
 	(
-		tvec3<T, P> const & eye,
-		tvec3<T, P> const & center,
-		tvec3<T, P> const & up
+		__thread__ tvec3<T, P> const & eye,
+		__thread__ tvec3<T, P> const & center,
+		__thread__ tvec3<T, P> const & up
 	)
 	{
 		tvec3<T, P> const f(normalize(center - eye));
@@ -548,9 +548,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tmat4x4<T, P> lookAtLH
 	(
-		tvec3<T, P> const & eye,
-		tvec3<T, P> const & center,
-		tvec3<T, P> const & up
+		__thread__ tvec3<T, P> const & eye,
+		__thread__ tvec3<T, P> const & center,
+		__thread__ tvec3<T, P> const & up
 	)
 	{
 		tvec3<T, P> const f(normalize(center - eye));

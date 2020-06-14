@@ -38,7 +38,7 @@ namespace glm
 	///
 	/// @see gtx_fast_square_root extension.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastSqrt(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<T, P> fastSqrt(__thread__ vecType<T, P> const & x);
 
 	/// Faster than the common inversesqrt function but less accurate.
 	///
@@ -50,7 +50,7 @@ namespace glm
 	///
 	/// @see gtx_fast_square_root extension.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL vecType<T, P> fastInverseSqrt(vecType<T, P> const & x);
+	GLM_FUNC_DECL vecType<T, P> fastInverseSqrt(__thread__ vecType<T, P> const & x);
 
 	/// Faster than the common length function but less accurate.
 	///
@@ -62,7 +62,7 @@ namespace glm
 	///
 	/// @see gtx_fast_square_root extension.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL T fastLength(vecType<T, P> const & x);
+	GLM_FUNC_DECL T fastLength(__thread__ vecType<T, P> const & x);
 
 	/// Faster than the common distance function but less accurate.
 	///
@@ -74,13 +74,13 @@ namespace glm
 	///
 	/// @see gtx_fast_square_root extension.
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_DECL T fastDistance(vecType<T, P> const & x, vecType<T, P> const & y);
+	GLM_FUNC_DECL T fastDistance(__thread__ vecType<T, P> const & x, __thread__ vecType<T, P> const & y);
 
 	/// Faster than the common normalize function but less accurate.
 	///
 	/// @see gtx_fast_square_root extension.
 	template <typename genType> 
-	GLM_FUNC_DECL genType fastNormalize(genType const & x);
+	GLM_FUNC_DECL genType fastNormalize(__thread__ genType const & x);
 
 	/// @}
 }// namespace glm

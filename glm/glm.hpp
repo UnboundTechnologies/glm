@@ -53,11 +53,17 @@
 
 #pragma once
 
-#include <cmath>
-#include <climits>
-#include <cfloat>
-#include <limits>
-#include <cassert>
+#if !__METAL_VERSION__
+#   include <cmath>
+#   include <climits>
+#   include <cfloat>
+#   include <limits>
+#   include <cassert>
+#else
+#    include <metal_stdlib>
+#    include <simd/simd.h>
+#endif // __METAL_VERSION__
+
 #include "fwd.hpp"
 
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_MESSAGE_CORE_INCLUDED_DISPLAYED)

@@ -40,7 +40,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tvec3<T, P>>::operator()(glm::tvec3<T, P> const & v) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tvec3<T, P>>::operator()(glm::__thread__ tvec3<T, P> const & v) const
 	{
 		size_t seed = 0;
 		hash<T> hasher;
@@ -85,7 +85,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tmat2x2<T, P>>::operator()(glm::tmat2x2<T, P> const & m) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tmat2x2<T, P>>::operator()(glm::__thread__ tmat2x2<T, P> const & m) const
 	{
 		size_t seed = 0;
 		hash<glm::tvec2<T, P>> hasher;
@@ -95,7 +95,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tmat2x3<T, P>>::operator()(glm::tmat2x3<T, P> const & m) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tmat2x3<T, P>>::operator()(glm::__thread__ tmat2x3<T, P> const & m) const
 	{
 		size_t seed = 0;
 		hash<glm::tvec3<T, P>> hasher;
@@ -105,7 +105,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tmat2x4<T, P>>::operator()(glm::tmat2x4<T, P> const & m) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tmat2x4<T, P>>::operator()(glm::__thread__ tmat2x4<T, P> const & m) const
 	{
 		size_t seed = 0;
 		hash<glm::tvec4<T, P>> hasher;
@@ -115,7 +115,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tmat3x2<T, P>>::operator()(glm::tmat3x2<T, P> const & m) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tmat3x2<T, P>>::operator()(glm::__thread__ tmat3x2<T, P> const & m) const
 	{
 		size_t seed = 0;
 		hash<glm::tvec2<T, P>> hasher;
@@ -126,7 +126,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tmat3x3<T, P>>::operator()(glm::tmat3x3<T, P> const & m) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tmat3x3<T, P>>::operator()(glm::__thread__ tmat3x3<T, P> const & m) const
 	{
 		size_t seed = 0;
 		hash<glm::tvec3<T, P>> hasher;
@@ -137,7 +137,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tmat3x4<T, P>>::operator()(glm::tmat3x4<T, P> const & m) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tmat3x4<T, P>>::operator()(glm::__thread__ tmat3x4<T, P> const & m) const
 	{
 		size_t seed = 0;
 		hash<glm::tvec4<T, P>> hasher;
@@ -172,7 +172,7 @@ namespace std
 	}
 
 	template <typename T, glm::precision P>
-	GLM_FUNC_QUALIFIER size_t hash<glm::tmat4x4<T,P>>::operator()(glm::tmat4x4<T, P> const & m) const
+	GLM_FUNC_QUALIFIER size_t hash<glm::tmat4x4<T,P>>::operator()(glm::__thread__ tmat4x4<T, P> const & m) const
 	{
 		size_t seed = 0;
 		hash<glm::tvec4<T, P>> hasher;

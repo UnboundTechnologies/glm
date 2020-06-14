@@ -185,7 +185,7 @@ namespace gli
 	inline void image2D::setPixel
 	(
 		dimensions_type const & TexelCoord,
-		genType const & TexelData
+	    __thread__ genType const & TexelData
 	)
 	{
 		size_type Index = this->dimensions().x * sizeof(genType) * TexelCoord.y + sizeof(genType) * TexelCoord.x;

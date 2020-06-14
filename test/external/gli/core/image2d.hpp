@@ -133,7 +133,7 @@ namespace gli
 		explicit image2D(
 			dimensions_type const & Dimensions,
 			format_type const & Format, 
-			genType const & Value);
+		    __thread__ genType const & Value);
 
 		explicit image2D(
 			dimensions_type const & Dimensions,
@@ -145,7 +145,7 @@ namespace gli
 		template <typename genType>
 		void setPixel(
 			dimensions_type const & TexelCoord,
-			genType const & TexelData);
+		    __thread__ genType const & TexelData);
 
 		size_type value_size() const;
 		size_type capacity() const;

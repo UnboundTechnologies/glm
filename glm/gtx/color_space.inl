@@ -4,7 +4,7 @@
 namespace glm
 {
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> rgbColor(const tvec3<T, P>& hsvColor)
+	GLM_FUNC_QUALIFIER tvec3<T, P> rgbColor(__thread__ const tvec3<T, P>& hsvColor)
 	{
 		tvec3<T, P> hsv = hsvColor;
 		tvec3<T, P> rgbColor;
@@ -61,7 +61,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> hsvColor(const tvec3<T, P>& rgbColor)
+	GLM_FUNC_QUALIFIER tvec3<T, P> hsvColor(__thread__ const tvec3<T, P>& rgbColor)
 	{
 		tvec3<T, P> hsv = rgbColor;
 		float Min   = min(min(rgbColor.r, rgbColor.g), rgbColor.b);
@@ -121,19 +121,19 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec3<T, P> saturation(const T s, const tvec3<T, P>& color)
+	GLM_FUNC_QUALIFIER tvec3<T, P> saturation(const T s, __thread__ const tvec3<T, P>& color)
 	{
 		return tvec3<T, P>(saturation(s) * tvec4<T, P>(color, T(0)));
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec4<T, P> saturation(const T s, const tvec4<T, P>& color)
+	GLM_FUNC_QUALIFIER tvec4<T, P> saturation(const T s, __thread__ const tvec4<T, P>& color)
 	{
 		return saturation(s) * color;
 	}
 
 	template <typename T, precision P> 
-	GLM_FUNC_QUALIFIER T luminosity(const tvec3<T, P>& color)
+	GLM_FUNC_QUALIFIER T luminosity(__thread__ const tvec3<T, P>& color)
 	{
 		const tvec3<T, P> tmp = tvec3<T, P>(0.33, 0.59, 0.11);
 		return dot(color, tmp);

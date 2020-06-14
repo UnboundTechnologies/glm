@@ -4,6 +4,7 @@
 #pragma once
 
 #include "type_vec.hpp"
+
 #if GLM_SWIZZLE == GLM_SWIZZLE_ENABLED
 #	if GLM_HAS_UNRESTRICTED_UNIONS
 #		include "_swizzle.hpp"
@@ -11,7 +12,10 @@
 #		include "_swizzle_func.hpp"
 #	endif
 #endif //GLM_SWIZZLE == GLM_SWIZZLE_ENABLED
-#include <cstddef>
+
+#if !__METAL_VERSION__
+#   include <cstddef>
+#endif // __METAL_VERSION__
 
 namespace glm
 {
@@ -81,15 +85,15 @@ namespace glm
 		typedef length_t length_type;
 		GLM_FUNC_DECL static length_type length(){return 3;}
 
-		GLM_FUNC_DECL T & operator[](length_type i);
-		GLM_FUNC_DECL T const & operator[](length_type i) const;
+		GLM_FUNC_DECL __thread__ T & operator[](length_type i);
+		GLM_FUNC_DECL __thread__ T const & operator[](length_type i) const;
 
 		// -- Implicit basic constructors --
 
 		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3() GLM_DEFAULT_CTOR;
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(tvec3<T, P> const & v) GLM_DEFAULT;
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(__thread__ tvec3<T, P> const & v) GLM_DEFAULT;
 		template <precision Q>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(tvec3<T, Q> const & v);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(__thread__ tvec3<T, Q> const & v);
 
 		// -- Explicit basic constructors --
 
@@ -103,29 +107,29 @@ namespace glm
 		template <typename A, typename B, typename C>
 		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(A a, B b, C c);
 		template <typename A, typename B, typename C>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(tvec1<A, P> const & a, tvec1<B, P> const & b, tvec1<C, P> const & c);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(__thread__ tvec1<A, P> const & a, __thread__ tvec1<B, P> const & b, __thread__ tvec1<C, P> const & c);
 
 		// -- Conversion vector constructors --
 
 		/// Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 		template <typename A, typename B, precision Q>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(tvec2<A, Q> const & a, B b);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(__thread__ tvec2<A, Q> const & a, B b);
 		/// Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 		template <typename A, typename B, precision Q>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(tvec2<A, Q> const & a, tvec1<B, Q> const & b);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(__thread__ tvec2<A, Q> const & a, __thread__ tvec1<B, Q> const & b);
 		/// Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 		template <typename A, typename B, precision Q>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(A a, tvec2<B, Q> const & b);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(A a, __thread__ tvec2<B, Q> const & b);
 		/// Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 		template <typename A, typename B, precision Q>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(tvec1<A, Q> const & a, tvec2<B, Q> const & b);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR tvec3(__thread__ tvec1<A, Q> const & a, __thread__ tvec2<B, Q> const & b);
 		/// Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 		template <typename U, precision Q>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR GLM_EXPLICIT tvec3(tvec4<U, Q> const & v);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR GLM_EXPLICIT tvec3(__thread__ tvec4<U, Q> const & v);
 
 		/// Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 		template <typename U, precision Q>
-		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR GLM_EXPLICIT tvec3(tvec3<U, Q> const & v);
+		GLM_FUNC_DECL GLM_CONSTEXPR_CTOR GLM_EXPLICIT tvec3(__thread__ tvec3<U, Q> const & v);
 
 		// -- Swizzle constructors --
 #		if GLM_HAS_UNRESTRICTED_UNIONS && (GLM_SWIZZLE == GLM_SWIZZLE_ENABLED)
@@ -136,13 +140,13 @@ namespace glm
 			}
 
 			template <int E0, int E1>
-			GLM_FUNC_DECL tvec3(detail::_swizzle<2, T, P, glm::tvec2, E0, E1, -1, -2> const & v, T const & scalar)
+			GLM_FUNC_DECL tvec3(detail::_swizzle<2, T, P, glm::tvec2, E0, E1, -1, -2> const & v, __thread__ T const & scalar)
 			{
 				*this = tvec3<T, P>(v(), scalar);
 			}
 
 			template <int E0, int E1>
-			GLM_FUNC_DECL tvec3(T const & scalar, detail::_swizzle<2, T, P, glm::tvec2, E0, E1, -1, -2> const & v)
+			GLM_FUNC_DECL tvec3(__thread__ T const & scalar, detail::_swizzle<2, T, P, glm::tvec2, E0, E1, -1, -2> const & v)
 			{
 				*this = tvec3<T, P>(scalar, v());
 			}
@@ -150,258 +154,258 @@ namespace glm
 
 		// -- Unary arithmetic operators --
 
-		GLM_FUNC_DECL tvec3<T, P> & operator=(tvec3<T, P> const & v) GLM_DEFAULT;
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator=(__thread__ tvec3<T, P> const & v) GLM_DEFAULT;
 
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator+=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator+=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator+=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator+=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator+=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator+=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator-=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator-=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator-=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator-=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator-=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator-=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator*=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator*=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator*=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator*=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator*=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator*=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator/=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator/=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator/=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator/=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator/=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator/=(__thread__ tvec3<U, P> const & v);
 
 		// -- Increment and decrement operators --
 
-		GLM_FUNC_DECL tvec3<T, P> & operator++();
-		GLM_FUNC_DECL tvec3<T, P> & operator--();
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator++();
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator--();
 		GLM_FUNC_DECL tvec3<T, P> operator++(int);
 		GLM_FUNC_DECL tvec3<T, P> operator--(int);
 
 		// -- Unary bit operators --
 
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator%=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator%=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator%=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator%=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator%=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator%=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator&=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator&=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator&=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator&=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator&=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator&=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator|=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator|=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator|=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator|=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator|=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator|=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator^=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator^=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator^=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator^=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator^=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator^=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator<<=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator<<=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator<<=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator<<=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator<<=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator<<=(__thread__ tvec3<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator>>=(U scalar);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator>>=(U scalar);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator>>=(tvec1<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator>>=(__thread__ tvec1<U, P> const & v);
 		template <typename U>
-		GLM_FUNC_DECL tvec3<T, P> & operator>>=(tvec3<U, P> const & v);
+		GLM_FUNC_DECL __thread__ tvec3<T, P> & operator>>=(__thread__ tvec3<U, P> const & v);
 	};
 
 	// -- Unary operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator+(tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator+(__thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator-(tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator-(__thread__ tvec3<T, P> const & v);
 
 	// -- Binary operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator+(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator+(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator+(tvec3<T, P> const & v, tvec1<T, P> const & scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator+(__thread__ tvec3<T, P> const & v, __thread__ tvec1<T, P> const & scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator+(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator+(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator+(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator+(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator+(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator+(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator-(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator-(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator-(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator-(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator-(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator-(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator-(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator-(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator-(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator-(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator*(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator*(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator*(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator*(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator*(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator*(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator*(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator*(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator*(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator*(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator/(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator/(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator/(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator/(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator/(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator/(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator/(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator/(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator/(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator/(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator%(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator%(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator%(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator%(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator%(T const & scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator%(__thread__ T const & scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator%(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator%(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator%(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator%(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator&(tvec3<T, P> const & v1, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator&(__thread__ tvec3<T, P> const & v1, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator&(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator&(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator&(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator&(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator&(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator&(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator&(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator&(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator|(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator|(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator|(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator|(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator|(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator|(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator|(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator|(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator|(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator|(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator^(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator^(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator^(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator^(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator^(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator^(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator^(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator^(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator^(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator^(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator<<(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator<<(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator<<(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator<<(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator<<(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator<<(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator<<(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator<<(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator<<(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator<<(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator>>(tvec3<T, P> const & v, T scalar);
+	GLM_FUNC_DECL tvec3<T, P> operator>>(__thread__ tvec3<T, P> const & v, T scalar);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator>>(tvec3<T, P> const & v1, tvec1<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator>>(__thread__ tvec3<T, P> const & v1, __thread__ tvec1<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator>>(T scalar, tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator>>(T scalar, __thread__ tvec3<T, P> const & v);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator>>(tvec1<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator>>(__thread__ tvec1<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator>>(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL tvec3<T, P> operator>>(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P> 
-	GLM_FUNC_DECL tvec3<T, P> operator~(tvec3<T, P> const & v);
+	GLM_FUNC_DECL tvec3<T, P> operator~(__thread__ tvec3<T, P> const & v);
 
 	// -- Boolean operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL bool operator==(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL bool operator==(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL bool operator!=(tvec3<T, P> const & v1, tvec3<T, P> const & v2);
+	GLM_FUNC_DECL bool operator!=(__thread__ tvec3<T, P> const & v1, __thread__ tvec3<T, P> const & v2);
 
 	template <precision P>
-	GLM_FUNC_DECL tvec3<bool, P> operator&&(tvec3<bool, P> const & v1, tvec3<bool, P> const & v2);
+	GLM_FUNC_DECL tvec3<bool, P> operator&&(__thread__ tvec3<bool, P> const & v1, __thread__ tvec3<bool, P> const & v2);
 
 	template <precision P>
-	GLM_FUNC_DECL tvec3<bool, P> operator||(tvec3<bool, P> const & v1, tvec3<bool, P> const & v2);
+	GLM_FUNC_DECL tvec3<bool, P> operator||(__thread__ tvec3<bool, P> const & v1, __thread__ tvec3<bool, P> const & v2);
 }//namespace glm
 
 #ifndef GLM_EXTERNAL_TEMPLATE

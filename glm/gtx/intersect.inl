@@ -6,9 +6,9 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER bool intersectRayPlane
 	(
-		genType const & orig, genType const & dir,
-		genType const & planeOrig, genType const & planeNormal,
-		typename genType::value_type & intersectionDistance
+	    __thread__ genType const & orig, __thread__ genType const & dir,
+	    __thread__ genType const & planeOrig, __thread__ genType const & planeNormal,
+	    __thread__ typename genType::value_type & intersectionDistance
 	)
 	{
 		typename genType::value_type d = glm::dot(dir, planeNormal);
@@ -26,9 +26,9 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER bool intersectRayTriangle
 	(
-		genType const & orig, genType const & dir,
-		genType const & v0, genType const & v1, genType const & v2,
-		genType & baryPosition
+	    __thread__ genType const & orig, __thread__ genType const & dir,
+	    __thread__ genType const & v0, __thread__ genType const & v1, __thread__ genType const & v2,
+	    __thread__ genType & baryPosition
 	)
 	{
 		genType e1 = v1 - v0;
@@ -66,9 +66,9 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER bool intersectLineTriangle
 	(
-		genType const & orig, genType const & dir,
-		genType const & vert0, genType const & vert1, genType const & vert2,
-		genType & position
+	    __thread__ genType const & orig, __thread__ genType const & dir,
+	    __thread__ genType const & vert0, __thread__ genType const & vert1, __thread__ genType const & vert2,
+	    __thread__ genType & position
 	)
 	{
 		typename genType::value_type Epsilon = std::numeric_limits<typename genType::value_type>::epsilon();
@@ -104,9 +104,9 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER bool intersectRaySphere
 	(
-		genType const & rayStarting, genType const & rayNormalizedDirection,
-		genType const & sphereCenter, const typename genType::value_type sphereRadiusSquered,
-		typename genType::value_type & intersectionDistance
+	    __thread__ genType const & rayStarting, __thread__ genType const & rayNormalizedDirection,
+	    __thread__ genType const & sphereCenter, const typename genType::value_type sphereRadiusSquered,
+	    __thread__ typename genType::value_type & intersectionDistance
 	)
 	{
 		typename genType::value_type Epsilon = std::numeric_limits<typename genType::value_type>::epsilon();
@@ -125,9 +125,9 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER bool intersectRaySphere
 	(
-		genType const & rayStarting, genType const & rayNormalizedDirection,
-		genType const & sphereCenter, const typename genType::value_type sphereRadius,
-		genType & intersectionPosition, genType & intersectionNormal
+	    __thread__ genType const & rayStarting, __thread__ genType const & rayNormalizedDirection,
+	    __thread__ genType const & sphereCenter, const typename genType::value_type sphereRadius,
+	    __thread__ genType & intersectionPosition, __thread__ genType & intersectionNormal
 	)
 	{
 		typename genType::value_type distance;
@@ -143,10 +143,10 @@ namespace glm
 	template <typename genType>
 	GLM_FUNC_QUALIFIER bool intersectLineSphere
 	(
-		genType const & point0, genType const & point1,
-		genType const & sphereCenter, typename genType::value_type sphereRadius,
-		genType & intersectionPoint1, genType & intersectionNormal1, 
-		genType & intersectionPoint2, genType & intersectionNormal2
+	    __thread__ genType const & point0, __thread__ genType const & point1,
+	    __thread__ genType const & sphereCenter, typename genType::value_type sphereRadius,
+	    __thread__ genType & intersectionPoint1, __thread__ genType & intersectionNormal1, 
+	    __thread__ genType & intersectionPoint2, __thread__ genType & intersectionNormal2
 	)
 	{
 		typename genType::value_type Epsilon = std::numeric_limits<typename genType::value_type>::epsilon();

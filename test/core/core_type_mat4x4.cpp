@@ -14,7 +14,7 @@
 
 
 template <typename genType>
-void print(genType const & Mat0)
+void print(__thread__ genType const & Mat0)
 {
 	printf("mat4(\n");
 	printf("\tvec4(%2.9f, %2.9f, %2.9f, %2.9f)\n", Mat0[0][0], Mat0[0][1], Mat0[0][2], Mat0[0][3]);

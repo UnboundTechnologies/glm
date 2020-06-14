@@ -231,7 +231,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecIUType>
-	GLM_FUNC_QUALIFIER vecIUType<T, P> mask(vecIUType<T, P> const& v)
+	GLM_FUNC_QUALIFIER vecIUType<T, P> mask(__thread__ vecIUType<T, P> const& v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'mask' accepts only integer values");
 
@@ -248,7 +248,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldRotateRight(vecType<T, P> const & In, int Shift)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldRotateRight(__thread__ vecType<T, P> const & In, int Shift)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'bitfieldRotateRight' accepts only integer values");
 
@@ -266,7 +266,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldRotateLeft(vecType<T, P> const& In, int Shift)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldRotateLeft(__thread__ vecType<T, P> const& In, int Shift)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_integer, "'bitfieldRotateLeft' accepts only integer values");
 
@@ -281,7 +281,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldFillOne(vecType<T, P> const& Value, int FirstBit, int BitCount)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldFillOne(__thread__ vecType<T, P> const& Value, int FirstBit, int BitCount)
 	{
 		return Value | static_cast<T>(mask(BitCount) << FirstBit);
 	}
@@ -293,7 +293,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldFillZero(vecType<T, P> const& Value, int FirstBit, int BitCount)
+	GLM_FUNC_QUALIFIER vecType<T, P> bitfieldFillZero(__thread__ vecType<T, P> const& Value, int FirstBit, int BitCount)
 	{
 		return Value & static_cast<T>(~(mask(BitCount) << FirstBit));
 	}

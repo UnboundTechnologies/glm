@@ -70,7 +70,7 @@ namespace detail
 
 	// factorial (!12 max, integer only)
 	template <typename genType>
-	GLM_FUNC_QUALIFIER genType factorial(genType const & x)
+	GLM_FUNC_QUALIFIER genType factorial(__thread__ genType const & x)
 	{
 		genType Temp = x;
 		genType Result;
@@ -81,7 +81,7 @@ namespace detail
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec2<T, P> factorial(
-		tvec2<T, P> const & x)
+		__thread__ tvec2<T, P> const & x)
 	{
 		return tvec2<T, P>(
 			factorial(x.x),
@@ -90,7 +90,7 @@ namespace detail
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> factorial(
-		tvec3<T, P> const & x)
+		__thread__ tvec3<T, P> const & x)
 	{
 		return tvec3<T, P>(
 			factorial(x.x),
@@ -100,7 +100,7 @@ namespace detail
 
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec4<T, P> factorial(
-		tvec4<T, P> const & x)
+		__thread__ tvec4<T, P> const & x)
 	{
 		return tvec4<T, P>(
 			factorial(x.x),

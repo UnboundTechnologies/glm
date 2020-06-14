@@ -29,14 +29,14 @@ namespace glm
 
 #	if !GLM_HAS_DEFAULTED_FUNCTIONS
 		template <typename T, precision P>
-		GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(tvec2<T, P> const & v)
+		GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(__thread__ tvec2<T, P> const & v)
 			: x(v.x), y(v.y)
 		{}
 #	endif//!GLM_HAS_DEFAULTED_FUNCTIONS
 
 	template <typename T, precision P>
 	template <precision Q>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(tvec2<T, Q> const & v)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(__thread__ tvec2<T, Q> const & v)
 		: x(v.x), y(v.y)
 	{}
 
@@ -67,7 +67,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename A, typename B>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(tvec1<A, P> const & a, tvec1<B, P> const & b)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(__thread__ tvec1<A, P> const & a, __thread__ tvec1<B, P> const & b)
 		: x(static_cast<T>(a.x))
 		, y(static_cast<T>(b.x))
 	{}
@@ -76,21 +76,21 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U, precision Q>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(tvec2<U, Q> const & v)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(__thread__ tvec2<U, Q> const & v)
 		: x(static_cast<T>(v.x))
 		, y(static_cast<T>(v.y))
 	{}
 
 	template <typename T, precision P>
 	template <typename U, precision Q>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(tvec3<U, Q> const & v)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(__thread__ tvec3<U, Q> const & v)
 		: x(static_cast<T>(v.x))
 		, y(static_cast<T>(v.y))
 	{}
 
 	template <typename T, precision P>
 	template <typename U, precision Q>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(tvec4<U, Q> const & v)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR_CTOR tvec2<T, P>::tvec2(__thread__ tvec4<U, Q> const & v)
 		: x(static_cast<T>(v.x))
 		, y(static_cast<T>(v.y))
 	{}
@@ -98,14 +98,14 @@ namespace glm
 	// -- Component accesses --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T & tvec2<T, P>::operator[](typename tvec2<T, P>::length_type i)
+	GLM_FUNC_QUALIFIER __thread__ T & tvec2<T, P>::operator[](typename tvec2<T, P>::length_type i)
 	{
 		assert(i >= 0 && i < this->length());
 		return (&x)[i];
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER T const & tvec2<T, P>::operator[](typename tvec2<T, P>::length_type i) const
+	GLM_FUNC_QUALIFIER __thread__ T const & tvec2<T, P>::operator[](typename tvec2<T, P>::length_type i) const
 	{
 		assert(i >= 0 && i < this->length());
 		return (&x)[i];
@@ -115,7 +115,7 @@ namespace glm
 
 #	if !GLM_HAS_DEFAULTED_FUNCTIONS
 		template <typename T, precision P>
-		GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator=(tvec2<T, P> const & v)
+		GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator=(__thread__ tvec2<T, P> const & v)
 		{
 			this->x = v.x;
 			this->y = v.y;
@@ -125,7 +125,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x = static_cast<T>(v.x);
 		this->y = static_cast<T>(v.y);
@@ -134,7 +134,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator+=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator+=(U scalar)
 	{
 		this->x += static_cast<T>(scalar);
 		this->y += static_cast<T>(scalar);
@@ -143,7 +143,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator+=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator+=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x += static_cast<T>(v.x);
 		this->y += static_cast<T>(v.x);
@@ -152,7 +152,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator+=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator+=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x += static_cast<T>(v.x);
 		this->y += static_cast<T>(v.y);
@@ -161,7 +161,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator-=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator-=(U scalar)
 	{
 		this->x -= static_cast<T>(scalar);
 		this->y -= static_cast<T>(scalar);
@@ -170,7 +170,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator-=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator-=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x -= static_cast<T>(v.x);
 		this->y -= static_cast<T>(v.x);
@@ -179,7 +179,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator-=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator-=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x -= static_cast<T>(v.x);
 		this->y -= static_cast<T>(v.y);
@@ -188,7 +188,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator*=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator*=(U scalar)
 	{
 		this->x *= static_cast<T>(scalar);
 		this->y *= static_cast<T>(scalar);
@@ -197,7 +197,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator*=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator*=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x *= static_cast<T>(v.x);
 		this->y *= static_cast<T>(v.x);
@@ -206,7 +206,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator*=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator*=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x *= static_cast<T>(v.x);
 		this->y *= static_cast<T>(v.y);
@@ -215,7 +215,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator/=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator/=(U scalar)
 	{
 		this->x /= static_cast<T>(scalar);
 		this->y /= static_cast<T>(scalar);
@@ -224,7 +224,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator/=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator/=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x /= static_cast<T>(v.x);
 		this->y /= static_cast<T>(v.x);
@@ -233,7 +233,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator/=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator/=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x /= static_cast<T>(v.x);
 		this->y /= static_cast<T>(v.y);
@@ -243,7 +243,7 @@ namespace glm
 	// -- Increment and decrement operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator++()
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator++()
 	{
 		++this->x;
 		++this->y;
@@ -251,7 +251,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator--()
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator--()
 	{
 		--this->x;
 		--this->y;
@@ -278,7 +278,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator%=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator%=(U scalar)
 	{
 		this->x %= static_cast<T>(scalar);
 		this->y %= static_cast<T>(scalar);
@@ -287,7 +287,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator%=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator%=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x %= static_cast<T>(v.x);
 		this->y %= static_cast<T>(v.x);
@@ -296,7 +296,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator%=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator%=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x %= static_cast<T>(v.x);
 		this->y %= static_cast<T>(v.y);
@@ -305,7 +305,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator&=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator&=(U scalar)
 	{
 		this->x &= static_cast<T>(scalar);
 		this->y &= static_cast<T>(scalar);
@@ -314,7 +314,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator&=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator&=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x &= static_cast<T>(v.x);
 		this->y &= static_cast<T>(v.x);
@@ -323,7 +323,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator&=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator&=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x &= static_cast<T>(v.x);
 		this->y &= static_cast<T>(v.y);
@@ -332,7 +332,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator|=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator|=(U scalar)
 	{
 		this->x |= static_cast<T>(scalar);
 		this->y |= static_cast<T>(scalar);
@@ -341,7 +341,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator|=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator|=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x |= static_cast<T>(v.x);
 		this->y |= static_cast<T>(v.x);
@@ -350,7 +350,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator|=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator|=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x |= static_cast<T>(v.x);
 		this->y |= static_cast<T>(v.y);
@@ -359,7 +359,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator^=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator^=(U scalar)
 	{
 		this->x ^= static_cast<T>(scalar);
 		this->y ^= static_cast<T>(scalar);
@@ -368,7 +368,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator^=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator^=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x ^= static_cast<T>(v.x);
 		this->y ^= static_cast<T>(v.x);
@@ -377,7 +377,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator^=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator^=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x ^= static_cast<T>(v.x);
 		this->y ^= static_cast<T>(v.y);
@@ -386,7 +386,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator<<=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator<<=(U scalar)
 	{
 		this->x <<= static_cast<T>(scalar);
 		this->y <<= static_cast<T>(scalar);
@@ -395,7 +395,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator<<=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator<<=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x <<= static_cast<T>(v.x);
 		this->y <<= static_cast<T>(v.x);
@@ -404,7 +404,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator<<=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator<<=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x <<= static_cast<T>(v.x);
 		this->y <<= static_cast<T>(v.y);
@@ -413,7 +413,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator>>=(U scalar)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator>>=(U scalar)
 	{
 		this->x >>= static_cast<T>(scalar);
 		this->y >>= static_cast<T>(scalar);
@@ -422,7 +422,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator>>=(tvec1<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator>>=(__thread__ tvec1<U, P> const & v)
 	{
 		this->x >>= static_cast<T>(v.x);
 		this->y >>= static_cast<T>(v.x);
@@ -431,7 +431,7 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator>>=(tvec2<U, P> const & v)
+	GLM_FUNC_QUALIFIER __thread__ tvec2<T, P> & tvec2<T, P>::operator>>=(__thread__ tvec2<U, P> const & v)
 	{
 		this->x >>= static_cast<T>(v.x);
 		this->y >>= static_cast<T>(v.y);
@@ -441,13 +441,13 @@ namespace glm
 	// -- Unary arithmetic operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(__thread__ tvec2<T, P> const & v)
 	{
 		return v;
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(__thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			-v.x, 
@@ -457,7 +457,7 @@ namespace glm
 	// -- Binary arithmetic operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x + scalar,
@@ -465,7 +465,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x + v2.x,
@@ -473,7 +473,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar + v.x,
@@ -481,7 +481,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x + v2.x,
@@ -489,7 +489,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x + v2.x,
@@ -497,7 +497,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x - scalar,
@@ -505,7 +505,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x - v2.x,
@@ -513,7 +513,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar - v.x,
@@ -521,7 +521,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x - v2.x,
@@ -529,7 +529,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x - v2.x,
@@ -537,7 +537,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x * scalar,
@@ -545,7 +545,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x * v2.x,
@@ -553,7 +553,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar * v.x,
@@ -561,7 +561,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x * v2.x,
@@ -569,7 +569,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x * v2.x,
@@ -577,7 +577,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x / scalar,
@@ -585,7 +585,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x / v2.x,
@@ -593,7 +593,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar / v.x,
@@ -601,7 +601,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x / v2.x,
@@ -609,7 +609,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x / v2.x,
@@ -619,7 +619,7 @@ namespace glm
 	// -- Binary bit operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x % scalar,
@@ -627,7 +627,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x % v2.x,
@@ -635,7 +635,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar % v.x,
@@ -643,7 +643,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x % v2.x,
@@ -651,7 +651,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x % v2.x,
@@ -659,7 +659,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x & scalar,
@@ -667,7 +667,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x & v2.x,
@@ -675,7 +675,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar & v.x,
@@ -683,7 +683,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x & v2.x,
@@ -691,7 +691,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x & v2.x,
@@ -699,7 +699,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x | scalar,
@@ -707,7 +707,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x | v2.x,
@@ -715,7 +715,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar | v.x,
@@ -723,7 +723,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x | v2.x,
@@ -731,7 +731,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x | v2.x,
@@ -739,7 +739,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x ^ scalar,
@@ -747,7 +747,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x ^ v2.x,
@@ -755,7 +755,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar ^ v.x,
@@ -763,7 +763,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x ^ v2.x,
@@ -771,7 +771,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x ^ v2.x,
@@ -779,7 +779,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x << scalar,
@@ -787,7 +787,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x << v2.x,
@@ -795,7 +795,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar << v.x,
@@ -803,7 +803,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x << v2.x,
@@ -811,7 +811,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x << v2.x,
@@ -819,7 +819,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(tvec2<T, P> const & v, T scalar)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(__thread__ tvec2<T, P> const & v, T scalar)
 	{
 		return tvec2<T, P>(
 			v.x >> scalar,
@@ -827,7 +827,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(tvec2<T, P> const & v1, tvec1<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(__thread__ tvec2<T, P> const & v1, __thread__ tvec1<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x >> v2.x,
@@ -835,7 +835,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(T scalar, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(T scalar, __thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			scalar >> v.x,
@@ -843,7 +843,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(tvec1<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(__thread__ tvec1<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x >> v2.x,
@@ -851,7 +851,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return tvec2<T, P>(
 			v1.x >> v2.x,
@@ -859,7 +859,7 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator~(tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator~(__thread__ tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
 			~v.x,
@@ -869,25 +869,25 @@ namespace glm
 	// -- Boolean operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER bool operator==(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER bool operator==(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return (v1.x == v2.x) && (v1.y == v2.y);
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER bool operator!=(tvec2<T, P> const & v1, tvec2<T, P> const & v2)
+	GLM_FUNC_QUALIFIER bool operator!=(__thread__ tvec2<T, P> const & v1, __thread__ tvec2<T, P> const & v2)
 	{
 		return (v1.x != v2.x) || (v1.y != v2.y);
 	}
 
 	template <precision P>
-	GLM_FUNC_QUALIFIER tvec2<bool, P> operator&&(tvec2<bool, P> const & v1, tvec2<bool, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<bool, P> operator&&(__thread__ tvec2<bool, P> const & v1, __thread__ tvec2<bool, P> const & v2)
 	{
 		return tvec2<bool, P>(v1.x && v2.x, v1.y && v2.y);
 	}
 
 	template <precision P>
-	GLM_FUNC_QUALIFIER tvec2<bool, P> operator||(tvec2<bool, P> const & v1, tvec2<bool, P> const & v2)
+	GLM_FUNC_QUALIFIER tvec2<bool, P> operator||(__thread__ tvec2<bool, P> const & v1, __thread__ tvec2<bool, P> const & v2)
 	{
 		return tvec2<bool, P>(v1.x || v2.x, v1.y || v2.y);
 	}

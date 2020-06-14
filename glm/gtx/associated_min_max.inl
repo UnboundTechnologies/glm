@@ -13,8 +13,8 @@ GLM_FUNC_QUALIFIER U associatedMin(T x, U a, T y, U b)
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER tvec2<U, P> associatedMin
 (
-	vecType<T, P> const & x, vecType<U, P> const & a,
-	vecType<T, P> const & y, vecType<U, P> const & b
+    __thread__ vecType<T, P> const & x, __thread__ vecType<U, P> const & a,
+    __thread__ vecType<T, P> const & y, __thread__ vecType<U, P> const & b
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -26,8 +26,8 @@ GLM_FUNC_QUALIFIER tvec2<U, P> associatedMin
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 (
-	T x, const vecType<U, P>& a,
-	T y, const vecType<U, P>& b
+	T x, __thread__ const vecType<U, P>& a,
+	T y, __thread__ const vecType<U, P>& b
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -39,8 +39,8 @@ GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 (
-	vecType<T, P> const & x, U a,
-	vecType<T, P> const & y, U b
+    __thread__ vecType<T, P> const & x, U a,
+    __thread__ vecType<T, P> const & y, U b
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -65,9 +65,9 @@ GLM_FUNC_QUALIFIER U associatedMin
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 (
-	vecType<T, P> const & x, vecType<U, P> const & a,
-	vecType<T, P> const & y, vecType<U, P> const & b,
-	vecType<T, P> const & z, vecType<U, P> const & c
+    __thread__ vecType<T, P> const & x, __thread__ vecType<U, P> const & a,
+    __thread__ vecType<T, P> const & y, __thread__ vecType<U, P> const & b,
+    __thread__ vecType<T, P> const & z, __thread__ vecType<U, P> const & c
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -98,10 +98,10 @@ GLM_FUNC_QUALIFIER U associatedMin
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 (
-	vecType<T, P> const & x, vecType<U, P> const & a,
-	vecType<T, P> const & y, vecType<U, P> const & b,
-	vecType<T, P> const & z, vecType<U, P> const & c,
-	vecType<T, P> const & w, vecType<U, P> const & d
+    __thread__ vecType<T, P> const & x, __thread__ vecType<U, P> const & a,
+    __thread__ vecType<T, P> const & y, __thread__ vecType<U, P> const & b,
+    __thread__ vecType<T, P> const & z, __thread__ vecType<U, P> const & c,
+    __thread__ vecType<T, P> const & w, __thread__ vecType<U, P> const & d
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -120,10 +120,10 @@ GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 (
-	T x, vecType<U, P> const & a,
-	T y, vecType<U, P> const & b,
-	T z, vecType<U, P> const & c,
-	T w, vecType<U, P> const & d
+	T x, __thread__ vecType<U, P> const & a,
+	T y, __thread__ vecType<U, P> const & b,
+	T z, __thread__ vecType<U, P> const & c,
+	T w, __thread__ vecType<U, P> const & d
 )
 {
 	T Test1 = min(x, y);
@@ -143,10 +143,10 @@ GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMin
 (
-	vecType<T, P> const & x, U a,
-	vecType<T, P> const & y, U b,
-	vecType<T, P> const & z, U c,
-	vecType<T, P> const & w, U d
+    __thread__ vecType<T, P> const & x, U a,
+    __thread__ vecType<T, P> const & y, U b,
+    __thread__ vecType<T, P> const & z, U c,
+    __thread__ vecType<T, P> const & w, U d
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -172,8 +172,8 @@ GLM_FUNC_QUALIFIER U associatedMax(T x, U a, T y, U b)
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER tvec2<U, P> associatedMax
 (
-	vecType<T, P> const & x, vecType<U, P> const & a,
-	vecType<T, P> const & y, vecType<U, P> const & b
+    __thread__ vecType<T, P> const & x, __thread__ vecType<U, P> const & a,
+    __thread__ vecType<T, P> const & y, __thread__ vecType<U, P> const & b
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -186,8 +186,8 @@ GLM_FUNC_QUALIFIER tvec2<U, P> associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<T, P> associatedMax
 (
-	T x, vecType<U, P> const & a,
-	T y, vecType<U, P> const & b
+	T x, __thread__ vecType<U, P> const & a,
+	T y, __thread__ vecType<U, P> const & b
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -200,8 +200,8 @@ GLM_FUNC_QUALIFIER vecType<T, P> associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 (
-	vecType<T, P> const & x, U a,
-	vecType<T, P> const & y, U b
+    __thread__ vecType<T, P> const & x, U a,
+    __thread__ vecType<T, P> const & y, U b
 )
 {
 	vecType<T, P> Result(uninitialize);
@@ -227,9 +227,9 @@ GLM_FUNC_QUALIFIER U associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 (
-	vecType<T, P> const & x, vecType<U, P> const & a,
-	vecType<T, P> const & y, vecType<U, P> const & b,
-	vecType<T, P> const & z, vecType<U, P> const & c
+    __thread__ vecType<T, P> const & x, __thread__ vecType<U, P> const & a,
+    __thread__ vecType<T, P> const & y, __thread__ vecType<U, P> const & b,
+    __thread__ vecType<T, P> const & z, __thread__ vecType<U, P> const & c
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -242,9 +242,9 @@ GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<T, P> associatedMax
 (
-	T x, vecType<U, P> const & a,
-	T y, vecType<U, P> const & b,
-	T z, vecType<U, P> const & c
+	T x, __thread__ vecType<U, P> const & a,
+	T y, __thread__ vecType<U, P> const & b,
+	T z, __thread__ vecType<U, P> const & c
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -257,9 +257,9 @@ GLM_FUNC_QUALIFIER vecType<T, P> associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 (
-	vecType<T, P> const & x, U a,
-	vecType<T, P> const & y, U b,
-	vecType<T, P> const & z, U c
+    __thread__ vecType<T, P> const & x, U a,
+    __thread__ vecType<T, P> const & y, U b,
+    __thread__ vecType<T, P> const & z, U c
 )
 {
 	vecType<T, P> Result(uninitialize);
@@ -290,10 +290,10 @@ GLM_FUNC_QUALIFIER U associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 (
-	vecType<T, P> const & x, vecType<U, P> const & a,
-	vecType<T, P> const & y, vecType<U, P> const & b,
-	vecType<T, P> const & z, vecType<U, P> const & c,
-	vecType<T, P> const & w, vecType<U, P> const & d
+    __thread__ vecType<T, P> const & x, __thread__ vecType<U, P> const & a,
+    __thread__ vecType<T, P> const & y, __thread__ vecType<U, P> const & b,
+    __thread__ vecType<T, P> const & z, __thread__ vecType<U, P> const & c,
+    __thread__ vecType<T, P> const & w, __thread__ vecType<U, P> const & d
 )
 {
 	vecType<U, P> Result(uninitialize);
@@ -312,10 +312,10 @@ GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 (
-	T x, vecType<U, P> const & a,
-	T y, vecType<U, P> const & b,
-	T z, vecType<U, P> const & c,
-	T w, vecType<U, P> const & d
+	T x, __thread__ vecType<U, P> const & a,
+	T y, __thread__ vecType<U, P> const & b,
+	T z, __thread__ vecType<U, P> const & c,
+	T w, __thread__ vecType<U, P> const & d
 )
 {
 	T Test1 = max(x, y);
@@ -335,10 +335,10 @@ GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 template<typename T, typename U, precision P, template <typename, precision> class vecType>
 GLM_FUNC_QUALIFIER vecType<U, P> associatedMax
 (
-	vecType<T, P> const & x, U a,
-	vecType<T, P> const & y, U b,
-	vecType<T, P> const & z, U c,
-	vecType<T, P> const & w, U d
+    __thread__ vecType<T, P> const & x, U a,
+    __thread__ vecType<T, P> const & y, U b,
+    __thread__ vecType<T, P> const & z, U c,
+    __thread__ vecType<T, P> const & w, U d
 )
 {
 	vecType<U, P> Result(uninitialize);

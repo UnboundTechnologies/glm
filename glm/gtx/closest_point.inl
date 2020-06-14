@@ -6,9 +6,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec3<T, P> closestPointOnLine
 	(
-		tvec3<T, P> const & point,
-		tvec3<T, P> const & a,
-		tvec3<T, P> const & b
+		__thread__ tvec3<T, P> const & point,
+		__thread__ tvec3<T, P> const & a,
+		__thread__ tvec3<T, P> const & b
 	)
 	{
 		T LineLength = distance(a, b);
@@ -26,9 +26,9 @@ namespace glm
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec2<T, P> closestPointOnLine
 	(
-		tvec2<T, P> const & point,
-		tvec2<T, P> const & a,
-		tvec2<T, P> const & b
+		__thread__ tvec2<T, P> const & point,
+		__thread__ tvec2<T, P> const & a,
+		__thread__ tvec2<T, P> const & b
 	)
 	{
 		T LineLength = distance(a, b);

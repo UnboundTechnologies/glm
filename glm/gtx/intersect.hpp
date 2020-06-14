@@ -14,8 +14,11 @@
 #pragma once
 
 // Dependency:
-#include <cfloat>
-#include <limits>
+#if !__METAL_VERSION__
+#   include <cfloat>
+#   include <limits>
+#endif // __METAL_VERSION__
+
 #include "../glm.hpp"
 #include "../geometric.hpp"
 #include "../gtx/closest_point.hpp"
@@ -35,51 +38,51 @@ namespace glm
 	//! From GLM_GTX_intersect extension.
 	template <typename genType>
 	GLM_FUNC_DECL bool intersectRayPlane(
-		genType const & orig, genType const & dir,
-		genType const & planeOrig, genType const & planeNormal,
-		typename genType::value_type & intersectionDistance);
+		__thread__ genType const & orig, __thread__ genType const & dir,
+		__thread__ genType const & planeOrig, __thread__ genType const & planeNormal,
+		__thread__ typename genType::value_type & intersectionDistance);
 
 	//! Compute the intersection of a ray and a triangle.
 	//! From GLM_GTX_intersect extension.
 	template <typename genType>
 	GLM_FUNC_DECL bool intersectRayTriangle(
-		genType const & orig, genType const & dir,
-		genType const & vert0, genType const & vert1, genType const & vert2,
-		genType & baryPosition);
+		__thread__ genType const & orig, __thread__ genType const & dir,
+		__thread__ genType const & vert0, __thread__ genType const & vert1, __thread__ genType const & vert2,
+		__thread__ genType & baryPosition);
 
 	//! Compute the intersection of a line and a triangle.
 	//! From GLM_GTX_intersect extension.
 	template <typename genType>
 	GLM_FUNC_DECL bool intersectLineTriangle(
-		genType const & orig, genType const & dir,
-		genType const & vert0, genType const & vert1, genType const & vert2,
-		genType & position);
+	    __thread__ genType const & orig, __thread__ genType const & dir,
+	    __thread__ genType const & vert0, __thread__ genType const & vert1, __thread__ genType const & vert2,
+	    __thread__ genType & position);
 
 	//! Compute the intersection distance of a ray and a sphere. 
 	//! The ray direction vector is unit length.
 	//! From GLM_GTX_intersect extension.
 	template <typename genType>
 	GLM_FUNC_DECL bool intersectRaySphere(
-		genType const & rayStarting, genType const & rayNormalizedDirection,
-		genType const & sphereCenter, typename genType::value_type const sphereRadiusSquered,
-		typename genType::value_type & intersectionDistance);
+	    __thread__ genType const & rayStarting, __thread__ genType const & rayNormalizedDirection,
+	    __thread__ genType const & sphereCenter, typename genType::value_type const sphereRadiusSquered,
+	    __thread__ typename genType::value_type & intersectionDistance);
 
 	//! Compute the intersection of a ray and a sphere.
 	//! From GLM_GTX_intersect extension.
 	template <typename genType>
 	GLM_FUNC_DECL bool intersectRaySphere(
-		genType const & rayStarting, genType const & rayNormalizedDirection,
-		genType const & sphereCenter, const typename genType::value_type sphereRadius,
-		genType & intersectionPosition, genType & intersectionNormal);
+	    __thread__ genType const & rayStarting, __thread__ genType const & rayNormalizedDirection,
+	    __thread__ genType const & sphereCenter, const typename genType::value_type sphereRadius,
+	    __thread__ genType & intersectionPosition, __thread__ genType & intersectionNormal);
 
 	//! Compute the intersection of a line and a sphere.
 	//! From GLM_GTX_intersect extension
 	template <typename genType>
 	GLM_FUNC_DECL bool intersectLineSphere(
-		genType const & point0, genType const & point1,
-		genType const & sphereCenter, typename genType::value_type sphereRadius,
-		genType & intersectionPosition1, genType & intersectionNormal1, 
-		genType & intersectionPosition2 = genType(), genType & intersectionNormal2 = genType());
+	    __thread__ genType const & point0, __thread__ genType const & point1,
+	    __thread__ genType const & sphereCenter, typename genType::value_type sphereRadius,
+	    __thread__ genType & intersectionPosition1, __thread__ genType & intersectionNormal1,
+	    __thread__ genType & intersectionPosition2 = genType(), __thread__ genType & intersectionNormal2 = genType());
 
 	/// @}
 }//namespace glm

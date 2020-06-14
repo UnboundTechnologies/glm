@@ -3,9 +3,12 @@
 
 #include "func_vector_relational.hpp"
 #include "_vectorize.hpp"
-#include <limits>
-#include <cmath>
-#include <cassert>
+
+#if !__METAL_VERSION__
+#   include <limits>
+#   include <cmath>
+#   include <cassert>
+#endif // __METAL_VERSION__
 
 namespace glm{
 namespace detail
@@ -23,7 +26,7 @@ namespace detail
 	template <typename T, precision P, template <class, precision> class vecType, bool isFloat, bool Aligned>
 	struct compute_log2
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & vec)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & vec)
 		{
 			return detail::functor1<T, T, P, vecType>::call(log2, vec);
 		}
@@ -32,7 +35,7 @@ namespace detail
 	template <template <class, precision> class vecType, typename T, precision P, bool Aligned>
 	struct compute_sqrt
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & x)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & x)
 		{
 			return detail::functor1<T, T, P, vecType>::call(std::sqrt, x);
 		}
@@ -41,7 +44,7 @@ namespace detail
 	template <template <class, precision> class vecType, typename T, precision P, bool Aligned>
 	struct compute_inversesqrt
 	{
-		GLM_FUNC_QUALIFIER static vecType<T, P> call(vecType<T, P> const & x)
+		GLM_FUNC_QUALIFIER static vecType<T, P> call(__thread__ vecType<T, P> const & x)
 		{
 			return static_cast<T>(1) / sqrt(x);
 		}
@@ -50,13 +53,13 @@ namespace detail
 	template <template <class, precision> class vecType, bool Aligned>
 	struct compute_inversesqrt<vecType, float, lowp, Aligned>
 	{
-		GLM_FUNC_QUALIFIER static vecType<float, lowp> call(vecType<float, lowp> const & x)
+		GLM_FUNC_QUALIFIER static vecType<float, lowp> call(__thread__ vecType<float, lowp> const & x)
 		{
 			vecType<float, lowp> tmp(x);
 			vecType<float, lowp> xhalf(tmp * 0.5f);
-			vecType<uint, lowp>* p = reinterpret_cast<vecType<uint, lowp>*>(const_cast<vecType<float, lowp>*>(&x));
+			__thread__ vecType<uint, lowp>* p = reinterpret_cast<__thread__ vecType<uint, lowp>*>(const_cast<__thread__ vecType<float, lowp>*>(&x));
 			vecType<uint, lowp> i = vecType<uint, lowp>(0x5f375a86) - (*p >> vecType<uint, lowp>(1));
-			vecType<float, lowp>* ptmp = reinterpret_cast<vecType<float, lowp>*>(&i);
+			__thread__ vecType<float, lowp>* ptmp = reinterpret_cast<__thread__ vecType<float, lowp>*>(&i);
 			tmp = *ptmp;
 			tmp = tmp * (1.5f - xhalf * tmp * tmp);
 			return tmp;
@@ -67,7 +70,7 @@ namespace detail
 	// pow
 	using std::pow;
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> pow(vecType<T, P> const & base, vecType<T, P> const & exponent)
+	GLM_FUNC_QUALIFIER vecType<T, P> pow(__thread__ vecType<T, P> const & base, __thread__ vecType<T, P> const & exponent)
 	{
 		return detail::functor2<T, P, vecType>::call(pow, base, exponent);
 	}
@@ -75,7 +78,7 @@ namespace detail
 	// exp
 	using std::exp;
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> exp(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> exp(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(exp, x);
 	}
@@ -83,7 +86,7 @@ namespace detail
 	// log
 	using std::log;
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> log(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> log(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(log, x);
 	}
@@ -98,7 +101,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> exp2(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> exp2(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(exp2, x);
 	}
@@ -111,7 +114,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> log2(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> log2(__thread__ vecType<T, P> const & x)
 	{
 		return detail::compute_log2<T, P, vecType, std::numeric_limits<T>::is_iec559, detail::is_aligned<P>::value>::call(x);
 	}
@@ -119,7 +122,7 @@ namespace detail
 	// sqrt
 	using std::sqrt;
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> sqrt(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> sqrt(__thread__ vecType<T, P> const & x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'sqrt' only accept floating-point inputs");
 		return detail::compute_sqrt<vecType, T, P, detail::is_aligned<P>::value>::call(x);
@@ -133,7 +136,7 @@ namespace detail
 	}
 	
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> inversesqrt(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> inversesqrt(__thread__ vecType<T, P> const & x)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'inversesqrt' only accept floating-point inputs");
 		return detail::compute_inversesqrt<vecType, T, P, detail::is_aligned<P>::value>::call(x);

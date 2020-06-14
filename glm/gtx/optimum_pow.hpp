@@ -29,19 +29,19 @@ namespace gtx
 	///
 	/// @see gtx_optimum_pow
 	template <typename genType>
-	GLM_FUNC_DECL genType pow2(genType const & x);
+	GLM_FUNC_DECL genType pow2(__thread__ genType const & x);
 
 	/// Returns x raised to the power of 3.
 	///
 	/// @see gtx_optimum_pow
 	template <typename genType>
-	GLM_FUNC_DECL genType pow3(genType const & x);
+	GLM_FUNC_DECL genType pow3(__thread__ genType const & x);
 
 	/// Returns x raised to the power of 4.
 	///
 	/// @see gtx_optimum_pow
 	template <typename genType>
-	GLM_FUNC_DECL genType pow4(genType const & x);
+	GLM_FUNC_DECL genType pow4(__thread__ genType const & x);
 
 	/// @}
 }//namespace gtx

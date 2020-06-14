@@ -47,8 +47,8 @@ namespace glm
 	/// @see gtc_random
 	template <typename T, precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL vecType<T, P> linearRand(
-		vecType<T, P> const & Min,
-		vecType<T, P> const & Max);
+		__thread__ vecType<T, P> const & Min,
+		__thread__ vecType<T, P> const & Max);
 
 	/// Generate random numbers in the interval [Min, Max], according a gaussian distribution 
 	/// 

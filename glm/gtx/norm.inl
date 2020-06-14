@@ -9,7 +9,7 @@ namespace detail
 	template <template <typename, precision> class vecType, typename T, precision P, bool Aligned>
 	struct compute_length2
 	{
-		GLM_FUNC_QUALIFIER static T call(vecType<T, P> const & v)
+		GLM_FUNC_QUALIFIER static T call(__thread__ vecType<T, P> const & v)
 		{
 			return dot(v, v);
 		}
@@ -24,7 +24,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER T length2(vecType<T, P> const & v)
+	GLM_FUNC_QUALIFIER T length2(__thread__ vecType<T, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'length2' accepts only floating-point inputs");
 		return detail::compute_length2<vecType, T, P, detail::is_aligned<P>::value>::call(v);
@@ -38,7 +38,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER T distance2(vecType<T, P> const & p0, vecType<T, P> const & p1)
+	GLM_FUNC_QUALIFIER T distance2(__thread__ vecType<T, P> const & p0, __thread__ vecType<T, P> const & p1)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<T>::is_iec559, "'distance2' accepts only floating-point inputs");
 		return length2(p1 - p0);
@@ -47,8 +47,8 @@ namespace detail
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T l1Norm
 	(
-		tvec3<T, P> const & a,
-		tvec3<T, P> const & b
+		__thread__ tvec3<T, P> const & a,
+		__thread__ tvec3<T, P> const & b
 	)
 	{
 		return abs(b.x - a.x) + abs(b.y - a.y) + abs(b.z - a.z);
@@ -57,7 +57,7 @@ namespace detail
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T l1Norm
 	(
-		tvec3<T, P> const & v
+		__thread__ tvec3<T, P> const & v
 	)
 	{
 		return abs(v.x) + abs(v.y) + abs(v.z);
@@ -66,8 +66,8 @@ namespace detail
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T l2Norm
 	(
-		tvec3<T, P> const & a,
-		tvec3<T, P> const & b
+		__thread__ tvec3<T, P> const & a,
+		__thread__ tvec3<T, P> const & b
 	)
 	{
 		return length(b - a);
@@ -76,7 +76,7 @@ namespace detail
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T l2Norm
 	(
-		tvec3<T, P> const & v
+		__thread__ tvec3<T, P> const & v
 	)
 	{
 		return length(v);
@@ -85,8 +85,8 @@ namespace detail
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T lxNorm
 	(
-		tvec3<T, P> const & x,
-		tvec3<T, P> const & y,
+		__thread__ tvec3<T, P> const & x,
+		__thread__ tvec3<T, P> const & y,
 		unsigned int Depth
 	)
 	{
@@ -96,7 +96,7 @@ namespace detail
 	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER T lxNorm
 	(
-		tvec3<T, P> const & v,
+		__thread__ tvec3<T, P> const & v,
 		unsigned int Depth
 	)
 	{

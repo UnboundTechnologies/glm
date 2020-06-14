@@ -37,26 +37,26 @@ namespace detail
 	template <glm::precision P>
 	struct is_aligned
 	{
-		static const bool value = false;
+		static __glm_constant bool value = false;
 	};
 
 #	if GLM_HAS_ALIGNED_TYPE
 		template<>
 		struct is_aligned<glm::aligned_lowp>
 		{
-			static const bool value = true;
+			static __glm_constant bool value = true;
 		};
 
 		template<>
 		struct is_aligned<glm::aligned_mediump>
 		{
-			static const bool value = true;
+			static __glm_constant bool value = true;
 		};
 
 		template<>
 		struct is_aligned<glm::aligned_highp>
 		{
-			static const bool value = true;
+			static __glm_constant bool value = true;
 		};
 #	endif
 }//namespace detail

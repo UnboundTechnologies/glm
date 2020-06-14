@@ -28,16 +28,16 @@ namespace glm
 	/// @see gtx_closest_point
 	template <typename T, precision P>
 	GLM_FUNC_DECL tvec3<T, P> closestPointOnLine(
-		tvec3<T, P> const & point,
-		tvec3<T, P> const & a, 
-		tvec3<T, P> const & b);
+		__thread__ tvec3<T, P> const & point,
+		__thread__ tvec3<T, P> const & a, 
+		__thread__ tvec3<T, P> const & b);
 	
 	/// 2d lines work as well	
 	template <typename T, precision P>
 	GLM_FUNC_DECL tvec2<T, P> closestPointOnLine(
-		tvec2<T, P> const & point,
-		tvec2<T, P> const & a, 
-		tvec2<T, P> const & b);	
+		__thread__ tvec2<T, P> const & point,
+		__thread__ tvec2<T, P> const & a,
+		__thread__ tvec2<T, P> const & b);	
 
 	/// @}
 }// namespace glm

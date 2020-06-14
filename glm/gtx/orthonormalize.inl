@@ -4,7 +4,7 @@
 namespace glm
 {
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tmat3x3<T, P> orthonormalize(tmat3x3<T, P> const & m)
+	GLM_FUNC_QUALIFIER tmat3x3<T, P> orthonormalize(__thread__ tmat3x3<T, P> const & m)
 	{
 		tmat3x3<T, P> r = m;
 
@@ -23,7 +23,7 @@ namespace glm
 	}
 
 	template <typename T, precision P> 
-	GLM_FUNC_QUALIFIER tvec3<T, P> orthonormalize(tvec3<T, P> const & x, tvec3<T, P> const & y)
+	GLM_FUNC_QUALIFIER tvec3<T, P> orthonormalize(__thread__ tvec3<T, P> const & x, __thread__ tvec3<T, P> const & y)
 	{
 		return normalize(x - y * dot(y, x));
 	}

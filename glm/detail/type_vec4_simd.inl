@@ -161,7 +161,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_and<T, P, true, 32, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm_and_si128(a.data, b.data);
@@ -173,7 +173,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_and<T, P, true, 64, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm256_and_si256(a.data, b.data);
@@ -185,7 +185,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_or<T, P, true, 32, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm_or_si128(a.data, b.data);
@@ -197,7 +197,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_or<T, P, true, 64, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm256_or_si256(a.data, b.data);
@@ -209,7 +209,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_xor<T, P, true, 32, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm_xor_si128(a.data, b.data);
@@ -221,7 +221,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_xor<T, P, true, 64, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm256_xor_si256(a.data, b.data);
@@ -233,7 +233,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_shift_left<T, P, true, 32, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm_sll_epi32(a.data, b.data);
@@ -245,7 +245,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_shift_left<T, P, true, 64, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm256_sll_epi64(a.data, b.data);
@@ -257,7 +257,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_shift_right<T, P, true, 32, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm_srl_epi32(a.data, b.data);
@@ -269,7 +269,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_shift_right<T, P, true, 64, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const& a, tvec4<T, P> const& b)
+		static tvec4<T, P> call(tvec4<T, P> const& a, __thread__ tvec4<T, P> const& b)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm256_srl_epi64(a.data, b.data);
@@ -281,7 +281,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_bitwise_not<T, P, true, 32, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const & v)
+		static tvec4<T, P> call(__thread__ tvec4<T, P> const & v)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm_xor_si128(v.data, _mm_set1_epi32(-1));
@@ -293,7 +293,7 @@ namespace detail
 	template <typename T, precision P>
 	struct compute_vec4_bitwise_not<T, P, true, 64, true>
 	{
-		static tvec4<T, P> call(tvec4<T, P> const & v)
+		static tvec4<T, P> call(__thread__ tvec4<T, P> const & v)
 		{
 			tvec4<T, P> Result(uninitialize);
 			Result.data = _mm256_xor_si256(v.data, _mm_set1_epi32(-1));

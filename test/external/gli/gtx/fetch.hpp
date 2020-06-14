@@ -33,7 +33,7 @@ namespace fetch
 		texture2D & Texture,
 		texture2D::dimensions_type const & Texcoord,
 		texture2D::level_type const & Level,
-		genType const & Color);
+	    __thread__ genType const & Color);
 
 }//namespace fetch
 }//namespace gtx

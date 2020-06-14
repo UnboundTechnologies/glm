@@ -27,7 +27,7 @@ namespace gli
 
         T & operator*();
         T * operator->();
-        T const & operator*() const;
+        __thread__ T const & operator*() const;
         T const * const operator->() const;
 
 		T * get();

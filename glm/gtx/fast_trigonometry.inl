@@ -5,7 +5,7 @@ namespace glm{
 namespace detail
 {
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> taylorCos(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> taylorCos(__thread__ vecType<T, P> const & x)
 	{
 		return static_cast<T>(1)
 			- (x * x) / 2.f
@@ -22,7 +22,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> cos_52s(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> cos_52s(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(cos_52s, x);
 	}
@@ -36,7 +36,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> wrapAngle(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> wrapAngle(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(wrapAngle, x);
 	}
@@ -58,7 +58,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastCos(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastCos(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastCos, x);
 	}
@@ -71,7 +71,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastSin(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastSin(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastSin, x);
 	}
@@ -84,7 +84,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastTan(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastTan(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastTan, x);
 	}
@@ -97,7 +97,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastAsin(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastAsin(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastAsin, x);
 	}
@@ -110,7 +110,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastAcos(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastAcos(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastAcos, x);
 	}
@@ -124,7 +124,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastAtan(vecType<T, P> const & y, vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastAtan(__thread__ vecType<T, P> const & y, __thread__ vecType<T, P> const & x)
 	{
 		return detail::functor2<T, P, vecType>::call(fastAtan, y, x);
 	}
@@ -136,7 +136,7 @@ namespace detail
 	}
 
 	template <typename T, precision P, template <typename, precision> class vecType>
-	GLM_FUNC_QUALIFIER vecType<T, P> fastAtan(vecType<T, P> const & x)
+	GLM_FUNC_QUALIFIER vecType<T, P> fastAtan(__thread__ vecType<T, P> const & x)
 	{
 		return detail::functor1<T, T, P, vecType>::call(fastAtan, x);
 	}

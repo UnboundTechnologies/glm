@@ -30,54 +30,54 @@ namespace glm
 	/// From GLM_GTX_norm extension.
 	template <typename T, precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL T length2(
-		vecType<T, P> const & x);
+	    __thread__ vecType<T, P> const & x);
 
 	/// Returns the squared distance between p0 and p1, i.e., length2(p0 - p1).
 	/// From GLM_GTX_norm extension.
 	template <typename T, precision P, template <typename, precision> class vecType>
 	GLM_FUNC_DECL T distance2(
-		vecType<T, P> const & p0,
-		vecType<T, P> const & p1);
+	    __thread__ vecType<T, P> const & p0,
+	    __thread__ vecType<T, P> const & p1);
 
 	//! Returns the L1 norm between x and y.
 	//! From GLM_GTX_norm extension.
 	template <typename T, precision P>
 	GLM_FUNC_DECL T l1Norm(
-		tvec3<T, P> const & x,
-		tvec3<T, P> const & y);
+		__thread__ tvec3<T, P> const & x,
+		__thread__ tvec3<T, P> const & y);
 		
 	//! Returns the L1 norm of v.
 	//! From GLM_GTX_norm extension.
 	template <typename T, precision P>
 	GLM_FUNC_DECL T l1Norm(
-		tvec3<T, P> const & v);
+		__thread__ tvec3<T, P> const & v);
 		
 	//! Returns the L2 norm between x and y.
 	//! From GLM_GTX_norm extension.
 	template <typename T, precision P>
 	GLM_FUNC_DECL T l2Norm(
-		tvec3<T, P> const & x,
-		tvec3<T, P> const & y);
+		__thread__ tvec3<T, P> const & x,
+		__thread__ tvec3<T, P> const & y);
 		
 	//! Returns the L2 norm of v.
 	//! From GLM_GTX_norm extension.
 	template <typename T, precision P>
 	GLM_FUNC_DECL T l2Norm(
-		tvec3<T, P> const & x);
+		__thread__ tvec3<T, P> const & x);
 		
 	//! Returns the L norm between x and y.
 	//! From GLM_GTX_norm extension.
 	template <typename T, precision P>
 	GLM_FUNC_DECL T lxNorm(
-		tvec3<T, P> const & x,
-		tvec3<T, P> const & y,
+		__thread__ tvec3<T, P> const & x,
+		__thread__ tvec3<T, P> const & y,
 		unsigned int Depth);
 
 	//! Returns the L norm of v.
 	//! From GLM_GTX_norm extension.
 	template <typename T, precision P>
 	GLM_FUNC_DECL T lxNorm(
-		tvec3<T, P> const & x,
+		__thread__ tvec3<T, P> const & x,
 		unsigned int Depth);
 
 	/// @}
