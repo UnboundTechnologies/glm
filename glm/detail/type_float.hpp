@@ -9,12 +9,21 @@ namespace glm{
 namespace detail
 {
 	typedef float				float32;
-	typedef double				float64;
+#if __METAL_VERSION__
+	typedef float				float64;
+#else
+    typedef double              float64;
+#endif
 }//namespace detail
 	
 	typedef float				lowp_float_t;
 	typedef float				mediump_float_t;
-	typedef double				highp_float_t;
+#if __METAL_VERSION__
+    typedef float                highp_float_t;
+#else
+    typedef double                highp_float_t;
+#endif
+
 
 	/// @addtogroup core_precision
 	/// @{
@@ -53,13 +62,18 @@ namespace detail
 #endif
 
 	typedef float				float32;
-	typedef double				float64;
-
+#if __METAL_VERSION__
+    typedef float                float64;
+#else
+    typedef double              float64;
+#endif
 ////////////////////
 // check type sizes
 #ifndef GLM_STATIC_ASSERT_NULL
 	GLM_STATIC_ASSERT(sizeof(glm::float32) == 4, "float32 size isn't 4 bytes on this platform");
-	GLM_STATIC_ASSERT(sizeof(glm::float64) == 8, "float64 size isn't 8 bytes on this platform");
+#ifndef __METAL_VERSION__
+    GLM_STATIC_ASSERT(sizeof(glm::float64) == 8, "float64 size isn't 8 bytes on this platform");
+#endif
 #endif//GLM_STATIC_ASSERT_NULL
 
 	/// @}

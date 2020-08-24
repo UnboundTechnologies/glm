@@ -225,51 +225,6 @@ namespace std {
         static constexpr constant float_round_style round_style = round_toward_zero;
     };
 
-    template<> class numeric_limits<double>
-    {
-        public:
-
-        static constexpr constant bool is_specialized = true;
-
-        static constexpr double min() noexcept { return DBL_MIN; }
-        static constexpr double max() noexcept { return DBL_MAX; }
-        static constexpr double lowest() noexcept { return -DBL_MAX; }
-
-        static constexpr constant int digits = DBL_MANT_DIG;
-        static constexpr constant int digits10 = DBL_DIG;
-        static constexpr constant int max_digits10 = 99999;     // TODO: Set correct value!
-
-        static constexpr constant bool is_signed = true;
-        static constexpr constant bool is_integer = false;
-        static constexpr constant bool is_exact = false;
-        static constexpr constant int radix = DBL_RADIX;
-        static constexpr double epsilon() noexcept { return DBL_EPSILON; }
-        static constexpr double round_error() noexcept { return 0.5; }
-
-        static constexpr constant int min_exponent = DBL_MIN_EXP;
-        static constexpr constant int min_exponent10 = DBL_MIN_10_EXP;
-        static constexpr constant int max_exponent = DBL_MAX_EXP;
-        static constexpr constant int max_exponent10 = DBL_MAX_10_EXP;
-
-        static constexpr constant bool has_infinity = true;
-        static constexpr constant bool has_quiet_NaN = true;
-        static constexpr constant bool has_signaling_NaN = true;
-        static constexpr constant float_denorm_style has_denorm = denorm_present;
-        static constexpr constant bool has_denorm_loss = true;
-        static constexpr double infinity() noexcept { return HUGE_VALF; }
-        static constexpr double quiet_NaN() noexcept { return NAN; }
-        static constexpr double signaling_NaN() noexcept { return 0; }
-        static constexpr double denorm_min() noexcept { return 0; }
-
-        static constexpr constant bool is_iec559 = true;
-        static constexpr constant bool is_bounded = true;
-        static constexpr constant bool is_modulo = false;
-
-        static constexpr constant bool traps = false;
-        static constexpr constant bool tinyness_before = false;
-        static constexpr constant float_round_style round_style = round_toward_zero;
-    };
-
 } // namespace std
 
 #endif // __METAL_VERSION__

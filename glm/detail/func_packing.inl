@@ -127,12 +127,12 @@ namespace glm
 		return clamp(vec4(u.out[0], u.out[1], u.out[2], u.out[3]) * 0.0078740157480315f, -1.0f, 1.0f);
 	}
 
-	GLM_FUNC_QUALIFIER double packDouble2x32(__thread__ uvec2 const & v)
+	GLM_FUNC_QUALIFIER float64 packDouble2x32(__thread__ uvec2 const & v)
 	{
 		union
 		{
 			uint   in[2];
-			double out;
+			float64 out;
 		} u;
 
 		u.in[0] = v[0];
@@ -141,11 +141,11 @@ namespace glm
 		return u.out;
 	}
 
-	GLM_FUNC_QUALIFIER uvec2 unpackDouble2x32(double v)
+	GLM_FUNC_QUALIFIER uvec2 unpackDouble2x32(float64 v)
 	{
 		union
 		{
-			double in;
+			float64 in;
 			uint   out[2];
 		} u;
 

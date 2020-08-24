@@ -64,17 +64,17 @@ namespace glm
 	/// Quaternion of low double-precision floating-point numbers.
 	///
 	/// @see gtc_quaternion
-	typedef tquat<double, lowp>		lowp_dquat;
+	typedef tquat<float64, lowp>		lowp_dquat;
 	
 	/// Quaternion of medium double-precision floating-point numbers.
 	///
 	/// @see gtc_quaternion
-	typedef tquat<double, mediump>	mediump_dquat;
+	typedef tquat<float64, mediump>	mediump_dquat;
 	
 	/// Quaternion of high double-precision floating-point numbers.
 	///
 	/// @see gtc_quaternion
-	typedef tquat<double, highp>	highp_dquat;
+	typedef tquat<float64, highp>	highp_dquat;
 	
 #if(defined(GLM_PRECISION_HIGHP_DOUBLE) && !defined(GLM_PRECISION_MEDIUMP_DOUBLE) && !defined(GLM_PRECISION_LOWP_DOUBLE))
 	typedef highp_dquat			dquat;

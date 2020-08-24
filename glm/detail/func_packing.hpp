@@ -131,7 +131,7 @@ namespace glm
 	/// 
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/packDouble2x32.xml">GLSL packDouble2x32 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
-	GLM_FUNC_DECL double packDouble2x32(__thread__ uvec2 const & v);
+	GLM_FUNC_DECL float64 packDouble2x32(__thread__ uvec2 const & v);
 
 	/// Returns a two-component unsigned integer vector representation of v. 
 	/// The bit-level representation of v is preserved. 
@@ -140,7 +140,7 @@ namespace glm
 	/// 
 	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/unpackDouble2x32.xml">GLSL unpackDouble2x32 man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.4 Floating-Point Pack and Unpack Functions</a>
-	GLM_FUNC_DECL uvec2 unpackDouble2x32(double v);
+	GLM_FUNC_DECL uvec2 unpackDouble2x32(float64 v);
 
 	/// Returns an unsigned integer obtained by converting the components of a two-component floating-point vector 
 	/// to the 16-bit floating-point representation found in the OpenGL Specification, 
